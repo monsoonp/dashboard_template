@@ -111,7 +111,7 @@ const Index = ({ input, insert, list }) => {
                       <Input
                         placeholder="INPUT"
                         type="input"
-                        onChange={e => input(e.target.value)}
+                        onChange={e => input(e)}
                       />
                     </InputGroup>
                   </FormGroup>

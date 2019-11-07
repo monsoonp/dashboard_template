@@ -6,14 +6,14 @@ import { connect } from "react-redux";
 import { HomeActions } from "store/actionCreators";
 
 const HomeContainer = ({ input, list }) => {
-  const handleChange = text => {
+  const handleChange = e => {
     console.log(input);
-    return HomeActions.recordInput(text);
+    HomeActions.recordInput(e.target.value);
   };
   const handleInsert = () => {
     // const { input } = props;
     console.log(list);
-    return HomeActions.recordInsert(input);
+    HomeActions.recordInsert(input);
   };
 
   // const { list } = props;

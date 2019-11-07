@@ -19,14 +19,14 @@ const initialState = Map({
 export default handleActions(
   {
     [RECORD_INPUT]: (state, action) => {
-      // console.log(action.payload);
-      return state.set("input", action.payload);
+      console.log(action.payload);
+      state.set("input", action.payload);
+      // return { input: action.payload };
     },
-    [RECORD_INSERT]: (state, action) => {
-      console.log(action);
+    [RECORD_INSERT]: (state, { payload: text }) => {
+      console.log(text);
       // const item = Map({ id: id++, checked: false, text });
-
-      return state.update("list", list => list.push(action.payload));
+      return state.update("list", list => list.push(text));
     }
   },
   initialState
