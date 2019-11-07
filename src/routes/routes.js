@@ -16,20 +16,22 @@
 
 */
 // import Index from "views/Index.jsx";
-import Index from "pages/Index.jsx";
-import Profile from "pages/Profile.jsx";
+// import Index from "pages/Index";
+import HomeContainer from "containers/HomeContainer";
+import Profile from "pages/Profile";
 // import Maps from "views/examples/Maps.jsx";
-import Register from "pages/Register.jsx";
-import Login from "pages/Login.jsx";
-import Tables from "pages/Tables.jsx";
-import Icons from "pages/Icons.jsx";
+import Register from "pages/Register";
+import Login from "pages/Login";
+import Tables from "pages/Tables";
+import Icons from "pages/Icons";
 
 var routes = [
   {
     path: "/home",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
-    component: Index,
+    // component: Index,
+    component: HomeContainer,
     layout: "/admin"
   },
   {

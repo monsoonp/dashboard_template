@@ -81,6 +81,7 @@ class Admin extends React.Component {
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           {/* main content */}
+
           <Switch>{this.getRoutes(routes)}</Switch>
           {/* Footer
           <Container fluid>
