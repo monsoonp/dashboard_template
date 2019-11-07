@@ -78,12 +78,15 @@ const Index = ({ input, insert, list }) => {
     setTimeout(() => wow(), 1000);
     // this.chartReference.update();
   };
+
   const onSubmit = e => {
     e.preventDefault();
-    // insert();
+    insert();
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
 
   return (
     <>
@@ -108,12 +111,13 @@ const Index = ({ input, insert, list }) => {
                       <Input
                         placeholder="INPUT"
                         type="input"
-                        onChange={e => input(e.target.innerText)}
+                        onChange={e => input(e.target.value)}
                       />
                     </InputGroup>
                   </FormGroup>
                 </Form>
               </CardBody>
+              {list && list.map(e => <p>{e}</p>)}
             </Card>
           </Col>
         </Row>

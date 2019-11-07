@@ -1,24 +1,26 @@
 import React from "react";
-import * as Home from "pages/Index";
+import Index from "pages/Index";
 import { connect } from "react-redux";
 // import{bindActionCreators} from 'redux';
 
 import { HomeActions } from "store/actionCreators";
 
-const HomeContainer = props => {
-  const handleChange = input => {
-    return HomeActions.recordInput(input);
+const HomeContainer = ({ input, list }) => {
+  const handleChange = text => {
+    console.log(input);
+    return HomeActions.recordInput(text);
   };
   const handleInsert = () => {
-    const { input } = props;
+    // const { input } = props;
+    console.log(list);
     return HomeActions.recordInsert(input);
   };
 
-  return (
-    <Home input={handleChange} insert={handleInsert} list={props.test_list} />
-  );
+  // const { list } = props;
+  return <Index input={handleChange} insert={handleInsert} list={list} />;
 };
 
 export default connect(state => ({
-  input: state.input
+  input: state.input,
+  list: state.list
 }))(HomeContainer);
