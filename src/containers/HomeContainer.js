@@ -14,6 +14,8 @@ const HomeContainer = ({ input, list }) => {
     // const { input } = props;
     console.log(list);
     HomeActions.recordInsert(input);
+    HomeActions.recordInput('');
+
   };
 
   // const { list } = props;

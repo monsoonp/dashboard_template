@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/chart.js": "^2.8.10",
+    "@types/chart.js": "^2.8.11",
     "@types/classnames": "^2.2.9",
     "@types/jest": "24.0.22",
     "@types/node": "12.12.6",
@@ -24,7 +24,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-chartjs-2": "^2.8.0",
-    "react-copy-to-clipboard": "^5.0.1",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-datetime": "^2.16.3",
     "react-dom": "^16.11.0",
     "react-redux": "^7.1.3",
