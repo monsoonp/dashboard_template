@@ -54,7 +54,7 @@ import {
 
 import Header from "components/Headers/Header.jsx";
 
-const Index = ({ input, insert, list }) => {
+const Index = ({ input, insert, list, text }) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -85,7 +85,7 @@ const Index = ({ input, insert, list }) => {
   };
 
   useEffect(() => {
-    console.log(list);
+    // console.log(list);
   }, [list]);
 
   return (
@@ -112,12 +112,13 @@ const Index = ({ input, insert, list }) => {
                         placeholder="INPUT"
                         type="input"
                         onChange={e => input(e)}
+                        value={`${text}`}
                       />
                     </InputGroup>
                   </FormGroup>
                 </Form>
               </CardBody>
-              {list && list.map(e => <p>{e}</p>)}
+              {list && list.toJS().map(e => <p key={e.id}>{e.text}</p>)}
             </Card>
           </Col>
         </Row>

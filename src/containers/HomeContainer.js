@@ -7,22 +7,31 @@ import { HomeActions } from "store/actionCreators";
 
 const HomeContainer = ({ input, list }) => {
   const handleChange = e => {
-    console.log(input);
+    // console.log("change: %s", input);
     HomeActions.recordInput(e.target.value);
   };
   const handleInsert = () => {
     // const { input } = props;
-    console.log(list);
+    // console.log(list);
     HomeActions.recordInsert(input);
-    HomeActions.recordInput('');
-
+    HomeActions.recordInput("");
   };
 
   // const { list } = props;
-  return <Index input={handleChange} insert={handleInsert} list={list} />;
+  return (
+    <Index
+      input={handleChange}
+      insert={handleInsert}
+      list={list}
+      text={input}
+    />
+  );
 };
-
-export default connect(state => ({
-  input: state.input,
-  list: state.list
-}))(HomeContainer);
+const mapStateToProps = ({ home }) => {
+  // console.log(state.home);
+  return {
+    input: home.get("input"),
+    list: home.get("list")
+  };
+};
+export default connect(mapStateToProps)(HomeContainer);
