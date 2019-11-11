@@ -15,6 +15,7 @@ function Main() {
     <Switch>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       <Route path="/auth" render={props => <AuthLayout {...props} />} />
+      <Route path="/test">{{ hello: "test", what: "is" }}</Route>
       <Redirect from="/" to="/admin/home" />
     </Switch>
   );
