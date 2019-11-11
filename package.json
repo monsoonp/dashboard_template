@@ -27,6 +27,8 @@
     "react": "^16.11.0",
     "react-chartjs-2": "^2.8.0",
     "react-copy-to-clipboard": "^5.0.2",
+    "react-datepicker": "^2.10.0",
+    "react-dates": "^21.3.2",
     "react-datetime": "^2.16.3",
     "react-dom": "^16.11.0",
     "react-redux": "^7.1.3",

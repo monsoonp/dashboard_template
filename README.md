@@ -7,8 +7,16 @@
 # library
 
 - react-router-dom
+- react-redux
+- redux-actions
+- immutable
+- prop-types
+- classname
 - reactstrap
+- node-sass
 - chart.js
+- react-chartjs-2
+- gh-pages
 - etc...
 
 # dashboard_template

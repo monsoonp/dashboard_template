@@ -35,7 +35,7 @@ class Admin extends React.Component {
   }
   getRoutes = routes => {
     return routes
-      .sort((a, b) => 1)
+      .sort((a, b) => a - b)
       .map((prop, key) => {
         if (prop.layout === "/admin") {
           return (

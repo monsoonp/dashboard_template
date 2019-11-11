@@ -22,6 +22,7 @@ import classnames from "classnames";
 import Chart from "chart.js";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
+
 // reactstrap components
 import {
   Button,
@@ -51,8 +52,13 @@ import {
   chartExample1,
   chartExample2
 } from "variables/charts.js";
-
+// import DatePicker from "react-datepicker";
+//react-dates
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import { DateRangePicker } from "react-dates";
 import Header from "components/Headers/Header.jsx";
+import moment from "moment";
 
 const Index = ({ input, insert, list, text }) => {
   const [activeNav, setActiveNav] = useState(1);
@@ -83,6 +89,14 @@ const Index = ({ input, insert, list, text }) => {
     e.preventDefault();
     insert();
   };
+  // const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [focusedInput, setFocusedInput] = useState(null);
+  const handleDatesChange = ({ startDate, endDate }) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
 
   useEffect(() => {
     // console.log(list);
@@ -99,6 +113,44 @@ const Index = ({ input, insert, list, text }) => {
               <CardHeader className="bg-gradient-primary text-white">
                 종합이력 조회
               </CardHeader>
+
+              <div>
+                {/*
+                <DatePicker
+                  selected={startDate}
+                  onChange={date => setStartDate(date)}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="yyyy/MM/dd h:mm aa"
+                />
+                <DatePicker
+                  selected={endDate}
+                  onChange={date => setEndDate(date)}
+                  selectsEnd
+                  endDate={endDate}
+                  minDate={startDate}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="yyyy/MM/dd h:mm aa"
+                />
+                 */}
+                <DateRangePicker
+                  startDate={moment(startDate)}
+                  startDateId="tata-start-date"
+                  endDate={moment(endDate)}
+                  endDateId="tata-end-date"
+                  onDatesChange={handleDatesChange}
+                  focusedInput={focusedInput}
+                  onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                />
+              </div>
               <CardBody>
                 <Form role="form" onSubmit={onSubmit}>
                   <FormGroup className="mb-3">
