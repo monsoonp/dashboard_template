@@ -12,3 +12,5 @@
 - etc...
 
 # dashboard_template
+
+- https://monsoonp.github.io/admin/home
