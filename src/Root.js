@@ -11,7 +11,7 @@ import store from "store";
 
 const Root = () => (
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Main />
     </BrowserRouter>
   </Provider>
