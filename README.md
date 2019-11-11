@@ -13,4 +13,4 @@
 
 # dashboard_template
 
-- https://monsoonp.github.io/admin/home
+- https://monsoonp.github.io/dashboard_template
