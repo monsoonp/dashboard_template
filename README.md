@@ -6,9 +6,9 @@
 
 ---
 
-### <details><summary>**_library_**</summary>
+<details><summary>###**_library_**</summary>
 
-```
+
 - react-router-dom
 - react-redux
 - redux-actions
@@ -21,7 +21,6 @@
 - react-chartjs-2
 - gh-pages
 - etc...
-```
 
 </details>
 
