@@ -6,7 +6,7 @@
 
 ---
 
-# **_library_**
+### **_library_**
 
 ```
 - react-router-dom
@@ -25,6 +25,4 @@
 
 ---
 
-### dashboard_template
-
-#### [Demo page](https://monsoonp.github.io/dashboard_template "Demo page link.")
+### dashboard_template #### [_Demo page_](https://monsoonp.github.io/dashboard_template "template demo link"){:target="\_blank"}
