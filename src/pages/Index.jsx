@@ -52,13 +52,17 @@ import {
   chartExample1,
   chartExample2
 } from "variables/charts.js";
-// import DatePicker from "react-datepicker";
-//react-dates
-import "react-dates/initialize";
-import "react-dates/lib/css/_datepicker.css";
-import { DateRangePicker } from "react-dates";
+// locale
+import ko from "date-fns/locale/ko";
+// datepicker;
+import "assets/css/react-datepicker.css";
+import DatePicker, { registerLocale } from "react-datepicker";
+// react-dates
+// import "react-dates/initialize";
+// import "react-dates/lib/css/_datepicker.css";
+// import { DateRangePicker } from "react-dates";
 import Header from "components/Headers/Header.jsx";
-import moment from "moment";
+// import moment from "moment";
 
 const Index = ({ input, insert, list, text }) => {
   const [activeNav, setActiveNav] = useState(1);
@@ -90,17 +94,19 @@ const Index = ({ input, insert, list, text }) => {
     insert();
   };
   // const [startDate, setStartDate] = useState(new Date());
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  /*
   const [focusedInput, setFocusedInput] = useState(null);
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
     setEndDate(endDate);
   };
-
+  */
+  registerLocale("ko", ko);
   useEffect(() => {
     // console.log(list);
-  }, [list]);
+  }, []);
 
   return (
     <>
@@ -114,33 +120,39 @@ const Index = ({ input, insert, list, text }) => {
                 종합이력 조회
               </CardHeader>
 
-              <div>
-                {/*
+              <CardBody className="">
                 <DatePicker
+                  locale="ko"
                   selected={startDate}
                   onChange={date => setStartDate(date)}
                   selectsStart
                   startDate={startDate}
                   endDate={endDate}
                   showTimeSelect
+                  // withPortal
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="time"
                   dateFormat="yyyy/MM/dd h:mm aa"
+                  placeholderText="시작시간"
+                  customStyles={{ dateInput: { borderWidth: 0 } }}
                 />
                 <DatePicker
+                  locale="ko"
                   selected={endDate}
                   onChange={date => setEndDate(date)}
                   selectsEnd
                   endDate={endDate}
                   minDate={startDate}
                   showTimeSelect
+                  // withPortal
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="time"
                   dateFormat="yyyy/MM/dd h:mm aa"
+                  placeholderText="종료시간"
                 />
-                 */}
+                {/*
                 <DateRangePicker
                   startDate={moment(startDate)}
                   startDateId="tata-start-date"
@@ -150,7 +162,9 @@ const Index = ({ input, insert, list, text }) => {
                   focusedInput={focusedInput}
                   onFocusChange={focusedInput => setFocusedInput(focusedInput)}
                 />
-              </div>
+                 */}
+              </CardBody>
+              <hr />
               <CardBody>
                 <Form role="form" onSubmit={onSubmit}>
                   <FormGroup className="mb-3">

@@ -70,8 +70,8 @@ class Admin extends React.Component {
           routes={routes}
           logo={{
             innerLink: "/admin/home",
-            imgSrc: require("assets/img/brand/argon-react.png"),
-            imgAlt: "..."
+            imgSrc: require("assets/img/icons/유니테크아이콘.ico"),
+            imgAlt: "UNITECH"
           }}
         />
         <div className="main-content" ref="mainContent">

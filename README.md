@@ -6,7 +6,7 @@
 
 ---
 
-### **_library_**
+### <details><summary>**_library_**</summary>
 
 ```
 - react-router-dom
@@ -23,6 +23,8 @@
 - etc...
 ```
 
+</details>
+
 ---
 
-### dashboard_template [_Demo page_](https://monsoonp.github.io/dashboard_template "template demo link")
+### `dashboard_template` [_Demo page_](https://monsoonp.github.io/dashboard_template "template demo link")

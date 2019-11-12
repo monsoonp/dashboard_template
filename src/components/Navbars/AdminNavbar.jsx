@@ -63,7 +63,7 @@ class AdminNavbar extends React.Component {
               <UncontrolledDropdown nav>
                 <DropdownToggle className="pr-0" nav>
                   <Media className="align-items-center">
-                    <p>DropdownToggle</p>
+                    <p>DropdownToggle Menu</p>
                     {/*
                     <span className="avatar avatar-sm rounded-circle">
                       <img

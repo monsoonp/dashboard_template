@@ -49,23 +49,21 @@ import {
   Table,
   Container,
   Row,
-  Col
+  Col,
+  UncontrolledCollapse
 } from "reactstrap";
 
 var ps;
 
 class Sidebar extends React.Component {
   state = {
-    collapseOpen: false
+    collapseOpen: false,
+    homeToggle: true
   };
-  constructor(props) {
-    super(props);
-    this.activeRoute.bind(this);
-  }
   // verifies if routeName is the one active (in browser input)
-  activeRoute(routeName) {
+  activeRoute = routeName => {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
-  }
+  };
   // toggles collapse between opened and closed (true/false)
   toggleCollapse = () => {
     this.setState({
@@ -98,6 +96,9 @@ class Sidebar extends React.Component {
         );
       });
   };
+  homeToggle = () => {
+    this.setState({ homeToggle: !this.state.homeToggle });
+  };
   render() {
     const { bgColor, routes, logo } = this.props;
     let navbarBrandProps;
@@ -128,17 +129,17 @@ class Sidebar extends React.Component {
             <span className="navbar-toggler-icon" />
           </button>
           {/* Brand */}
-          {/* 열림 이미지
+
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}>
               <img
                 alt={logo.imgAlt}
                 className="navbar-brand-img"
                 src={logo.imgSrc}
-              /> 
+              />
             </NavbarBrand>
           ) : null}
-          */}
+
           {/* User */}
           <Nav className="align-items-center d-md-none">
             <UncontrolledDropdown nav>
@@ -157,6 +158,7 @@ class Sidebar extends React.Component {
               </DropdownMenu>
             </UncontrolledDropdown>
             <UncontrolledDropdown nav>
+              {/*
               <DropdownToggle nav>
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
@@ -167,13 +169,14 @@ class Sidebar extends React.Component {
                   </span>
                 </Media>
               </DropdownToggle>
+              */}
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
                 </DropdownItem>
                 <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-single-02" />
-                  <span>My profile</span>
+                  <span>Profile</span>
                 </DropdownItem>
                 <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-settings-gear-65" />
@@ -195,12 +198,11 @@ class Sidebar extends React.Component {
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          {/* Collapse 토글 메뉴 */}
+          {/* Collapse 토글 닫힘 메뉴 */}
           <Collapse navbar isOpen={this.state.collapseOpen}>
             {/* Collapse header */}
             <div className="navbar-collapse-header d-md-none">
               <Row>
-                {/* 닫힘 이미지
                 {logo ? (
                   <Col className="collapse-brand" xs="6">
                     {logo.innerLink ? (
@@ -212,9 +214,9 @@ class Sidebar extends React.Component {
                         <img alt={logo.imgAlt} src={logo.imgSrc} />
                       </a>
                     )}
+                    <a style={{ fontSize: 18, fontWeight: "bold" }}>UNITECH</a>
                   </Col>
                 ) : null}
-                */}
                 <Col className="collapse-close" xs="6">
                   {/* 닫힘 토글버튼 */}
                   <button
@@ -234,7 +236,7 @@ class Sidebar extends React.Component {
                 <Input
                   aria-label="Search"
                   className="form-control-rounded form-control-prepended"
-                  placeholder="Search"
+                  placeholder="Search Content."
                   type="search"
                 />
                 <InputGroupAddon addonType="prepend">
@@ -246,20 +248,20 @@ class Sidebar extends React.Component {
             </Form>
             {/* Divider */}
             <hr className="my-3" />
-            <h6 className="navbar-heading text-muted">Home</h6>
+            <h6 className="navbar-heading text-muted" onClick={this.homeToggle}>
+              Home
+            </h6>
             {/* Navigation list*/}
-            <Nav navbar>{this.createLinks(routes)}</Nav>
+            <Collapse isOpen={this.state.homeToggle}>
+              <Nav navbar>{this.createLinks(routes)}</Nav>
+            </Collapse>
             {/* Divider */}
             <hr className="my-3" />
             {/* Heading */}
             <h6 className="navbar-heading text-muted">네트워크 패킷</h6>
-            <hr className="my-3" />
             <h6 className="navbar-heading text-muted">유효성 검사</h6>
-            <hr className="my-3" />
             <h6 className="navbar-heading text-muted">GOOSE</h6>
-            <hr className="my-3" />
             <h6 className="navbar-heading text-muted">MMS</h6>
-            <hr className="my-3" />
             <h6 className="navbar-heading text-muted">Option</h6>
             {/* Navigation */}
             <Nav className="mb-md-3" navbar>

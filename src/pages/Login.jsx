@@ -87,10 +87,10 @@ class Login extends React.Component {
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText>
-                        <i className="ni ni-email-83" />
+                        <i className="ni ni-laptop" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" />
+                    <Input placeholder="ID" type="email" />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -106,8 +106,9 @@ class Login extends React.Component {
                 <div className="custom-control custom-control-alternative custom-checkbox">
                   <input
                     className="custom-control-input"
-                    id=" customCheckLogin"
+                    id="customCheckLogin"
                     type="checkbox"
+                    // checked
                   />
                   <label
                     className="custom-control-label"
