@@ -52,7 +52,7 @@ import {
   Col,
   UncontrolledCollapse
 } from "reactstrap";
-
+import { ArrowUnsorted } from "styled-icons/typicons";
 var ps;
 
 class Sidebar extends React.Component {
@@ -139,7 +139,7 @@ class Sidebar extends React.Component {
               />
             </NavbarBrand>
           ) : null}
-
+          <h2>UNITECH</h2>
           {/* User */}
           <Nav className="align-items-center d-md-none">
             <UncontrolledDropdown nav>
@@ -248,9 +248,12 @@ class Sidebar extends React.Component {
             </Form>
             {/* Divider */}
             <hr className="my-3" />
-            <h6 className="navbar-heading text-muted" onClick={this.homeToggle}>
+            <h5 className="navbar-heading text-muted" onClick={this.homeToggle}>
               Home
-            </h6>
+              {!this.state.homeToggle && (
+                <ArrowUnsorted size="15" color="#afafaf" />
+              )}
+            </h5>
             {/* Navigation list*/}
             <Collapse isOpen={this.state.homeToggle}>
               <Nav navbar>{this.createLinks(routes)}</Nav>
@@ -258,11 +261,11 @@ class Sidebar extends React.Component {
             {/* Divider */}
             <hr className="my-3" />
             {/* Heading */}
-            <h6 className="navbar-heading text-muted">네트워크 패킷</h6>
-            <h6 className="navbar-heading text-muted">유효성 검사</h6>
-            <h6 className="navbar-heading text-muted">GOOSE</h6>
-            <h6 className="navbar-heading text-muted">MMS</h6>
-            <h6 className="navbar-heading text-muted">Option</h6>
+            <h5 className="navbar-heading text-muted">네트워크 패킷</h5>
+            <h5 className="navbar-heading text-muted">유효성 검사</h5>
+            <h5 className="navbar-heading text-muted">GOOSE</h5>
+            <h5 className="navbar-heading text-muted">MMS</h5>
+            <h5 className="navbar-heading text-muted">Option</h5>
             {/* Navigation */}
             <Nav className="mb-md-3" navbar>
               <NavItem>

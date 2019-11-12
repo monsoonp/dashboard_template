@@ -12,8 +12,8 @@ import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
 // const history = syncHistoryWithStore(browserHistory, store);
 
 const Root = () => (
-  <Provider store={store} basename={process.env.PUBLIC_URL}>
-    <BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Main />
     </BrowserRouter>
   </Provider>

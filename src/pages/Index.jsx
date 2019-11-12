@@ -61,6 +61,9 @@ import DatePicker, { registerLocale } from "react-datepicker";
 // import "react-dates/initialize";
 // import "react-dates/lib/css/_datepicker.css";
 // import { DateRangePicker } from "react-dates";
+// import styled from "styled-components";
+// import { ArrowSync, ArrowSyncOutline } from "styled-icons/typicons";
+
 import Header from "components/Headers/Header.jsx";
 // import moment from "moment";
 
