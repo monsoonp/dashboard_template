@@ -25,4 +25,4 @@
 
 ---
 
-### dashboard_template _Demo page_]({{< ref https://monsoonp.github.io/dashboard_template "template demo link" > }})
+### dashboard_template [_Demo page_]({{< ref https://monsoonp.github.io/dashboard_template "template demo link" > }})
