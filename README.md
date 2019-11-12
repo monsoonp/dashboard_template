@@ -6,7 +6,7 @@
 
 ---
 
-<details><summary><mark>library</mark></summary>
+<details><summary><code>library</code></summary>
 
 ```
 - react-router-dom
