@@ -128,6 +128,9 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
   };
   */
   registerLocale("ko", ko);
+  const stampToDate = t => {
+    return new Date(t);
+  };
   useEffect(() => {
     if (!test_list.length) {
       bindList();
@@ -220,6 +223,23 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
         <Row className="mt-5">
           <Col className="mb-5 mb-xl-0" xl="12">
             <Card className="shadow">
+              <CardHeader className="border-0">
+                <Row className="align-items-center">
+                  <div className="col">
+                    <h3 className="mb-0">Test List</h3>
+                  </div>
+                  <div className="col text-right">
+                    <Button
+                      color="primary"
+                      href="#pablo"
+                      onClick={e => e.preventDefault()}
+                      size="sm"
+                    >
+                      Button example
+                    </Button>
+                  </div>
+                </Row>
+              </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
@@ -232,7 +252,14 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
                 </thead>
                 <tbody>
                   {test_list
-                    .filter(e => (start ? new Date(e.checkTime) <= start : e))
+                    .filter(e =>
+                      start
+                        ? end
+                          ? stampToDate(e.checkTime) >= start &&
+                            stampToDate(e.checkTime) <= end
+                          : e
+                        : e
+                    )
                     .map(e => {
                       return (
                         <tr key={e.id}>
@@ -251,7 +278,7 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
                           </td>
                           <td>
                             <p className="mb-0">
-                              {moment(new Date(e.checkTime))
+                              {moment(stampToDate(e.checkTime))
                                 .locale("ko")
                                 // .format("Y.MM.DD / hh:mm:ss a")
                                 .format("Y.MM.DD / HH:mm:ss")
@@ -259,7 +286,7 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
                             </p>
                             <p className="mb-0">
                               {moment(
-                                new Date(e.checkTime),
+                                stampToDate(e.checkTime),
                                 "YYYYMMDD"
                               ).fromNow()}
                             </p>
@@ -351,83 +378,7 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
           </Col>
         </Row>
         <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0" xl="8">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h3 className="mb-0">Page visits</h3>
-                  </div>
-                  <div className="col text-right">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                      size="sm"
-                    >
-                      See all
-                    </Button>
-                  </div>
-                </Row>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Page name</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col">Unique users</th>
-                    <th scope="col">Bounce rate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">main</th>
-                    <td>4,569</td>
-                    <td>340</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">home</th>
-                    <td>3,985</td>
-                    <td>319</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                      46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">charts</th>
-                    <td>3,513</td>
-                    <td>294</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                      36,49%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">tables</th>
-                    <td>2,050</td>
-                    <td>147</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 50,87%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">profile</th>
-                    <td>1,795</td>
-                    <td>190</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-danger mr-3" />{" "}
-                      46,53%
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-          <Col xl="4">
+          <Col xl="6">
             <Card className="shadow">
               <CardHeader className="border-0">
                 <Row className="align-items-center">

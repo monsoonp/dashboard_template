@@ -1,5 +1,6 @@
 import React from "react";
-import Index from "pages/Index";
+// import Index from "pages/Index";
+import Home from "pages/Home";
 import { connect } from "react-redux";
 // import{bindActionCreators} from 'redux';
 
@@ -25,7 +26,7 @@ const HomeContainer = ({ input, list, start, end }) => {
 
   // const { list } = props;
   return (
-    <Index
+    <Home
       input={handleChange}
       insert={handleInsert}
       list={list}
