@@ -1,6 +1,6 @@
 {
-  "host": "localhost",
-  "user": "tester",
+  "host": "192.168.0.38",
+  "user": "macuser",
   "password": "1234",
   "port": 3306,
   "database": "example"
