@@ -10,6 +10,7 @@ const HomeContainer = ({ input, list, start, end }) => {
   const handleChange = e => {
     // console.log("change: %s", input);
     HomeActions.recordInput(e.target.value);
+    // HomeActions.testInput(e.target.value); // 비동기
   };
   const handleInsert = () => {
     // const { input } = props;

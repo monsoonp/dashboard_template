@@ -19,13 +19,20 @@ export const recordInsert = createAction(RECORD_INSERT, text => text);
 export const setStart = createAction(START_TIME, text => text);
 export const setEnd = createAction(END_TIME, text => text);
 
+// middleware
+export const testInput = e => dispatch => {
+  setTimeout(() => {
+    dispatch(recordInput(e));
+  }, 1000);
+};
+
 let id = 0;
 
 const initialState = Map({
   input: "",
   list: List(),
   start: null,
-  end: ""
+  end: null
 });
 
 // reducer
