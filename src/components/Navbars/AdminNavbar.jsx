@@ -43,7 +43,7 @@ class AdminNavbar extends React.Component {
           <Container fluid>
             <Link
               className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-              to="/"
+              to={`/`}
             >
               {this.props.brandText}
             </Link>

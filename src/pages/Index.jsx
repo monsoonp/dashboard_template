@@ -61,13 +61,15 @@ import DatePicker, { registerLocale } from "react-datepicker";
 // import "react-dates/initialize";
 // import "react-dates/lib/css/_datepicker.css";
 // import { DateRangePicker } from "react-dates";
+// styled icon
 // import styled from "styled-components";
 // import { ArrowSync, ArrowSyncOutline } from "styled-icons/typicons";
+// import {RadioButtonChecked, RadioButtonUnchecked} from "styled-icons/material";
 
 import Header from "components/Headers/Header.jsx";
-// import moment from "moment";
+import moment from "moment";
 
-const Index = ({ input, insert, list, text }) => {
+const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -94,11 +96,30 @@ const Index = ({ input, insert, list, text }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    insert();
+    if (text !== "") {
+      insert();
+    }
+  };
+  const [test_list, setTest_list] = useState([]);
+  const bindList = async () => {
+    return await fetch("/admin/home/list", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*"
+      }
+    })
+      .then(res => res.json())
+      .then(resjs => {
+        setTest_list(resjs);
+      })
+      .catch(err => console.log(err));
   };
   // const [startDate, setStartDate] = useState(new Date());
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  // const [startDate, setStartDate] = useState(start);
+  // const [endDate, setEndDate] = useState(end);
   /*
   const [focusedInput, setFocusedInput] = useState(null);
   const handleDatesChange = ({ startDate, endDate }) => {
@@ -108,8 +129,11 @@ const Index = ({ input, insert, list, text }) => {
   */
   registerLocale("ko", ko);
   useEffect(() => {
+    if (!test_list.length) {
+      bindList();
+    }
     // console.log(list);
-  }, []);
+  }, [test_list.length]);
 
   return (
     <>
@@ -126,11 +150,11 @@ const Index = ({ input, insert, list, text }) => {
               <CardBody className="">
                 <DatePicker
                   locale="ko"
-                  selected={startDate}
-                  onChange={date => setStartDate(date)}
+                  selected={start}
+                  onChange={date => setStart(date)}
                   selectsStart
-                  startDate={startDate}
-                  endDate={endDate}
+                  startDate={start}
+                  endDate={end}
                   showTimeSelect
                   // withPortal
                   timeFormat="HH:mm"
@@ -142,11 +166,11 @@ const Index = ({ input, insert, list, text }) => {
                 />
                 <DatePicker
                   locale="ko"
-                  selected={endDate}
-                  onChange={date => setEndDate(date)}
+                  selected={end}
+                  onChange={date => setEnd(date)}
                   selectsEnd
-                  endDate={endDate}
-                  minDate={startDate}
+                  endDate={end}
+                  minDate={start}
                   showTimeSelect
                   // withPortal
                   timeFormat="HH:mm"
@@ -178,7 +202,7 @@ const Index = ({ input, insert, list, text }) => {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="INPUT"
+                        placeholder="입력"
                         type="input"
                         onChange={e => input(e)}
                         value={`${text}`}
@@ -187,7 +211,64 @@ const Index = ({ input, insert, list, text }) => {
                   </FormGroup>
                 </Form>
               </CardBody>
-              {list && list.toJS().map(e => <p key={e.id}>{e.text}</p>)}
+              <div className="ml-5">
+                {list && list.toJS().map(e => <p key={e.id}>{e.text}</p>)}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="mt-5">
+          <Col className="mb-5 mb-xl-0" xl="12">
+            <Card className="shadow">
+              <Table className="align-items-center table-flush" responsive>
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col">Page name</th>
+                    <th scope="col">Visitors</th>
+                    <th scope="col">Unique users</th>
+                    <th scope="col">Bounce rate</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {test_list
+                    .filter(e => (start ? new Date(e.checkTime) <= start : e))
+                    .map(e => {
+                      return (
+                        <tr key={e.id}>
+                          <th scope="row">{e.pageName}</th>
+                          <td>{e.visitors}</td>
+                          <td>{e.users}</td>
+                          <td>
+                            <i
+                              className={`fas fa-arrow-${
+                                Math.random() >= 0.5 ? "up" : "down"
+                              } text-${
+                                Math.random() >= 0.5 ? "success" : "danger"
+                              } mr-3`}
+                            />{" "}
+                            {e.bounceRate}
+                          </td>
+                          <td>
+                            <p className="mb-0">
+                              {moment(new Date(e.checkTime))
+                                .locale("ko")
+                                // .format("Y.MM.DD / hh:mm:ss a")
+                                .format("Y.MM.DD / HH:mm:ss")
+                                .toString()}
+                            </p>
+                            <p className="mb-0">
+                              {moment(
+                                new Date(e.checkTime),
+                                "YYYYMMDD"
+                              ).fromNow()}
+                            </p>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
             </Card>
           </Col>
         </Row>
@@ -300,7 +381,7 @@ const Index = ({ input, insert, list, text }) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">/argon/</th>
+                    <th scope="row">main</th>
                     <td>4,569</td>
                     <td>340</td>
                     <td>
@@ -308,7 +389,7 @@ const Index = ({ input, insert, list, text }) => {
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">/argon/index.html</th>
+                    <th scope="row">home</th>
                     <td>3,985</td>
                     <td>319</td>
                     <td>
@@ -317,7 +398,7 @@ const Index = ({ input, insert, list, text }) => {
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">/argon/charts.html</th>
+                    <th scope="row">charts</th>
                     <td>3,513</td>
                     <td>294</td>
                     <td>
@@ -326,7 +407,7 @@ const Index = ({ input, insert, list, text }) => {
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">/argon/tables.html</th>
+                    <th scope="row">tables</th>
                     <td>2,050</td>
                     <td>147</td>
                     <td>
@@ -334,7 +415,7 @@ const Index = ({ input, insert, list, text }) => {
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">/argon/profile.html</th>
+                    <th scope="row">profile</th>
                     <td>1,795</td>
                     <td>190</td>
                     <td>

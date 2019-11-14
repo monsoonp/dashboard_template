@@ -32,6 +32,7 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 class Login extends React.Component {
   render() {
@@ -136,13 +137,15 @@ class Login extends React.Component {
               </a>
             </Col>
             <Col className="text-right" xs="6">
-              <a
-                className="text-light"
-                href="#pablo"
-                onClick={e => e.preventDefault()}
-              >
-                <small>Create new account</small>
-              </a>
+              <Link to={`register`}>
+                <a
+                  className="text-light"
+                  href="#pablo"
+                  // onClick={e => e.preventDefault()}
+                >
+                  <small>Create new account</small>
+                </a>
+              </Link>
             </Col>
           </Row>
         </Col>

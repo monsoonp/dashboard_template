@@ -3,6 +3,7 @@
   "homepage": "http://monsoonp.github.io/dashboard_template",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@types/chart.js": "^2.8.11",
     "@types/classnames": "^2.2.9",
@@ -51,7 +52,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "server": "cd server && nodemon server"
   },
   "eslintConfig": {
     "extends": "react-app"
