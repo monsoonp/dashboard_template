@@ -138,13 +138,13 @@ class Login extends React.Component {
             </Col>
             <Col className="text-right" xs="6">
               <Link to={`register`}>
-                <a
+                <p
                   className="text-light"
                   href="#pablo"
                   // onClick={e => e.preventDefault()}
                 >
                   <small>Create new account</small>
-                </a>
+                </p>
               </Link>
             </Col>
           </Row>

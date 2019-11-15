@@ -8,7 +8,7 @@ const BarGraph = ({ data, start, end }) => {
   const [visitors, setvisitors] = useState([]);
   const [users, setusers] = useState([]);
   const [bounceRate, setBounceRate] = useState([]);
-  const [checkTime, setCheckTime] = useState([]);
+  // const [checkTime, setCheckTime] = useState([]);
 
   const dataList = {
     showLabel: true,
@@ -17,7 +17,7 @@ const BarGraph = ({ data, start, end }) => {
     datasets: [
       {
         type: "line",
-        label: "방문자",
+        label: "방문수",
         data: visitors,
         borderColor: "rgba(50,50,230,0.5)",
         backgroundColor: "rgba(80,120,230,0.2)",
@@ -30,7 +30,7 @@ const BarGraph = ({ data, start, end }) => {
       },
       {
         type: "bar",
-        label: "가입자",
+        label: "가입수",
         data: users,
         borderColor: "rgba(230,50,50,0.5)",
         backgroundColor: "rgba(230,120,80,0.2)",
@@ -65,7 +65,7 @@ const BarGraph = ({ data, start, end }) => {
     setvisitors(list.map(e => e.visitors));
     setusers(list.map(e => e.users));
     setBounceRate(list.map(e => e.bounceRate));
-    setCheckTime(list.map(e => e.checkTime));
+    // setCheckTime(list.map(e => e.checkTime));
 
     // console.log(list);
   }, [data, start, end]);
@@ -88,7 +88,7 @@ const BarGraph = ({ data, start, end }) => {
         },
         title: {
           display: true,
-          text: "test_list",
+          text: "test_list from DB",
           fontSize: 15
         }
       }}

@@ -184,7 +184,7 @@ const Index = ({
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="time"
-                  dateFormat="yyyy/MM/dd h:mm aa"
+                  dateFormat="MM/dd h:mm:ss aa"
                   placeholderText="시작시간"
                   customStyles={{ dateInput: { borderWidth: 0 } }}
                 />
@@ -200,7 +200,7 @@ const Index = ({
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="time"
-                  dateFormat="yyyy/MM/dd h:mm aa"
+                  dateFormat="MM/dd h:mm:ss aa"
                   placeholderText="종료시간"
                 />
                 {/*
@@ -240,7 +240,9 @@ const Index = ({
                   list.toJS().map(e => (
                     <p
                       style={{
-                        textDecoration: e.checked ? "line-through" : "none"
+                        textDecoration: e.checked
+                          ? "Crimson double line-through" //solid, double, dotted, dashed, wavy
+                          : "none" // overline underline / inherit, initial, unset
                       }}
                       key={e.id}
                       onClick={() => update(e.id)}
