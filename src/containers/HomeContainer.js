@@ -18,6 +18,13 @@ const HomeContainer = ({ input, list, start, end }) => {
     HomeActions.recordInsert(input);
     HomeActions.recordInput("");
   };
+  const handleUpdate = id => {
+    HomeActions.recordUpdate(id);
+  };
+  const handleDelete = id => {
+    HomeActions.recordDelete(id);
+  };
+
   const setStart = value => {
     HomeActions.setStart(value);
   };
@@ -36,6 +43,8 @@ const HomeContainer = ({ input, list, start, end }) => {
       end={end}
       setStart={setStart}
       setEnd={setEnd}
+      update={handleUpdate}
+      remove={handleDelete}
     />
   );
 };

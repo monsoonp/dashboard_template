@@ -21,7 +21,7 @@ import classnames from "classnames";
 // javascipt plugin for creating charts
 import Chart from "chart.js";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 // reactstrap components
 import {
@@ -42,16 +42,12 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-  InputGroup
+  InputGroup,
+  Collapse
 } from "reactstrap";
 
 // core components
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2
-} from "variables/charts.js";
+import { chartOptions, parseOptions, chartExample1 } from "variables/charts.js";
 // locale
 import ko from "date-fns/locale/ko";
 // datepicker;
@@ -65,11 +61,23 @@ import DatePicker, { registerLocale } from "react-datepicker";
 // import styled from "styled-components";
 // import { ArrowSync, ArrowSyncOutline } from "styled-icons/typicons";
 // import {RadioButtonChecked, RadioButtonUnchecked} from "styled-icons/material";
-
-import Header from "components/Headers/Header.jsx";
 import moment from "moment";
 
-const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
+import Header from "components/Headers/Header.jsx";
+import BarGraph from "components/Graph/BarGraph";
+
+const Index = ({
+  input,
+  insert,
+  update,
+  remove,
+  list,
+  text,
+  start,
+  end,
+  setStart,
+  setEnd
+}) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -127,6 +135,19 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
     setEndDate(endDate);
   };
   */
+  const [listOpen, setListOpen] = useState(true);
+  const listOpener = () => {
+    setListOpen(!listOpen);
+  };
+  const [sort, setSort] = useState({ value: "checkTime", asc: true });
+  const sorter = value => {
+    if (sort.value === value) {
+      setSort({ ...sort, asc: !sort.asc });
+    } else {
+      setSort({ value: value, asc: true });
+    }
+    console.log(sort);
+  };
   registerLocale("ko", ko);
   const stampToDate = t => {
     return new Date(t);
@@ -150,7 +171,7 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
                 종합이력 조회
               </CardHeader>
 
-              <CardBody className="">
+              <CardBody className="align-items-center pb-0">
                 <DatePicker
                   locale="ko"
                   selected={start}
@@ -215,7 +236,19 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
                 </Form>
               </CardBody>
               <div className="ml-5">
-                {list && list.toJS().map(e => <p key={e.id}>{e.text}</p>)}
+                {list &&
+                  list.toJS().map(e => (
+                    <p
+                      style={{
+                        textDecoration: e.checked ? "line-through" : "none"
+                      }}
+                      key={e.id}
+                      onClick={() => update(e.id)}
+                      onDoubleClick={() => remove(e.id)}
+                    >
+                      {e.text}
+                    </p>
+                  ))}
               </div>
             </Card>
           </Col>
@@ -223,7 +256,7 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
         <Row className="mt-5">
           <Col className="mb-5 mb-xl-0" xl="12">
             <Card className="shadow">
-              <CardHeader className="border-0">
+              <CardHeader className="border-0" onClick={listOpener}>
                 <Row className="align-items-center">
                   <div className="col">
                     <h3 className="mb-0">Test List</h3>
@@ -240,67 +273,88 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
                   </div>
                 </Row>
               </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Page name</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col">Unique users</th>
-                    <th scope="col">Bounce rate</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {test_list
-                    .filter(e =>
-                      start
-                        ? end
-                          ? stampToDate(e.checkTime) >= start &&
-                            stampToDate(e.checkTime) <= end
+              <Collapse isOpen={listOpen}>
+                <Table className="align-items-center table-flush" responsive>
+                  <thead className="thead-light">
+                    <tr>
+                      <th scope="col" onClick={() => sorter("pageName")}>
+                        Page name
+                      </th>
+                      <th scope="col" onClick={() => sorter("visitors")}>
+                        Visitors
+                      </th>
+                      <th scope="col" onClick={() => sorter("users")}>
+                        Unique users
+                      </th>
+                      <th scope="col" onClick={() => sorter("bounceRate")}>
+                        Bounce rate
+                      </th>
+                      <th onClick={() => sorter("checkTime")}>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {test_list
+                      .filter(e =>
+                        start
+                          ? end
+                            ? stampToDate(e.checkTime) >= start &&
+                              stampToDate(e.checkTime) <= end
+                            : e
                           : e
-                        : e
-                    )
-                    .map(e => {
-                      return (
-                        <tr key={e.id}>
-                          <th scope="row">{e.pageName}</th>
-                          <td>{e.visitors}</td>
-                          <td>{e.users}</td>
-                          <td>
-                            <i
-                              className={`fas fa-arrow-${
-                                Math.random() >= 0.5 ? "up" : "down"
-                              } text-${
-                                Math.random() >= 0.5 ? "success" : "danger"
-                              } mr-3`}
-                            />{" "}
-                            {e.bounceRate}
-                          </td>
-                          <td>
-                            <p className="mb-0">
-                              {moment(stampToDate(e.checkTime))
-                                .locale("ko")
-                                // .format("Y.MM.DD / hh:mm:ss a")
-                                .format("Y.MM.DD / HH:mm:ss")
-                                .toString()}
-                            </p>
-                            <p className="mb-0">
-                              {moment(
-                                stampToDate(e.checkTime),
-                                "YYYYMMDD"
-                              ).fromNow()}
-                            </p>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </Table>
+                      )
+                      .sort((a, b) =>
+                        sort.value
+                          ? sort.asc
+                            ? a[sort.value] > b[sort.value]
+                              ? 1
+                              : -1
+                            : b[sort.value] > a[sort.value]
+                            ? 1
+                            : -1
+                          : 1
+                      )
+                      .map(e => {
+                        return (
+                          <tr key={e.id}>
+                            <th scope="row">{e.pageName}</th>
+                            <td>{e.visitors}</td>
+                            <td>{e.users}</td>
+                            <td>
+                              <i
+                                className={`fas fa-arrow-${
+                                  Math.random() >= 0.5 ? "up" : "down"
+                                } text-${
+                                  Math.random() >= 0.5 ? "success" : "danger"
+                                } mr-3`}
+                              />{" "}
+                              {e.bounceRate}
+                            </td>
+                            <td>
+                              <p className="mb-0">
+                                {moment(stampToDate(e.checkTime))
+                                  .locale("ko")
+                                  // .format("Y.MM.DD / hh:mm:ss a")
+                                  .format("Y.MM.DD / HH:mm:ss")
+                                  .toString()}
+                              </p>
+                              <p className="mb-0">
+                                {moment(
+                                  stampToDate(e.checkTime),
+                                  "YYYYMMDD"
+                                ).fromNow()}
+                              </p>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </Table>
+              </Collapse>
             </Card>
           </Col>
         </Row>
         <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0" xl="8">
+          <Col className="mb-5 mb-xl-0" xl="6">
             <Card className="bg-gradient-default shadow">
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
@@ -353,27 +407,11 @@ const Index = ({ input, insert, list, text, start, end, setStart, setEnd }) => {
               </CardBody>
             </Card>
           </Col>
-          <Col xl="4">
+          <Col xl="6">
             <Card className="shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-muted ls-1 mb-1">
-                      Performance
-                    </h6>
-                    <h2 className="mb-0">Total orders</h2>
-                  </div>
-                </Row>
+              <CardHeader className="border-0">
+                <BarGraph data={test_list} start={start} end={end} />
               </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Bar
-                    data={chartExample2.data}
-                    options={chartExample2.options}
-                  />
-                </div>
-              </CardBody>
             </Card>
           </Col>
         </Row>
