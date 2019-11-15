@@ -54,6 +54,7 @@ const BarGraph = ({ data, start, end }) => {
     return new Date(t);
   };
   useEffect(() => {
+    console.log(data);
     const list = data.filter(e =>
       start
         ? end
