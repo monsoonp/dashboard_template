@@ -65,6 +65,7 @@ import moment from "moment";
 
 import Header from "components/Headers/Header.jsx";
 import BarGraph from "components/Graph/BarGraph";
+import test_data from "assets/data/test_data";
 
 const Index = ({
   input,
@@ -76,7 +77,8 @@ const Index = ({
   start,
   end,
   setStart,
-  setEnd
+  setEnd,
+  data
 }) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
@@ -113,64 +115,7 @@ const Index = ({
       })
       .catch(err => {
         console.log(err);
-        setTest_list([
-          {
-            id: 10,
-            pageName: "main",
-            visitors: 4569,
-            users: 340,
-            bounceRate: 46.53,
-            checkTime: "2019-11-12T03:00:00.000Z"
-          },
-          {
-            id: 11,
-            pageName: "charts",
-            visitors: 3513,
-            users: 294,
-            bounceRate: 36.49,
-            checkTime: "2019-11-13T03:00:00.000Z"
-          },
-          {
-            id: 12,
-            pageName: "tables",
-            visitors: 2050,
-            users: 147,
-            bounceRate: 50.87,
-            checkTime: "2019-11-14T03:00:00.000Z"
-          },
-          {
-            id: 13,
-            pageName: "profile",
-            visitors: 1795,
-            users: 190,
-            bounceRate: 46.53,
-            checkTime: "2019-11-15T03:00:00.000Z"
-          },
-          {
-            id: 14,
-            pageName: "login",
-            visitors: 5978,
-            users: 523,
-            bounceRate: 132.54,
-            checkTime: "2019-11-16T09:00:00.000Z"
-          },
-          {
-            id: 15,
-            pageName: "register",
-            visitors: 953,
-            users: 95,
-            bounceRate: 15.2,
-            checkTime: "2019-11-16T12:00:00.000Z"
-          },
-          {
-            id: 16,
-            pageName: "test2",
-            visitors: 1520,
-            users: 173,
-            bounceRate: 39.2,
-            checkTime: "2019-11-17T03:00:00.000Z"
-          }
-        ]);
+        setTest_list(test_data);
       });
   };
   // const [startDate, setStartDate] = useState(new Date());
@@ -198,27 +143,27 @@ const Index = ({
   };
   registerLocale("ko", ko);
   const stampToDate = t => {
-    return new Date(t);
+    const date = new Date(t);
+    return date;
   };
   useEffect(() => {
-    if (!test_list.length) {
+    if (test_list.length === 0) {
       bindList();
     }
-    // console.log(list);
-  }, [test_list.length]);
+    console.log(data);
+  }, [data, test_list.length]);
 
   return (
     <>
       <Header />
       {/* Page content */}
-      <Container className="mt-4 mb-4" fluid>
-        <Row className="mt-5">
+      <Container className="mt-0 mb-4" fluid>
+        <Row className="mt-3">
           <Col className="mb-5 mb-xl-0" xl="12">
             <Card className="shadow">
               <CardHeader className="bg-gradient-primary text-white">
                 종합이력 조회
               </CardHeader>
-
               <CardBody className="align-items-center pb-0">
                 <DatePicker
                   locale="ko"
@@ -404,6 +349,13 @@ const Index = ({
           </Col>
         </Row>
         <Row className="mt-5">
+          <Col className="mb-5 mb-xl-0" xl="12">
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <BarGraph data={test_list} start={start} end={end} />
+              </CardHeader>
+            </Card>
+          </Col>
           <Col className="mb-5 mb-xl-0" xl="6">
             <Card className="bg-gradient-default shadow">
               <CardHeader className="bg-transparent">
@@ -455,13 +407,6 @@ const Index = ({
                   />
                 </div>
               </CardBody>
-            </Card>
-          </Col>
-          <Col xl="6">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <BarGraph data={test_list} start={start} end={end} />
-              </CardHeader>
             </Card>
           </Col>
         </Row>

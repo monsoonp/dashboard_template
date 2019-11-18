@@ -12,6 +12,7 @@ const configure = () => {
     modules,
     // applyMiddleware(loggerMiddleware, ReduxThunk)
     applyMiddleware(logger, ReduxThunk)
+    // applyMiddleware(ReduxThunk)
   );
 
   return store;
