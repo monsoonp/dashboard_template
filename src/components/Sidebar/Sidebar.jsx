@@ -137,9 +137,9 @@ class Sidebar extends React.Component {
                 className="navbar-brand-img"
                 src={logo.imgSrc}
               />
+              <h2 style={{ textAlign: "center" }}>UNITECH</h2>
             </NavbarBrand>
           ) : null}
-          <h2>UNITECH</h2>
           {/* User */}
           <Nav className="align-items-center d-md-none">
             <UncontrolledDropdown nav>
@@ -214,7 +214,15 @@ class Sidebar extends React.Component {
                         <img alt={logo.imgAlt} src={logo.imgSrc} />
                       </a>
                     )}
-                    <a style={{ fontSize: 18, fontWeight: "bold" }}>UNITECH</a>
+                    <a
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        textAlign: "center"
+                      }}
+                    >
+                      UNITECH
+                    </a>
                   </Col>
                 ) : null}
                 <Col className="collapse-close" xs="6">
@@ -247,8 +255,11 @@ class Sidebar extends React.Component {
               </InputGroup>
             </Form>
             {/* Divider */}
-            <hr className="my-3" />
-            <h5 className="navbar-heading text-muted" onClick={this.homeToggle}>
+            <hr className="mt--5 mb-2" />
+            <h5
+              className="navbar-heading text-muted my-0"
+              onClick={this.homeToggle}
+            >
               Home
               {!this.state.homeToggle && (
                 <ArrowUnsorted size="15" color="#afafaf" />
@@ -259,7 +270,7 @@ class Sidebar extends React.Component {
               <Nav navbar>{this.createLinks(routes)}</Nav>
             </Collapse>
             {/* Divider */}
-            <hr className="my-3" />
+            <hr className="my-2" />
             {/* Heading */}
             <h5 className="navbar-heading text-muted">네트워크 패킷</h5>
             <h5 className="navbar-heading text-muted">유효성 검사</h5>
