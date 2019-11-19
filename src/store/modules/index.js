@@ -4,11 +4,11 @@ import { combineReducers } from "redux";
 // import counter from './counter';
 // import todo from './todo';
 import home from "./home";
-import fetchDate from "./fetchData";
+// import fetchData from "./fetchData";
 
 export default combineReducers({
-  home,
-  fetchDate
+  home
+  // fetchData
 });
 
 // export type HomeState = ReturnType<typeof combineReducers>;

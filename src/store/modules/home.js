@@ -15,7 +15,7 @@ const START_TIME = "home/START_TIME";
 const END_TIME = "home/END_TIME";
 
 // action
-export const recordInput = createAction(RECORD_INPUT, value => value);
+export const recordInput = createAction(RECORD_INPUT, input => input);
 export const recordInsert = createAction(RECORD_INSERT, text => text);
 export const recordUpdate = createAction(RECORD_UPDATE, id => id);
 export const recordDelete = createAction(RECORD_DELETE, id => id);
@@ -51,12 +51,13 @@ export default handleActions(
     [RECORD_INSERT]: (state, { payload: text }) => {
       // console.log("payload: %s", text);
       const item = Map({ id: id++, checked: false, text: text });
-
+      // update 는 현재 값을 읽어온 다음에 함수에서 정의한 업데이트 로직에 따라 값 변경
       return state.update("list", list => list.push(item));
     },
     [RECORD_UPDATE]: (state, { payload: id }) => {
       console.log(id);
       const index = state.get("list").findIndex(item => item.get("id") === id);
+      // 특정 인덱스의 entered 필드 값을 반전
       return state.updateIn(
         ["list", index, "checked"],
         // checked => !checked
@@ -67,7 +68,6 @@ export default handleActions(
       const index = state.get("list").findIndex(item => item.get("id") === id);
       return state.deleteIn(["list", index]);
     },
-
     [START_TIME]: (state, action) => {
       return state.set("start", action.payload);
     },

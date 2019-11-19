@@ -100,7 +100,7 @@ const Index = ({
   };
   const [test_list, setTest_list] = useState([]);
   const bindList = async () => {
-    return await fetch("/admin/home/list", {
+    return await fetch(`/admin/home/list`, {
       method: "GET",
       mode: "cors",
       headers: {
