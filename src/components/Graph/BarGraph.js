@@ -21,7 +21,7 @@ const BarGraph = ({ data, start, end }) => {
         data: visitors,
         borderColor: "rgba(50,50,230,0.5)",
         backgroundColor: "rgba(80,120,230,0.2)",
-        borderWidth: 1,
+        borderWidth: 0.5,
         pointRadius: 15,
         pointHoverRadius: 20,
         pointBackgroundColor: "transparent", //#609ACF

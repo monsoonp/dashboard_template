@@ -236,7 +236,7 @@ const Index = ({
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="입력"
+                        placeholder="입력 (ToDo List)"
                         type="input"
                         onChange={e => input(e)}
                         value={`${text}`}
@@ -259,7 +259,7 @@ const Index = ({
                       onClick={() => update(e.id)}
                       onDoubleClick={() => remove(e.id)}
                     >
-                      {index + 1}. {e.text}({btoa(e.text)}) (
+                      {index + 1}. {e.text} ({btoa(e.text)}) (
                       {atob(new Buffer(e.text).toString("base64"))})
                     </p>
                   ))}
