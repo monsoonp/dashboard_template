@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 // import PropTypes from "prop-types";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import Main from "shared/Main";
 import store from "store";
 //date picker css
@@ -13,9 +13,9 @@ import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
 
 const Root = () => (
   <Provider store={store}>
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter basename={process.env.PUBLIC_URL}>
       <Main />
-    </BrowserRouter>
+    </HashRouter>
   </Provider>
 );
 
