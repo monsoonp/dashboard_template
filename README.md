@@ -12,6 +12,7 @@
 - react-router-dom
 - react-redux
 - redux-actions
+- redux-thunk
 - immutable
 - prop-types
 - classname
@@ -19,9 +20,12 @@
 - node-sass
 - chart.js
 - react-chartjs-2
+- react-datePicker
+- date-fns
 - gh-pages
 - etc...
 ```
+
 </details>
 
 ---

@@ -4,9 +4,10 @@ import Home from "pages/Home";
 import { connect } from "react-redux";
 // import{bindActionCreators} from 'redux';
 
-import { HomeActions } from "store/actionCreators"; //FetchActions
+import { HomeActions } from "store/actionCreators"; // FetchActions
 
-const HomeContainer = ({ input, list, start, end, fetchList }) => {
+const HomeContainer = ({ input, list, start, end }) => {
+  // fetchList
   const handleChange = e => {
     // console.log("change: %s", input);
     HomeActions.recordInput(e.target.value);
@@ -49,7 +50,7 @@ const HomeContainer = ({ input, list, start, end, fetchList }) => {
       setEnd={setEnd}
       update={handleUpdate}
       remove={handleDelete}
-      data={fetchList}
+      // data={fetchList}
     />
   );
 };
@@ -59,8 +60,8 @@ const mapStateToProps = ({ home }) => {
     input: home.get("input"),
     list: home.get("list"),
     start: home.get("start"),
-    end: home.get("end"),
-    fetchList: home.get("fetchList")
+    end: home.get("end")
+    // fetchList: home.get("fetchList")
   };
 };
 /*

@@ -22,11 +22,12 @@ const BarGraph = ({ data, start, end }) => {
         borderColor: "rgba(50,50,230,0.5)",
         backgroundColor: "rgba(80,120,230,0.2)",
         borderWidth: 1,
-        pointRadius: 10,
-        pointHoverRadius: 15,
+        pointRadius: 15,
+        pointHoverRadius: 20,
         pointBackgroundColor: "transparent", //#609ACF
+        hoverBackgroundColor: "rgba(80,120,230,0.1)",
         pointBorderWidth: 0,
-        spanGaps: false
+        spanGaps: true
       },
       {
         type: "bar",
@@ -35,8 +36,7 @@ const BarGraph = ({ data, start, end }) => {
         borderColor: "rgba(230,50,50,0.5)",
         backgroundColor: "rgba(230,120,80,0.2)",
         hoverBackgroundColor: "rgba(230,50,0,0.5)",
-        borderWidth: 0.2,
-        spanGaps: false
+        borderWidth: 0.2
       },
       {
         type: "bar",
@@ -45,8 +45,7 @@ const BarGraph = ({ data, start, end }) => {
         borderColor: "rgba(50,230,50,0.5)",
         backgroundColor: "rgba(120,230,120,0.3)",
         hoverBackgroundColor: "rgba(80,230,80,0.5)",
-        borderWidth: 0.2,
-        spanGaps: false
+        borderWidth: 0.2
       }
     ]
   };
@@ -59,7 +58,9 @@ const BarGraph = ({ data, start, end }) => {
       start
         ? end
           ? stampToDate(e.checkTime) >= start && stampToDate(e.checkTime) <= end
-          : e
+          : stampToDate(e.checkTime) >= start
+        : end
+        ? stampToDate(e.checkTime) <= end
         : e
     );
     setPageName(list.map(e => e.pageName));

@@ -62,6 +62,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 // import { ArrowSync, ArrowSyncOutline } from "styled-icons/typicons";
 // import {RadioButtonChecked, RadioButtonUnchecked} from "styled-icons/material";
 import moment from "moment";
+import { DownArrow, UpArrow } from "styled-icons/boxicons-solid";
 
 import Header from "components/Headers/Header.jsx";
 import BarGraph from "components/Graph/BarGraph";
@@ -77,8 +78,7 @@ const Index = ({
   start,
   end,
   setStart,
-  setEnd,
-  data
+  setEnd
 }) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
@@ -98,30 +98,40 @@ const Index = ({
       insert();
     }
   };
+  const resetTime = e => {
+    e.preventDefault();
+    setStart();
+    setEnd();
+  };
+  const buttonExam = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    sorter("");
+  };
   const [test_list, setTest_list] = useState([]);
   const bindList = async () => {
-    return await fetch(`/admin/home/list`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8"
-        // "Access-Control-Allow-Origin": "*"
-      }
-    })
-      .then(res => res.json())
-      .then(resjs => {
-        setTest_list(resjs);
-      })
-      .catch(err => {
-        console.log(err);
-        setTest_list(test_data);
+    try {
+      const response = await fetch(`/admin/home/list`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8"
+          // "Access-Control-Allow-Origin": "*"
+        }
       });
+      const resJson = await response.json();
+      setTest_list(resJson);
+    } catch (error) {
+      console.log(error);
+      setTest_list(test_data);
+    }
   };
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [startDate, setStartDate] = useState(start);
-  // const [endDate, setEndDate] = useState(end);
   /*
+  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(start);
+  const [endDate, setEndDate] = useState(end);
+  
   const [focusedInput, setFocusedInput] = useState(null);
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
@@ -132,14 +142,13 @@ const Index = ({
   const listOpener = () => {
     setListOpen(!listOpen);
   };
-  const [sort, setSort] = useState({ value: "checkTime", asc: true });
+  const [sort, setSort] = useState({ value: "", asc: false });
   const sorter = value => {
     if (sort.value === value) {
       setSort({ ...sort, asc: !sort.asc });
     } else {
       setSort({ value: value, asc: true });
     }
-    console.log(sort);
   };
   registerLocale("ko", ko);
   const stampToDate = t => {
@@ -150,9 +159,8 @@ const Index = ({
     if (test_list.length === 0) {
       bindList();
     }
-    console.log(data);
-  }, [data, test_list.length]);
-
+  }, [test_list.length]);
+  // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
       <Header />
@@ -196,6 +204,15 @@ const Index = ({
                   dateFormat="MM/dd h:mm:ss aa"
                   placeholderText="종료시간"
                 />
+                <Button
+                  className="ml-2"
+                  color="info"
+                  href="#pablo"
+                  onClick={resetTime}
+                  size="sm"
+                >
+                  Reset
+                </Button>
                 {/*
                 <DateRangePicker
                   startDate={moment(startDate)}
@@ -230,18 +247,20 @@ const Index = ({
               </CardBody>
               <div className="ml-5">
                 {list &&
-                  list.toJS().map(e => (
+                  list.toJS().map((e, index) => (
                     <p
                       style={{
                         textDecoration: e.checked
                           ? "Crimson double line-through" //solid, double, dotted, dashed, wavy
                           : "none" // overline underline / inherit, initial, unset
+                        // display: "inline-block",
                       }}
                       key={e.id}
                       onClick={() => update(e.id)}
                       onDoubleClick={() => remove(e.id)}
                     >
-                      {e.text}
+                      {index + 1}. {e.text}({btoa(e.text)}) (
+                      {atob(new Buffer(e.text).toString("base64"))})
                     </p>
                   ))}
               </div>
@@ -249,19 +268,19 @@ const Index = ({
           </Col>
         </Row>
         <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0" xl="12">
+          <Col className="mb-0 mb-xl-0" xl="12">
             <Card className="shadow">
-              <CardHeader className="border-0" onClick={listOpener}>
+              <CardHeader className="border-0 p-2" onClick={listOpener}>
                 <Row className="align-items-center">
                   <div className="col">
                     <h3 className="mb-0">Test List</h3>
                   </div>
-                  <div className="col text-right">
+                  <div className="col text-right my-0">
                     <Button
                       color="primary"
                       href="#pablo"
-                      onClick={e => e.preventDefault()}
-                      size="sm"
+                      onClick={buttonExam}
+                      size="md"
                     >
                       Button example
                     </Button>
@@ -272,19 +291,60 @@ const Index = ({
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
+                      <th scope="col" onClick={() => sorter("id")}>
+                        Index
+                        {sort.value === "id" &&
+                          (sort.asc ? (
+                            <UpArrow size="12" color="#afafaf" />
+                          ) : (
+                            <DownArrow size="12" color="#afafaf" />
+                          ))}
+                      </th>
                       <th scope="col" onClick={() => sorter("pageName")}>
                         Page name
+                        {sort.value === "pageName" &&
+                          (sort.asc ? (
+                            <UpArrow size="12" color="#afafaf" />
+                          ) : (
+                            <DownArrow size="12" color="#afafaf" />
+                          ))}
                       </th>
                       <th scope="col" onClick={() => sorter("visitors")}>
                         Visitors
+                        {sort.value === "visitors" &&
+                          (sort.asc ? (
+                            <UpArrow size="12" color="#afafaf" />
+                          ) : (
+                            <DownArrow size="12" color="#afafaf" />
+                          ))}
                       </th>
                       <th scope="col" onClick={() => sorter("users")}>
                         Unique users
+                        {sort.value === "users" &&
+                          (sort.asc ? (
+                            <UpArrow size="12" color="#afafaf" />
+                          ) : (
+                            <DownArrow size="12" color="#afafaf" />
+                          ))}
                       </th>
                       <th scope="col" onClick={() => sorter("bounceRate")}>
                         Bounce rate
+                        {sort.value === "bounceRate" &&
+                          (sort.asc ? (
+                            <UpArrow size="12" color="#afafaf" />
+                          ) : (
+                            <DownArrow size="12" color="#afafaf" />
+                          ))}
                       </th>
-                      <th onClick={() => sorter("checkTime")}>Date</th>
+                      <th scope="col" onClick={() => sorter("checkTime")}>
+                        Date
+                        {sort.value === "checkTime" &&
+                          (sort.asc ? (
+                            <UpArrow size="12" color="#afafaf" />
+                          ) : (
+                            <DownArrow size="12" color="#afafaf" />
+                          ))}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -294,7 +354,9 @@ const Index = ({
                           ? end
                             ? stampToDate(e.checkTime) >= start &&
                               stampToDate(e.checkTime) <= end
-                            : e
+                            : stampToDate(e.checkTime) >= start
+                          : end
+                          ? stampToDate(e.checkTime) <= end
                           : e
                       )
                       .sort((a, b) =>
@@ -311,7 +373,8 @@ const Index = ({
                       .map(e => {
                         return (
                           <tr key={e.id}>
-                            <th scope="row">{e.pageName}</th>
+                            <td>{e.id}</td>
+                            <td>{e.pageName}</td>
                             <td>{e.visitors}</td>
                             <td>{e.users}</td>
                             <td>
@@ -349,14 +412,14 @@ const Index = ({
           </Col>
         </Row>
         <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0" xl="12">
+          <Col className="mb-5 mb-xl-0" xl="8">
             <Card className="shadow">
               <CardHeader className="border-0">
                 <BarGraph data={test_list} start={start} end={end} />
               </CardHeader>
             </Card>
           </Col>
-          <Col className="mb-5 mb-xl-0" xl="6">
+          <Col className="mb-5 mb-xl-0" xl="4">
             <Card className="bg-gradient-default shadow">
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
