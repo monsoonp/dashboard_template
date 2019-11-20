@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/dashboard_template/static/css/main.0e573779.chunk.css",
-    "main.js": "/dashboard_template/static/js/main.cecba459.chunk.js",
-    "main.js.map": "/dashboard_template/static/js/main.cecba459.chunk.js.map",
+    "main.css": "/dashboard_template/static/css/main.ce9e83c4.chunk.css",
+    "main.js": "/dashboard_template/static/js/main.0fc9f6cf.chunk.js",
+    "main.js.map": "/dashboard_template/static/js/main.0fc9f6cf.chunk.js.map",
     "runtime-main.js": "/dashboard_template/static/js/runtime-main.6c9e1ca7.js",
     "runtime-main.js.map": "/dashboard_template/static/js/runtime-main.6c9e1ca7.js.map",
     "static/css/2.898f51b9.chunk.css": "/dashboard_template/static/css/2.898f51b9.chunk.css",
-    "static/js/2.8431e0d8.chunk.js": "/dashboard_template/static/js/2.8431e0d8.chunk.js",
-    "static/js/2.8431e0d8.chunk.js.map": "/dashboard_template/static/js/2.8431e0d8.chunk.js.map",
+    "static/js/2.0a609133.chunk.js": "/dashboard_template/static/js/2.0a609133.chunk.js",
+    "static/js/2.0a609133.chunk.js.map": "/dashboard_template/static/js/2.0a609133.chunk.js.map",
     "index.html": "/dashboard_template/index.html",
-    "precache-manifest.17508fb5ab703145a59dfb7769de8fcd.js": "/dashboard_template/precache-manifest.17508fb5ab703145a59dfb7769de8fcd.js",
+    "precache-manifest.befe6baddc8cc75e9dfad7cf789fa320.js": "/dashboard_template/precache-manifest.befe6baddc8cc75e9dfad7cf789fa320.js",
     "service-worker.js": "/dashboard_template/service-worker.js",
     "static/css/2.898f51b9.chunk.css.map": "/dashboard_template/static/css/2.898f51b9.chunk.css.map",
-    "static/css/main.0e573779.chunk.css.map": "/dashboard_template/static/css/main.0e573779.chunk.css.map",
+    "static/css/main.ce9e83c4.chunk.css.map": "/dashboard_template/static/css/main.ce9e83c4.chunk.css.map",
     "static/media/angular.jpg": "/dashboard_template/static/media/angular.368685db.jpg",
     "static/media/bootstrap.jpg": "/dashboard_template/static/media/bootstrap.ab904daa.jpg",
     "static/media/all.min.css": "/dashboard_template/static/media/fa-solid-900.815694de.woff",
@@ -30,8 +30,8 @@
   "entrypoints": [
     "static/js/runtime-main.6c9e1ca7.js",
     "static/css/2.898f51b9.chunk.css",
-    "static/js/2.8431e0d8.chunk.js",
-    "static/css/main.0e573779.chunk.css",
-    "static/js/main.cecba459.chunk.js"
+    "static/js/2.0a609133.chunk.js",
+    "static/css/main.ce9e83c4.chunk.css",
+    "static/js/main.0fc9f6cf.chunk.js"
   ]
 }
