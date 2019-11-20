@@ -21,7 +21,7 @@ function Main() {
         path={`${process.env.PUBLIC_URL}/autn`}
         render={props => <AuthLayout {...props} />}
       />
-      <Redirect from="/" to="/admin/home" />
+      <Redirect from={`${process.env.PUBLIC_URL}/`} to="/admin/home" />
     </Switch>
   );
 }

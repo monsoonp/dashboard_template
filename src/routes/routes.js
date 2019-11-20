@@ -25,7 +25,6 @@ import Login from "pages/Login";
 import Tables from "pages/Tables";
 import Icons from "pages/Icons";
 
-const path = `${process.env.PUBLIC_URL}`;
 var routes = [
   {
     path: "/home",
@@ -33,49 +32,49 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     // component: Index,
     component: HomeContainer,
-    layout: `${path}/admin`
+    layout: "/admin"
   },
   {
     path: "/icons",
     name: "Icons",
     icon: "ni ni-planet text-blue",
     component: Icons,
-    layout: `${path}/admin`
+    layout: "/admin"
   },
   {
     path: "/user-profile",
     name: "User Profile",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
-    layout: `${path}/admin`
+    layout: "/admin"
   },
   {
     path: "/tables",
     name: "Tables",
     icon: "ni ni-settings text-grey",
     component: Tables,
-    layout: `${path}/admin`
+    layout: "/admin"
   },
   {
     path: "/tables",
     name: "Tables",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
-    layout: `${path}/admin`
+    layout: "/admin"
   },
   {
     path: "/login",
     name: "Login",
     icon: "ni ni-single-02 text-info",
     component: Login,
-    layout: `${path}/auth`
+    layout: "/auth"
   },
   {
     path: "/register",
     name: "Register",
     icon: "ni ni-circle-08 text-pink",
     component: Register,
-    layout: `${path}/auth`
+    layout: "/auth"
   }
 ];
 export default routes;
