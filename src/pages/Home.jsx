@@ -172,7 +172,7 @@ const Index = ({
               <CardHeader className="bg-gradient-primary text-white">
                 종합이력 조회
               </CardHeader>
-              <CardBody className="align-items-center pb-0">
+              <CardBody className="align-items-center py-1">
                 <DatePicker
                   locale="ko"
                   selected={start}
@@ -225,10 +225,10 @@ const Index = ({
                 />
                  */}
               </CardBody>
-              <hr />
-              <CardBody>
+              <hr className="my-1" />
+              <CardBody className="py-2">
                 <Form role="form" onSubmit={onSubmit}>
-                  <FormGroup className="mb-3">
+                  <FormGroup className="mb-0">
                     <InputGroup className="input-group-alternative">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -271,7 +271,7 @@ const Index = ({
             </Card>
           </Col>
         </Row>
-        <Row className="mt-5">
+        <Row className="mt-2">
           <Col className="mb-0 mb-xl-0" xl="12">
             <Card className="shadow">
               <CardHeader className="border-0 p-2" onClick={listOpener}>
@@ -415,7 +415,7 @@ const Index = ({
             </Card>
           </Col>
         </Row>
-        <Row className="mt-5">
+        <Row className="mt-2">
           <Col className="mb-5 mb-xl-0" xl="8">
             <Card className="shadow">
               <CardHeader className="border-0">
@@ -477,7 +477,7 @@ const Index = ({
             </Card>
           </Col>
         </Row>
-        <Row className="mt-5">
+        <Row className="mt-2">
           <Col xl="6">
             <Card className="shadow">
               <CardHeader className="border-0">
