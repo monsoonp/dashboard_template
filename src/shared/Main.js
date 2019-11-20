@@ -13,9 +13,15 @@ import AuthLayout from "client/Auth.jsx";
 function Main() {
   return (
     <Switch>
-      <Route path={`/admin`} render={props => <AdminLayout {...props} />} />
-      <Route path={`/autn`} render={props => <AuthLayout {...props} />} />
-      <Redirect from={`/`} to="/admin/home" />
+      <Route
+        path={`${process.env.PUBLIC_URL}/admin`}
+        render={props => <AdminLayout {...props} />}
+      />
+      <Route
+        path={`${process.env.PUBLIC_URL}/autn`}
+        render={props => <AuthLayout {...props} />}
+      />
+      <Redirect from={`${process.env.PUBLIC_URL}/`} to="/admin/home" />
     </Switch>
   );
 }
