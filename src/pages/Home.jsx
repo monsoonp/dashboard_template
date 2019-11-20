@@ -259,8 +259,12 @@ const Index = ({
                       onClick={() => update(e.id)}
                       onDoubleClick={() => remove(e.id)}
                     >
-                      {index + 1}. {e.text} ({btoa(e.text)}) (
-                      {atob(new Buffer(e.text).toString("base64"))})
+                      {index + 1}. {e.text} (
+                      {btoa(unescape(encodeURIComponent(e.text)))}) (
+                      {decodeURIComponent(
+                        escape(atob(new Buffer(e.text).toString("base64")))
+                      )}
+                      )
                     </p>
                   ))}
               </div>
