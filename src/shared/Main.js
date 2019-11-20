@@ -13,8 +13,8 @@ import AuthLayout from "client/Auth.jsx";
 function Main() {
   return (
     <Switch>
-      <Route path={`admin`} render={props => <AdminLayout {...props} />} />
-      <Route path={`autn`} render={props => <AuthLayout {...props} />} />
+      <Route path={`/admin`} render={props => <AdminLayout {...props} />} />
+      <Route path={`/autn`} render={props => <AuthLayout {...props} />} />
       <Redirect from={`/`} to="/admin/home" />
     </Switch>
   );
