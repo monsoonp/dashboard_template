@@ -78,6 +78,7 @@ class Sidebar extends React.Component {
   };
 
   // creates the links that appear in the left menu / Sidebar
+
   createLinks = routes => {
     return routes
       .sort((a, b) => a - b)
@@ -85,7 +86,7 @@ class Sidebar extends React.Component {
         return (
           <NavItem key={key}>
             <NavLink
-              to={process.env.PUBLIC_URL + prop.layout + prop.path}
+              to={process.env.PUBLIC_URL + "/" + prop.layout + prop.path}
               tag={NavLinkRRD}
               onClick={this.closeCollapse}
               activeClassName="active"
@@ -114,6 +115,7 @@ class Sidebar extends React.Component {
         target: "_blank"
       };
     }
+    console.log(process.env.PUBLIC_URL);
     return (
       <Navbar
         className="navbar-vertical fixed-left navbar-light bg-white"
