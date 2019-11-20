@@ -86,7 +86,7 @@ class Sidebar extends React.Component {
         return (
           <NavItem key={key}>
             <NavLink
-              to={process.env.PUBLIC_URL + "/" + prop.layout + prop.path}
+              to={prop.layout + prop.path}
               tag={NavLinkRRD}
               onClick={this.closeCollapse}
               activeClassName="active"
