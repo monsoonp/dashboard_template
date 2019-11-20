@@ -9,7 +9,7 @@
 <details><summary><code>library</code></summary>
 
 ```
- - react-router-dom
+- react-router-dom
 - react-redux
 - redux-actions
 - redux-thunk
