@@ -72,6 +72,11 @@ export default handleActions(
     },
     [END_TIME]: (state, action) => {
       return state.set("end", action.payload);
+    },
+    InvalidType: (state, action) => {
+      // 타입 에러
+      console.log("error");
+      return state;
     }
   },
   initialState

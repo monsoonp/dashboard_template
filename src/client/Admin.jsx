@@ -75,13 +75,14 @@ class Admin extends React.Component {
           }}
         />
         <div className="main-content" ref="mainContent">
-          {/* 상단 검색창 nav */}
+          {/* 상단 검색창 nav 
           <AdminNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
-          {/* main content */}
+          */}
 
+          {/* main content */}
           <Switch>{this.getRoutes(routes)}</Switch>
           {/* Footer
           <Container fluid>

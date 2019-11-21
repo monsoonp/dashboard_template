@@ -30,12 +30,25 @@ type items = {
   checked: boolean;
   text: string;
 };
-type HomeState = {
-  input: string;
-  list: List<items>;
-  start?: Date;
-  end?: Date;
-};
+const itemRecord = Record({
+  id: id++,
+  checked: false,
+  text: ""
+});
+
+const HomeStateRecord = Record({
+  input: "",
+  list: List(),
+  start: new Date(),
+  end: new Date()
+});
+export class HomeState extends HomeStateRecord {
+  input!: string;
+  list!: List<items>;
+  start!: Date;
+  end!: Date;
+}
+
 export type HomeAction =
   | ReturnType<typeof recordInput>
   | ReturnType<typeof recordInsert>
@@ -44,32 +57,33 @@ export type HomeAction =
   | ReturnType<typeof setStart>
   | ReturnType<typeof setEnd>;
 
-const initialState: HomeState = {
+const initialState = new HomeState();
+
+/*
+= {
   input: "",
   list: List(),
   start: new Date(),
   end: new Date()
 };
-
+*/
 // reducer
 export default handleActions<HomeState, any>(
   {
-    [RECORD_INPUT]: (state: any, action) => {
+    [RECORD_INPUT]: (state, action): HomeState => {
       const payload = action.payload;
       // console.log("input action: %s, state: %s", payload);
       // console.log(action.type);
       return state.set("input", payload);
     },
-    [RECORD_INSERT]: (state: any, { payload: text }: Action<HomeAction>) => {
+    [RECORD_INSERT]: (state, { payload: text }): HomeState => {
       // console.log("payload: %s", text);
-      const item = Record({ id: id++, checked: false, text: text });
+      const item = itemRecord({ id: id++, text });
       // update 는 현재 값을 읽어온 다음에 함수에서 정의한 업데이트 로직에 따라 값 변경
-      return state.update("list", (list: Array<Object>) => list.push(item));
+      return state.update("list", (list: List<items>) => list.push(item));
     },
-    [RECORD_UPDATE]: (state: any, { payload: id }) => {
-      const index = state
-        .get("list")
-        .findIndex((item: any) => item.get("id") === id);
+    [RECORD_UPDATE]: (state, { payload: id }): HomeState => {
+      const index = state.list.findIndex(item => item.id === id);
       // 특정 인덱스의 entered 필드 값을 반전
       return state.updateIn(
         ["list", index, "checked"],
@@ -77,16 +91,14 @@ export default handleActions<HomeState, any>(
         (isChecked: boolean) => !isChecked
       );
     },
-    [RECORD_DELETE]: (state: any, { payload: id }) => {
-      const index = state
-        .get("list")
-        .findIndex((item: any) => item.get("id") === id);
+    [RECORD_DELETE]: (state, { payload: id }): HomeState => {
+      const index = state.list.findIndex(item => item.id === id);
       return state.deleteIn(["list", index]);
     },
-    [START_TIME]: (state: any, action) => {
+    [START_TIME]: (state, action): HomeState => {
       return state.set("start", action.payload);
     },
-    [END_TIME]: (state: any, action) => {
+    [END_TIME]: (state, action): HomeState => {
       return state.set("end", action.payload);
     }
   },

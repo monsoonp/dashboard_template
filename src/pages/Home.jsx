@@ -163,7 +163,9 @@ const Index = ({
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
+      {/* 상단 여백 
       <Header />
+      */}
       {/* Page content */}
       <Container className="mt-0 mb-4" fluid>
         <Row className="mt-3">
@@ -376,7 +378,7 @@ const Index = ({
                       )
                       .map(e => {
                         return (
-                          <tr key={e.id}>
+                          <tr key={e.id} className="py-0">
                             <td>{e.id}</td>
                             <td>{e.pageName}</td>
                             <td>{e.visitors}</td>
@@ -392,19 +394,17 @@ const Index = ({
                               {e.bounceRate}
                             </td>
                             <td>
-                              <p className="mb-0">
-                                {moment(stampToDate(e.checkTime))
-                                  .locale("ko")
-                                  // .format("Y.MM.DD / hh:mm:ss a")
-                                  .format("Y.MM.DD / HH:mm:ss")
-                                  .toString()}
-                              </p>
-                              <p className="mb-0">
-                                {moment(
-                                  stampToDate(e.checkTime),
-                                  "YYYYMMDD"
-                                ).fromNow()}
-                              </p>
+                              {moment(stampToDate(e.checkTime))
+                                .locale("ko")
+                                // .format("Y.MM.DD / hh:mm:ss a")
+                                .format("YY.MM.DD / HH:mm:ss")
+                                .toString()}
+                              &nbsp;(
+                              {moment(
+                                stampToDate(e.checkTime),
+                                "YYYYMMDD"
+                              ).fromNow()}
+                              )
                             </td>
                           </tr>
                         );
@@ -418,9 +418,10 @@ const Index = ({
         <Row className="mt-2">
           <Col className="mb-5 mb-xl-0" xl="8">
             <Card className="shadow">
-              <CardHeader className="border-0">
+              <CardHeader className="border-0"></CardHeader>
+              <CardBody className="border-0">
                 <BarGraph data={test_list} start={start} end={end} />
-              </CardHeader>
+              </CardBody>
             </Card>
           </Col>
           <Col className="mb-5 mb-xl-0" xl="4">
