@@ -13,14 +13,15 @@ import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
 
 const Root = () => (
   <Provider store={store}>
-    <BrowserRouter basename={process.env.PUBLIC_URL + "/"}>
-      <Main />
-    </BrowserRouter>
-    {/*
-    <HashRouter>
-      <Main />
-    </HashRouter>
-    */}
+    {process.env.PUBLIC_URL === "/dashboard_template" ? (
+      <HashRouter>
+        <Main />
+      </HashRouter>
+    ) : (
+      <BrowserRouter basename={process.env.PUBLIC_URL + "/"}>
+        <Main />
+      </BrowserRouter>
+    )}
   </Provider>
 );
 

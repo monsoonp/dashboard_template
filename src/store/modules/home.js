@@ -55,7 +55,6 @@ export default handleActions(
       return state.update("list", list => list.push(item));
     },
     [RECORD_UPDATE]: (state, { payload: id }) => {
-      console.log(id);
       const index = state.get("list").findIndex(item => item.get("id") === id);
       // 특정 인덱스의 entered 필드 값을 반전
       return state.updateIn(

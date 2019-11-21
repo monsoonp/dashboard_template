@@ -4,7 +4,7 @@ import Home from "pages/Home";
 import { connect } from "react-redux";
 // import{bindActionCreators} from 'redux';
 
-import { HomeActions } from "store/actionCreators"; // FetchActions
+import { HomeActions } from "store/actionCreators"; // FetchActions, TypedHomeActions
 
 const HomeContainer = ({ input, list, start, end }) => {
   // fetchList
@@ -54,7 +54,7 @@ const HomeContainer = ({ input, list, start, end }) => {
     />
   );
 };
-const mapStateToProps = ({ home }) => {
+const mapStateToProps = ({ home, typedHome }) => {
   // console.log(state.home);
   return {
     input: home.get("input"),

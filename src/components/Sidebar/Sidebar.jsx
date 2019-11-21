@@ -115,7 +115,6 @@ class Sidebar extends React.Component {
         target: "_blank"
       };
     }
-    console.log(process.env.PUBLIC_URL);
     return (
       <Navbar
         className="navbar-vertical fixed-left navbar-light bg-white"
