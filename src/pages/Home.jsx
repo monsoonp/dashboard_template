@@ -128,6 +128,16 @@ const Index = ({
       setTest_list(test_data);
     }
   };
+  const [clickTime, setClickTime] = useState({ time: 0, id: "" });
+  const clickHandler = e => {
+    // 클릭 실행, 단 1초 이내에 다른 클릭이 없었을시
+    const time = new Date().getTime();
+    update(e);
+    if (clickTime.id === e && time - clickTime.time <= 320) {
+      remove(e);
+    }
+    setClickTime({ time: time, id: e });
+  };
   /*
   const [startDate, setStartDate] = useState(new Date());
   const [startDate, setStartDate] = useState(start);
@@ -261,8 +271,7 @@ const Index = ({
                         // display: "inline-block",
                       }}
                       key={e.id}
-                      onClick={() => update(e.id)}
-                      onDoubleClick={() => remove(e.id)}
+                      onClick={() => clickHandler(e.id)}
                     >
                       {index + 1}. {e.text} ({btoa(encodeURIComponent(e.text))})
                       (
