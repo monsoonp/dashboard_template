@@ -78,7 +78,7 @@ class Sidebar extends React.Component {
   };
 
   // creates the links that appear in the left menu / Sidebar
-
+  // NavItem - tag, active / NavLink - disabled, active, tag, innerRef
   createLinks = routes => {
     return routes
       .sort((a, b) => a - b)
@@ -132,6 +132,7 @@ class Sidebar extends React.Component {
           </button>
           {/* Brand */}
 
+          {/* 웹화면 로고 */}
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}>
               <img
@@ -159,8 +160,9 @@ class Sidebar extends React.Component {
                 <DropdownItem>Something else here</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+            {/*
             <UncontrolledDropdown nav>
-              {/*
+               
               <DropdownToggle nav>
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
@@ -171,7 +173,6 @@ class Sidebar extends React.Component {
                   </span>
                 </Media>
               </DropdownToggle>
-              */}
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
@@ -199,8 +200,9 @@ class Sidebar extends React.Component {
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+            */}
           </Nav>
-          {/* Collapse 토글 닫힘 메뉴 */}
+          {/* Collapse 토글 닫힘 메뉴(모바일 화면) */}
           <Collapse navbar isOpen={this.state.collapseOpen}>
             {/* Collapse header */}
             <div className="navbar-collapse-header d-md-none">
@@ -267,10 +269,12 @@ class Sidebar extends React.Component {
                 <ArrowUnsorted size="15" color="#afafaf" />
               )}
             </h5>
-            {/* Navigation list*/}
+            {/* Navigation list */}
             <Collapse isOpen={this.state.homeToggle}>
               <Nav navbar>{this.createLinks(routes)}</Nav>
+              {/* vertical, navbar, pills, tabs, card, justified, fill, horizontal, tag */}
             </Collapse>
+
             {/* Divider */}
             <hr className="my-2" />
             {/* Heading */}
@@ -279,24 +283,26 @@ class Sidebar extends React.Component {
             <h5 className="navbar-heading text-muted">GOOSE</h5>
             <h5 className="navbar-heading text-muted">MMS</h5>
             <h5 className="navbar-heading text-muted">Option</h5>
+
             {/* Navigation */}
+            <hr className="my-0" />
             <Nav className="mb-md-3" navbar>
               <NavItem>
-                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/documentation/overview?ref=adr-admin-sidebar">
+                <NavLink href="https://github.com/monsoonp/dashboard_template">
                   <i className="ni ni-spaceship" />
                   Getting started
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/documentation/colors?ref=adr-admin-sidebar">
+                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/quick-start">
                   <i className="ni ni-palette" />
-                  Foundation
+                  Documentation
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/documentation/alerts?ref=adr-admin-sidebar">
+                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/">
                   <i className="ni ni-ui-04" />
-                  Components
+                  preview
                 </NavLink>
               </NavItem>
             </Nav>

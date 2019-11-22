@@ -64,7 +64,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import moment from "moment";
 import { DownArrow, UpArrow } from "styled-icons/boxicons-solid";
 
-import Header from "components/Headers/Header.jsx";
+// import Header from "components/Headers/Header.jsx";
 import BarGraph from "components/Graph/BarGraph";
 import test_data from "assets/data/test_data";
 
@@ -274,7 +274,7 @@ const Index = ({
           </Col>
         </Row>
         <Row className="mt-2">
-          <Col className="mb-0 mb-xl-0" xl="12">
+          <Col className="mb-5 mb-xl-0" xl="12">
             <Card className="shadow">
               <CardHeader className="border-0 p-2" onClick={listOpener}>
                 <Row className="align-items-center">
@@ -365,6 +365,7 @@ const Index = ({
                           ? stampToDate(e.checkTime) <= end
                           : e
                       )
+                      .filter(e => e.pageName.indexOf(text) !== -1)
                       .sort((a, b) =>
                         sort.value
                           ? sort.asc
