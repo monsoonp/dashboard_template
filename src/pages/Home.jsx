@@ -59,13 +59,14 @@ import DatePicker, { registerLocale } from "react-datepicker";
 // import { DateRangePicker } from "react-dates";
 // styled icon
 // import styled from "styled-components";
-// import { ArrowSync, ArrowSyncOutline } from "styled-icons/typicons";
+import { ArrowSync, ArrowSyncOutline } from "styled-icons/typicons";
 // import {RadioButtonChecked, RadioButtonUnchecked} from "styled-icons/material";
 import moment from "moment";
-import { DownArrow, UpArrow } from "styled-icons/boxicons-solid";
+// import { DownArrow, UpArrow } from "styled-icons/boxicons-solid";
 
 // import Header from "components/Headers/Header.jsx";
 import BarGraph from "components/Graph/BarGraph";
+import TableTitle from "components/Table/TableTitle";
 import test_data from "assets/data/test_data";
 
 const Index = ({
@@ -159,6 +160,8 @@ const Index = ({
     if (test_list.length === 0) {
       bindList();
     }
+
+    return () => {};
   }, [test_list.length]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
@@ -227,7 +230,7 @@ const Index = ({
                 />
                  */}
               </CardBody>
-              <hr className="my-1" />
+              <hr className="my-0" />
               <CardBody className="py-2">
                 <Form role="form" onSubmit={onSubmit}>
                   <FormGroup className="mb-0">
@@ -261,10 +264,10 @@ const Index = ({
                       onClick={() => update(e.id)}
                       onDoubleClick={() => remove(e.id)}
                     >
-                      {index + 1}. {e.text} (
-                      {btoa(unescape(encodeURIComponent(e.text)))}) (
+                      {index + 1}. {e.text} ({btoa(encodeURIComponent(e.text))})
+                      (
                       {decodeURIComponent(
-                        escape(atob(new Buffer(e.text).toString("base64")))
+                        atob(new Buffer(e.text).toString("base64"))
                       )}
                       )
                     </p>
@@ -296,6 +299,7 @@ const Index = ({
               <Collapse isOpen={listOpen}>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
+                    {/*
                     <tr>
                       <th scope="col" onClick={() => sorter("id")}>
                         Index
@@ -352,6 +356,8 @@ const Index = ({
                           ))}
                       </th>
                     </tr>
+                     */}
+                    <TableTitle sort={sort} sorter={sorter} />
                   </thead>
                   <tbody>
                     {test_list
@@ -402,8 +408,8 @@ const Index = ({
                                 .toString()}
                               &nbsp;(
                               {moment(
-                                stampToDate(e.checkTime),
-                                "YYYYMMDD"
+                                stampToDate(e.checkTime)
+                                // ,"YYYYMMDD"
                               ).fromNow()}
                               )
                             </td>
@@ -445,7 +451,10 @@ const Index = ({
                           href="#pablo"
                           onClick={e => toggleNavs(e, 1)}
                         >
-                          <span className="d-none d-md-block">Month</span>
+                          <span className="d-none d-md-block">
+                            Month
+                            <ArrowSyncOutline size="15" />
+                          </span>
                           <span className="d-md-none">M</span>
                         </NavLink>
                       </NavItem>
@@ -458,7 +467,10 @@ const Index = ({
                           href="#pablo"
                           onClick={e => toggleNavs(e, 2)}
                         >
-                          <span className="d-none d-md-block">Week</span>
+                          <span className="d-none d-md-block">
+                            Week
+                            <ArrowSync size="15" />
+                          </span>
                           <span className="d-md-none">W</span>
                         </NavLink>
                       </NavItem>

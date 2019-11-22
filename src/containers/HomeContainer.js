@@ -34,8 +34,16 @@ const HomeContainer = ({ input, list, start, end }) => {
   };
   // const { fetchData } = FetchActions;
   // const dispatch = useDispatch();
+
+  // const startTime = new Date().getTime();
+  console.time("calcHomeContainerTime");
+
   useEffect(() => {
     // fetchData();
+
+    // const endTime = new Date().getTime();
+    // console.log(endTime - startTime);
+    console.timeEnd("calcHomeContainerTime");
   });
 
   return (

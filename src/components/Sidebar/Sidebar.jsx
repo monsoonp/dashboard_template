@@ -101,6 +101,7 @@ class Sidebar extends React.Component {
   homeToggle = () => {
     this.setState({ homeToggle: !this.state.homeToggle });
   };
+
   render() {
     const { bgColor, routes, logo } = this.props;
     let navbarBrandProps;
