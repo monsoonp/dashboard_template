@@ -56,6 +56,7 @@ class Auth extends React.Component {
           <div className="header bg-gradient-info py-7 py-lg-7">
             <Container>
               <div className="header-body text-center mb-7">
+                {/*
                 <Row className="justify-content-center">
                   <Col lg="5" md="6">
                     <h1 className="text-white">Welcome!</h1>
@@ -64,6 +65,7 @@ class Auth extends React.Component {
                     </p>
                   </Col>
                 </Row>
+                  */}
               </div>
             </Container>
             <div className="separator separator-bottom separator-skew zindex-100">
