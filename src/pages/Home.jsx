@@ -53,10 +53,6 @@ import ko from "date-fns/locale/ko";
 // datepicker;
 import "assets/css/react-datepicker.css";
 import DatePicker, { registerLocale } from "react-datepicker";
-// react-dates
-// import "react-dates/initialize";
-// import "react-dates/lib/css/_datepicker.css";
-// import { DateRangePicker } from "react-dates";
 // styled icon
 // import styled from "styled-components";
 import { ArrowSync, ArrowSyncOutline } from "styled-icons/typicons";
@@ -132,23 +128,13 @@ const Index = ({
   const clickHandler = e => {
     // 클릭 실행, 단 1초 이내에 다른 클릭이 없었을시
     const time = new Date().getTime();
-    update(e);
     if (clickTime.id === e && time - clickTime.time <= 320) {
       remove(e);
+    } else {
+      update(e);
     }
     setClickTime({ time: time, id: e });
   };
-  /*
-  const [startDate, setStartDate] = useState(new Date());
-  const [startDate, setStartDate] = useState(start);
-  const [endDate, setEndDate] = useState(end);
-  
-  const [focusedInput, setFocusedInput] = useState(null);
-  const handleDatesChange = ({ startDate, endDate }) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
-  };
-  */
   const [listOpen, setListOpen] = useState(true);
   const listOpener = () => {
     setListOpen(!listOpen);
@@ -228,17 +214,6 @@ const Index = ({
                 >
                   Reset
                 </Button>
-                {/*
-                <DateRangePicker
-                  startDate={moment(startDate)}
-                  startDateId="tata-start-date"
-                  endDate={moment(endDate)}
-                  endDateId="tata-end-date"
-                  onDatesChange={handleDatesChange}
-                  focusedInput={focusedInput}
-                  onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-                />
-                 */}
               </CardBody>
               <hr className="my-0" />
               <CardBody className="py-2">
@@ -308,64 +283,6 @@ const Index = ({
               <Collapse isOpen={listOpen}>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
-                    {/*
-                    <tr>
-                      <th scope="col" onClick={() => sorter("id")}>
-                        Index
-                        {sort.value === "id" &&
-                          (sort.asc ? (
-                            <UpArrow size="12" color="#afafaf" />
-                          ) : (
-                            <DownArrow size="12" color="#afafaf" />
-                          ))}
-                      </th>
-                      <th scope="col" onClick={() => sorter("pageName")}>
-                        Page name
-                        {sort.value === "pageName" &&
-                          (sort.asc ? (
-                            <UpArrow size="12" color="#afafaf" />
-                          ) : (
-                            <DownArrow size="12" color="#afafaf" />
-                          ))}
-                      </th>
-                      <th scope="col" onClick={() => sorter("visitors")}>
-                        Visitors
-                        {sort.value === "visitors" &&
-                          (sort.asc ? (
-                            <UpArrow size="12" color="#afafaf" />
-                          ) : (
-                            <DownArrow size="12" color="#afafaf" />
-                          ))}
-                      </th>
-                      <th scope="col" onClick={() => sorter("users")}>
-                        Unique users
-                        {sort.value === "users" &&
-                          (sort.asc ? (
-                            <UpArrow size="12" color="#afafaf" />
-                          ) : (
-                            <DownArrow size="12" color="#afafaf" />
-                          ))}
-                      </th>
-                      <th scope="col" onClick={() => sorter("bounceRate")}>
-                        Bounce rate
-                        {sort.value === "bounceRate" &&
-                          (sort.asc ? (
-                            <UpArrow size="12" color="#afafaf" />
-                          ) : (
-                            <DownArrow size="12" color="#afafaf" />
-                          ))}
-                      </th>
-                      <th scope="col" onClick={() => sorter("checkTime")}>
-                        Date
-                        {sort.value === "checkTime" &&
-                          (sort.asc ? (
-                            <UpArrow size="12" color="#afafaf" />
-                          ) : (
-                            <DownArrow size="12" color="#afafaf" />
-                          ))}
-                      </th>
-                    </tr>
-                     */}
                     <TableTitle sort={sort} sorter={sorter} />
                   </thead>
                   <tbody>
@@ -402,11 +319,11 @@ const Index = ({
                             <td>
                               <i
                                 className={`fas fa-arrow-${
-                                  Math.random() >= 0.5 ? "up" : "down"
+                                  e.bounceRate >= 40 ? "up" : "down"
                                 } text-${
-                                  Math.random() >= 0.5 ? "success" : "danger"
+                                  e.bounceRate >= 40 ? "success" : "danger"
                                 } mr-3`}
-                              />{" "}
+                              />
                               {e.bounceRate}
                             </td>
                             <td>

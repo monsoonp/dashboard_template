@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { HomeActions } from "store/actionCreators"; // FetchActions, TypedHomeActions
 
 const HomeContainer = ({ input, list, start, end }) => {
-  // fetchList
   const handleChange = e => {
     // console.log("change: %s", input);
     HomeActions.recordInput(e.target.value);
@@ -32,15 +31,11 @@ const HomeContainer = ({ input, list, start, end }) => {
   const setEnd = value => {
     HomeActions.setEnd(value);
   };
-  // const { fetchData } = FetchActions;
-  // const dispatch = useDispatch();
 
   // const startTime = new Date().getTime();
   console.time("calcHomeContainerTime");
 
   useEffect(() => {
-    // fetchData();
-
     // const endTime = new Date().getTime();
     // console.log(endTime - startTime);
     console.timeEnd("calcHomeContainerTime");
@@ -48,17 +43,16 @@ const HomeContainer = ({ input, list, start, end }) => {
 
   return (
     <Home
+      text={input}
+      list={list}
       input={handleChange}
       insert={handleInsert}
-      list={list}
-      text={input}
+      update={handleUpdate}
+      remove={handleDelete}
       start={start}
       end={end}
       setStart={setStart}
       setEnd={setEnd}
-      update={handleUpdate}
-      remove={handleDelete}
-      // data={fetchList}
     />
   );
 };

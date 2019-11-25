@@ -56,7 +56,7 @@ export default handleActions(
     },
     [RECORD_UPDATE]: (state, { payload: id }) => {
       const index = state.get("list").findIndex(item => item.get("id") === id);
-      // 특정 인덱스의 entered 필드 값을 반전
+      // 특정 인덱스의 checked 필드 값을 반전
       return state.updateIn(
         ["list", index, "checked"],
         // checked => !checked
