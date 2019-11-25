@@ -31,3 +31,10 @@
 ---
 
 ### `dashboard_template` [_Demo page_](https://monsoonp.github.io/dashboard_template "template demo link")
+
+```
+###version
+node v10.16.3
+npm 6.13.0
+yarn 1.17.3
+```
