@@ -273,10 +273,10 @@ const Index = ({
                       key={e.id}
                       onClick={() => clickHandler(e.id)}
                     >
-                      {index + 1}. {e.text} ({btoa(encodeURIComponent(e.text))})
-                      (
+                      {index + 1}. {e.text} (
+                      {btoa(unescape(encodeURIComponent(e.text)))}) (
                       {decodeURIComponent(
-                        atob(new Buffer(e.text).toString("base64"))
+                        escape(atob(new Buffer(e.text).toString("base64")))
                       )}
                       )
                     </p>
