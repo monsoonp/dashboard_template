@@ -7,14 +7,15 @@
 ---
 ### `dashboard_template` [_Demo page_](https://monsoonp.github.io/dashboard_template "template demo link")
 ---
+
 ### Versions
 - node v10.16.3
 - npm 6.13.0
 - yarn 1.17.3
 
+---
 
 <details><summary><code>library</code></summary>
-
 ```
 - react-router-dom
 - react-redux
@@ -32,7 +33,5 @@
 - gh-pages
 - etc...
 ```
-
 </details>
 
----
