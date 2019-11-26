@@ -1,5 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { Map, List } from "immutable";
+import socketIOClient from "socket.io-client";
 
 /*
 Ducks 구조 - module
@@ -31,12 +32,20 @@ export const testInput = e => dispatch => {
 };
 
 let id = 0;
-
+/*
+const response ={
+  response: false,
+  endpoint: "http://localhost:5000"
+};
+const { endpoint } = response;
+const socket = socketIOClient(endpoint);
+*/
 const initialState = Map({
   input: "",
   list: List(),
   start: null,
   end: null
+  // socket: socket
 });
 
 // reducer

@@ -16,6 +16,7 @@
 
 */
 import React, { useEffect, useState } from "react";
+import socketIOClient from "socket.io-client";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
@@ -104,6 +105,7 @@ const Index = ({
     setStart();
     setEnd();
   };
+
   const buttonExam = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -156,13 +158,26 @@ const Index = ({
     const date = new Date(t);
     return date;
   };
+  const [response, setResponse] = useState({
+    response: false,
+    endpoint: "http://localhost:5000"
+  });
   useEffect(() => {
+    // socket.io
+    const { endpoint } = response;
+    const socket = socketIOClient(endpoint);
+
+    socket.on("WeatherAPI", data =>
+      setResponse({ ...response, response: data })
+    );
+
+    // table list
     if (test_list.length === 0) {
       bindList();
     }
 
     return () => {};
-  }, [test_list.length]);
+  }, [response, test_list.length]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
@@ -218,6 +233,15 @@ const Index = ({
                 >
                   Reset
                 </Button>
+                <div style={{ textAlign: "center", display: "inline" }}>
+                  {response.response ? (
+                    <p style={{ display: "inline" }}>
+                      현재 의정부 기온: {response.response} °C
+                    </p>
+                  ) : (
+                    <p style={{ display: "inline" }}>Loading...</p>
+                  )}
+                </div>
               </CardBody>
               <hr className="my-0" />
               <CardBody className="py-2">
