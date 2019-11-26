@@ -165,12 +165,12 @@ const Index = ({
   useEffect(() => {
     // socket.io
     const { endpoint } = response;
+    /*
     const socket = socketIOClient(endpoint);
-
     socket.on("WeatherAPI", data =>
       setResponse({ ...response, response: data })
     );
-
+    */
     // table list
     if (test_list.length === 0) {
       bindList();
