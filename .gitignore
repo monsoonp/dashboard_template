@@ -13,7 +13,8 @@
 
 # server
 /config
-/server
+/server/config.json
+/server/node_modules
 
 # misc
 .DS_Store
