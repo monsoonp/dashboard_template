@@ -31,25 +31,25 @@ const conn = mysql.createConnection({
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(
-      // "https://api.darksky.net/forecast/{USER_KEY}/43.7695,11.2558"
-      "https://api.darksky.net/forecast/{USER_KEY}/37.7415,127.0474?lang=ko&units=si"
+      // "https://api.darksky.net/forecast/942bb1b70fa2577154a10be95440badd/43.7695,11.2558"
+      "https://api.darksky.net/forecast/942bb1b70fa2577154a10be95440badd/37.7415,127.0474?lang=ko&units=si"
     ); // Getting the data from DarkSky
 
     io.emit("WeatherAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
-    // sockets.forEach(s => s.broadcast.emit("WeatherAPI", res.data.currently.temperature));  //, broadcast 나 제외 모두
+    // sockets.forEach(s => s.broadcast.emit("WeatherAPI", res.data.currently.temperature));
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
   }
 };
-// socket.io
 
+// socket.io
 let clients = [];
 
 let interval;
 if (interval) {
   clearInterval(interval);
 }
-interval = setInterval(() => getApiAndEmit(), 30000);
+// interval = setInterval(() => getApiAndEmit(), 30000);
 
 io.on("connection", socket => {
   clients.push(socket);
@@ -57,15 +57,10 @@ io.on("connection", socket => {
 
   socket.on("message", message => {
     // handle message...
-    clients.forEach(c => c.emit("message", message));
+    // clients.forEach(c => c.emit("message", message));
+    socket.broadcast.emit("message", message); //, broadcast 나 이외 다른 소켓에
   });
-  /*
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 30000);
-  // interval = setInterval(() => getApiAndEmit(clients), 30000);
-  */
+
   socket.on("disconnect", () => {
     console.log("Client disconnected : %s", socket.id);
     clients = clients.filter(c => c.id !== socket.id);
