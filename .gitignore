@@ -15,6 +15,7 @@
 /config
 server/node_modules
 server/config.json
+server/server.js
 
 # misc
 .DS_Store
