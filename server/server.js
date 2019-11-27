@@ -31,11 +31,10 @@ const conn = mysql.createConnection({
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(
-      // "https://api.darksky.net/forecast/942bb1b70fa2577154a10be95440badd/43.7695,11.2558"
       "https://api.darksky.net/forecast/942bb1b70fa2577154a10be95440badd/37.7415,127.0474?lang=ko&units=si"
     ); // Getting the data from DarkSky
 
-    io.emit("WeatherAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+    io.emit("WeatherAPI", res.data.currently); // Emitting a new message. It will be consumed by the client
     // sockets.forEach(s => s.broadcast.emit("WeatherAPI", res.data.currently.temperature));
   } catch (error) {
     console.error(`${error}`);
@@ -44,12 +43,14 @@ const getApiAndEmit = async socket => {
 
 // socket.io
 let clients = [];
-
+/*
 let interval;
 if (interval) {
   clearInterval(interval);
 }
-// interval = setInterval(() => getApiAndEmit(), 30000);
+interval = 
+*/
+// setInterval(() => getApiAndEmit(), 30000);
 
 io.on("connection", socket => {
   clients.push(socket);

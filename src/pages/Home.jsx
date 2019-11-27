@@ -16,7 +16,6 @@
 
 */
 import React, { useEffect, useState } from "react";
-import socketIOClient from "socket.io-client";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
@@ -159,10 +158,7 @@ const Index = ({
     const date = new Date(t);
     return date;
   };
-  const [response, setResponse] = useState({
-    response: false
-    // endpoint: "http://localhost:5000"
-  });
+  const [response, setResponse] = useState(false);
   useEffect(() => {
     // socket.io
     /*
@@ -170,8 +166,11 @@ const Index = ({
     // const socketio = socketIOClient(endpoint);
     */
     console.log("Dashboard mounted");
-
-    socket.on("WeatherAPI", data => setResponse({ response: data }));
+    if (socket) {
+      socket.on("WeatherAPI", data =>
+        setResponse({ temp: data.temperature, summ: data.summary })
+      );
+    }
     // table list
     // if (test_list.length === 0) {
     bindList();
@@ -238,9 +237,9 @@ const Index = ({
                   Reset
                 </Button>
                 <div style={{ textAlign: "center", display: "inline" }}>
-                  {response.response ? (
+                  {response ? (
                     <p style={{ display: "inline" }}>
-                      현재 의정부 기온: {response.response} °C
+                      현재 의정부 기온: {response.temp} °C {response.summ}
                     </p>
                   ) : (
                     <p style={{ display: "inline" }}>Loading...</p>

@@ -21,7 +21,10 @@ const Root = () => {
   };
   const { endpoint } = response;
   */
-  const socket = socketIOClient("http://192.168.0.38:5000");
+  let socket;
+  if (process.env.PUBLIC_URL !== "/dashboard_template") {
+    socket = socketIOClient("http://192.168.0.38:5000");
+  }
 
   return (
     <Provider store={store}>
