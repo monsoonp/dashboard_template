@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import { HomeActions } from "store/actionCreators"; // FetchActions, TypedHomeActions
 
-const HomeContainer = ({ input, list, start, end }) => {
+const HomeContainer = ({ input, list, start, end, socket }) => {
   const handleChange = e => {
     // console.log("change: %s", input);
     HomeActions.recordInput(e.target.value);
@@ -53,6 +53,7 @@ const HomeContainer = ({ input, list, start, end }) => {
       end={end}
       setStart={setStart}
       setEnd={setEnd}
+      socket={socket}
     />
   );
 };

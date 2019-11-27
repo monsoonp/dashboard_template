@@ -31,8 +31,8 @@ const conn = mysql.createConnection({
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(
-      // "https://api.darksky.net/forecast/{USER_KEY}/43.7695,11.2558"
-      "https://api.darksky.net/forecast/{USER_KEY}/37.7415,127.0474?lang=ko&units=si"
+      // "https://api.darksky.net/forecast/942bb1b70fa2577154a10be95440badd/43.7695,11.2558"
+      "https://api.darksky.net/forecast/942bb1b70fa2577154a10be95440badd/37.7415,127.0474?lang=ko&units=si"
     ); // Getting the data from DarkSky
     socket.emit("WeatherAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
   } catch (error) {
@@ -46,7 +46,7 @@ const clients = [];
 let interval;
 io.on("connection", socket => {
   clients.push(socket);
-  console.log("New client connected ID: ", socket.id);
+  console.log("New client connected : ", socket.id);
   socket.on("message", message => {
     // handle message...
     clients.forEach(c => c.emit("message", message));
@@ -56,11 +56,11 @@ io.on("connection", socket => {
   }
   // interval = setInterval(() => getApiAndEmit(socket), 30000);
   socket.on("disconnect", () => {
-    console.log("Client disconnected");
+    console.log("Client disconnected : %s", socket.id);
     clients.filter(c => c.id !== socket.id);
   });
   socket.on("error", err => {
-    console.log("received error from client: %s", socket.id, err);
+    console.log("received error from client : %s", socket.id, err);
   });
 });
 

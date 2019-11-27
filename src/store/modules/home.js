@@ -1,6 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { Map, List } from "immutable";
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
 
 /*
 Ducks 구조 - module

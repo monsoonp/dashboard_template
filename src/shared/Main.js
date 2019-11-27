@@ -10,14 +10,17 @@ import AdminLayout from "client/Admin.jsx";
 // import AuthLayout from "layouts/Auth.jsx";
 import AuthLayout from "client/Auth.jsx";
 
-function Main() {
+const Main = ({ socket }) => {
   return (
     <Switch>
-      <Route path={`/admin`} render={props => <AdminLayout {...props} />} />
+      <Route
+        path={`/admin`}
+        render={props => <AdminLayout {...props} socket={socket} />}
+      />
       <Route path={`/auth`} render={props => <AuthLayout {...props} />} />
       <Redirect from={`/`} to="/admin/home" />
     </Switch>
   );
-}
+};
 
 export default Main;

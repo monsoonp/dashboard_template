@@ -80,7 +80,8 @@ const Index = ({
   start,
   end,
   setStart,
-  setEnd
+  setEnd,
+  socket
 }) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
@@ -159,25 +160,28 @@ const Index = ({
     return date;
   };
   const [response, setResponse] = useState({
-    response: false,
-    endpoint: "http://localhost:5000"
+    response: false
+    // endpoint: "http://localhost:5000"
   });
   useEffect(() => {
     // socket.io
-    const { endpoint } = response;
     /*
-    const socket = socketIOClient(endpoint);
-    socket.on("WeatherAPI", data =>
-      setResponse({ ...response, response: data })
-    );
+    const { endpoint } = response;
+    // const socketio = socketIOClient(endpoint);
     */
+    console.log("Dashboard mounted");
+
+    socket.on("WeatherAPI", data => setResponse({ response: data }));
     // table list
     if (test_list.length === 0) {
       bindList();
     }
 
-    return () => {};
-  }, [response, test_list.length]);
+    return () => {
+      socket.off("WeatherAPI");
+      console.log("Dashboard unmounted");
+    };
+  }, [response, socket, test_list.length]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
@@ -372,7 +376,7 @@ const Index = ({
                       })}
                   </tbody>
                 </Table>
-                <CardFooter className="py-4">
+                <CardFooter className="py-1">
                   <nav aria-label="...">
                     <Pagination
                       className="pagination justify-content-end mb-0"
