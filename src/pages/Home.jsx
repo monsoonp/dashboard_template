@@ -173,15 +173,15 @@ const Index = ({
 
     socket.on("WeatherAPI", data => setResponse({ response: data }));
     // table list
-    if (test_list.length === 0) {
-      bindList();
-    }
+    // if (test_list.length === 0) {
+    bindList();
+    // }
 
     return () => {
       socket.off("WeatherAPI");
       console.log("Dashboard unmounted");
     };
-  }, [response, socket, test_list.length]);
+  }, [response, socket]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>

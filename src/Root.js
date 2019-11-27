@@ -21,7 +21,7 @@ const Root = () => {
   };
   const { endpoint } = response;
   */
-  const socket = socketIOClient("http://localhost:5000");
+  const socket = socketIOClient("http://192.168.0.38:5000");
 
   return (
     <Provider store={store}>

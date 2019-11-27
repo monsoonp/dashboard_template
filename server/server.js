@@ -34,30 +34,41 @@ const getApiAndEmit = async socket => {
       // "https://api.darksky.net/forecast/{USER_KEY}/43.7695,11.2558"
       "https://api.darksky.net/forecast/{USER_KEY}/37.7415,127.0474?lang=ko&units=si"
     ); // Getting the data from DarkSky
-    socket.emit("WeatherAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+
+    io.emit("WeatherAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+    // sockets.forEach(s => s.broadcast.emit("WeatherAPI", res.data.currently.temperature));  //, broadcast 나 제외 모두
   } catch (error) {
-    console.error(`Error: ${error.code}`);
+    console.error(`Error: ${error}`);
   }
 };
 // socket.io
 
-const clients = [];
+let clients = [];
 
 let interval;
+if (interval) {
+  clearInterval(interval);
+}
+interval = setInterval(() => getApiAndEmit(), 30000);
+
 io.on("connection", socket => {
   clients.push(socket);
   console.log("New client connected : ", socket.id);
+
   socket.on("message", message => {
     // handle message...
     clients.forEach(c => c.emit("message", message));
   });
+  /*
   if (interval) {
     clearInterval(interval);
   }
-  // interval = setInterval(() => getApiAndEmit(socket), 30000);
+  interval = setInterval(() => getApiAndEmit(socket), 30000);
+  // interval = setInterval(() => getApiAndEmit(clients), 30000);
+  */
   socket.on("disconnect", () => {
     console.log("Client disconnected : %s", socket.id);
-    clients.filter(c => c.id !== socket.id);
+    clients = clients.filter(c => c.id !== socket.id);
   });
   socket.on("error", err => {
     console.log("received error from client : %s", socket.id, err);
