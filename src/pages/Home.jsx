@@ -165,7 +165,6 @@ const Index = ({
     const { endpoint } = response;
     // const socketio = socketIOClient(endpoint);
     */
-    console.log("Dashboard mounted");
     if (socket) {
       socket.on("WeatherAPI", data =>
         setResponse({ temp: data.temperature, summ: data.summary })
@@ -177,8 +176,9 @@ const Index = ({
     // }
 
     return () => {
-      socket.off("WeatherAPI");
-      console.log("Dashboard unmounted");
+      if (socket) {
+        socket.off("WeatherAPI");
+      }
     };
   }, [response, socket]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white

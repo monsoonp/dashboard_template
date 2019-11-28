@@ -31,7 +31,7 @@ const conn = mysql.createConnection({
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(
-      "https://api.darksky.net/forecast/942bb1b70fa2577154a10be95440badd/37.7415,127.0474?lang=ko&units=si"
+      `https://api.darksky.net/forecast/${conf.api_key}/37.7415,127.0474?lang=ko&units=si`
     ); // Getting the data from DarkSky
 
     io.emit("WeatherAPI", res.data.currently); // Emitting a new message. It will be consumed by the client
