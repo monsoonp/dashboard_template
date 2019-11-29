@@ -51,6 +51,12 @@ if (interval) {
 interval = 
 */
 // setInterval(() => getApiAndEmit(), 30000);
+setInterval(() => {
+  io.emit("WeatherAPI", {
+    temperature: (Math.random() * 10).toFixed(1),
+    summary: parseInt(Math.random() * 100)
+  });
+}, 5000);
 
 io.on("connection", socket => {
   clients.push(socket);

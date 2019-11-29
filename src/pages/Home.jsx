@@ -110,6 +110,7 @@ const Index = ({
     e.preventDefault();
     e.stopPropagation();
     sorter("");
+    socket.emit("message", text); //, broadcast 나 이외 다른 소켓에 / client에서 이용 ex)채팅
   };
   const [test_list, setTest_list] = useState([]);
   const bindList = async () => {
@@ -159,28 +160,33 @@ const Index = ({
     return date;
   };
   const [response, setResponse] = useState(false);
+
   useEffect(() => {
+    console.log("dashboard componentDidMount");
+
     // socket.io
-    /*
-    const { endpoint } = response;
-    // const socketio = socketIOClient(endpoint);
-    */
     if (socket) {
       socket.on("WeatherAPI", data =>
         setResponse({ temp: data.temperature, summ: data.summary })
       );
+      socket.on("message", message => {
+        console.log(`현재 검색어: ${message}`);
+      });
     }
+
     // table list
-    // if (test_list.length === 0) {
-    bindList();
-    // }
+    if (test_list.length === 0) {
+      bindList();
+    }
 
     return () => {
+      console.log("dashboard componentWillUnmount");
       if (socket) {
         socket.off("WeatherAPI");
+        socket.off("message");
       }
     };
-  }, [response, socket]);
+  }, [socket, test_list.length]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
@@ -257,7 +263,7 @@ const Index = ({
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="입력 (ToDo List)"
+                        placeholder="검색"
                         type="input"
                         onChange={e => input(e)}
                         value={`${text}`}
