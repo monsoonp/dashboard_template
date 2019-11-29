@@ -51,6 +51,8 @@ if (interval) {
 interval = 
 */
 // setInterval(() => getApiAndEmit(), 30000);
+
+// let testApi;
 setInterval(() => {
   io.emit("WeatherAPI", {
     temperature: (Math.random() * 10).toFixed(1),
@@ -59,6 +61,17 @@ setInterval(() => {
 }, 5000);
 
 io.on("connection", socket => {
+  /*  클라이언트 최초 추가시 api 시작
+  if (clients.length === 0) {
+    console.log("Api start");
+    testApi = setInterval(() => {
+      io.emit("WeatherAPI", {
+        temperature: (Math.random() * 10).toFixed(1),
+        summary: parseInt(Math.random() * 100)
+      });
+    }, 5000); 
+  }
+  */
   clients.push(socket);
   console.log("New client connected : ", socket.id);
 
@@ -71,6 +84,12 @@ io.on("connection", socket => {
   socket.on("disconnect", () => {
     console.log("Client disconnected : %s", socket.id);
     clients = clients.filter(c => c.id !== socket.id);
+    /* 클라이언트가 존재하지 않으면 api 종료
+    if (clients.length === 0) {
+      clearInterval(testApi);
+      console.log("Api shutdown");
+    }
+    */
   });
   socket.on("error", err => {
     console.log("received error from client : %s", socket.id, err);
