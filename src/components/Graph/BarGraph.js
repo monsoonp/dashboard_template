@@ -37,6 +37,7 @@ const BarGraph = ({ data, start, end }) => {
         backgroundColor: "rgba(230,120,80,0.2)",
         hoverBackgroundColor: "rgba(230,50,0,0.5)",
         borderWidth: 0.2
+        // maxBarThickness: 10
       },
       {
         type: "bar",
@@ -46,6 +47,7 @@ const BarGraph = ({ data, start, end }) => {
         backgroundColor: "rgba(120,230,120,0.3)",
         hoverBackgroundColor: "rgba(80,230,80,0.5)",
         borderWidth: 0.2
+        // maxBarThickness: 10
       }
     ]
   };

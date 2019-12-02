@@ -56,16 +56,17 @@ class Auth extends React.Component {
           <div className="header bg-gradient-info py-7 py-lg-7">
             <Container>
               <div className="header-body text-center mb-7">
-                {/*
                 <Row className="justify-content-center">
                   <Col lg="5" md="6">
-                    <h1 className="text-white">Welcome!</h1>
-                    <p className="text-lead text-light">
-                      Login or Create new account.
-                    </p>
+                    <h1 className="text-white">UNIECTH</h1>
+                    <src
+                      alt="UNITECH"
+                      src={`${require("assets/img/icons/유니테크아이콘.ico")}`}
+                      style={{ width: 50, height: 50 }}
+                    />
+                    <p className="text-lead text-light">Subtitle here</p>
                   </Col>
                 </Row>
-                  */}
               </div>
             </Container>
             <div className="separator separator-bottom separator-skew zindex-100">
