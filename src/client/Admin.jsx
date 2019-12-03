@@ -26,6 +26,7 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 // import routes from "routes.js";
 import routes from "routes/routes.js";
+import testPages from "routes/testPages.js";
 
 class Admin extends React.Component {
   componentDidUpdate(e) {
@@ -69,6 +70,7 @@ class Admin extends React.Component {
         <Sidebar
           {...this.props}
           routes={routes}
+          testRoutes={testPages}
           logo={{
             innerLink: "/admin/home",
             imgSrc: require("assets/img/icons/유니테크아이콘.ico"),
@@ -85,6 +87,8 @@ class Admin extends React.Component {
 
           {/* main content */}
           <Switch>{this.getRoutes(routes)}</Switch>
+
+          <Switch>{this.getRoutes(testPages)}</Switch>
           {/* Footer
           <Container fluid>
             <AdminFooter />

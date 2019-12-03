@@ -8,7 +8,9 @@ import Login from "pages/Login";
 import Tables from "pages/Tables";
 import Icons from "pages/Icons";
 
-var routes = [
+// Test Pages 여러가지 화면 만들어보기
+//
+var testPages = [
   {
     path: "/home",
     name: "Dashboard",
@@ -31,15 +33,6 @@ var routes = [
     component: Profile,
     layout: "/admin"
   },
-  /*
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-settings text-grey",
-    component: Tables,
-    layout: "/admin"
-  },
-  */
   {
     path: "/tables",
     name: "Tables",
@@ -62,4 +55,4 @@ var routes = [
     layout: "/auth"
   }
 ];
-export default routes;
+export default testPages;

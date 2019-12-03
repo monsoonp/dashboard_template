@@ -58,7 +58,8 @@ var ps;
 class Sidebar extends React.Component {
   state = {
     collapseOpen: false,
-    homeToggle: true
+    homeToggle: true,
+    testToggle: false
   };
   // verifies if routeName is the one active (in browser input)
   activeRoute = routeName => {
@@ -98,12 +99,12 @@ class Sidebar extends React.Component {
         );
       });
   };
-  homeToggle = () => {
-    this.setState({ homeToggle: !this.state.homeToggle });
+  menuToggle = menu => {
+    this.setState({ [menu]: !this.state[menu] });
   };
 
   render() {
-    const { bgColor, routes, logo } = this.props;
+    const { bgColor, routes, testRoutes, logo } = this.props;
     let navbarBrandProps;
     if (logo && logo.innerLink) {
       navbarBrandProps = {
@@ -263,7 +264,7 @@ class Sidebar extends React.Component {
             <hr className="mt--5 mb-2" />
             <h5
               className="navbar-heading text-muted my-0"
-              onClick={this.homeToggle}
+              onClick={() => this.menuToggle("homeToggle")}
             >
               Home
               {!this.state.homeToggle && (
@@ -273,6 +274,23 @@ class Sidebar extends React.Component {
             {/* Navigation list */}
             <Collapse isOpen={this.state.homeToggle}>
               <Nav navbar>{this.createLinks(routes)}</Nav>
+              {/* vertical, navbar, pills, tabs, card, justified, fill, horizontal, tag */}
+            </Collapse>
+
+            {/* Divider - testPages */}
+            <hr className="mt-2 mb-2" />
+            <h5
+              className="navbar-heading text-muted my-0"
+              onClick={() => this.menuToggle("testToggle")}
+            >
+              Test
+              {!this.state.testToggle && (
+                <ArrowUnsorted size="15" color="#afafaf" />
+              )}
+            </h5>
+            {/* Navigation list */}
+            <Collapse isOpen={this.state.testToggle}>
+              <Nav navbar>{this.createLinks(testRoutes)}</Nav>
               {/* vertical, navbar, pills, tabs, card, justified, fill, horizontal, tag */}
             </Collapse>
 
