@@ -397,35 +397,10 @@ const Index = ({
                         </PaginationLink>
                       </PaginationItem>
 
-                      <PaginationItem className={`${page === 1 && "active"}`}>
-                        <PaginationLink
-                          // href="#pablo"
-                          onClick={() => setPage(1)}
-                        >
-                          1
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem className={`${page === 2 && "active"}`}>
-                        <PaginationLink
-                          // href="#pablo"
-                          onClick={() => setPage(2)}
-                        >
-                          2
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem className={`${page === 3 && "active"}`}>
-                        <PaginationLink
-                          // href="#pablo"
-                          onClick={() => setPage(3)}
-                        >
-                          3
-                        </PaginationLink>
-                      </PaginationItem>
                       <PageList
                         page={page}
                         setPage={setPage}
                         scroll={scroll}
-                        setScroll={setScroll}
                       />
 
                       <PaginationItem>
