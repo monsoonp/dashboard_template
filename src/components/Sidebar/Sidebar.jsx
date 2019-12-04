@@ -59,7 +59,7 @@ class Sidebar extends React.Component {
   state = {
     collapseOpen: false,
     homeToggle: true,
-    testToggle: false
+    testToggle: true
   };
   // verifies if routeName is the one active (in browser input)
   activeRoute = routeName => {
@@ -104,6 +104,7 @@ class Sidebar extends React.Component {
   };
 
   render() {
+    // console.log(this.props.location, this.props.history);
     const { bgColor, routes, testRoutes, logo } = this.props;
     let navbarBrandProps;
     if (logo && logo.innerLink) {

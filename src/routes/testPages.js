@@ -1,58 +1,46 @@
 // import Index from "views/Index.jsx";
 // import Index from "pages/Index";
-import HomeContainer from "containers/HomeContainer";
-import Profile from "pages/Profile";
+import TestContainer from "containers/TestContainer";
+import Profile from "pages/test/Profile";
 // import Maps from "views/examples/Maps.jsx";
-import Register from "pages/Register";
-import Login from "pages/Login";
-import Tables from "pages/Tables";
-import Icons from "pages/Icons";
+// import Register from "pages/Register";
+// import Login from "pages/Login";
+import Tables from "pages/test/Tables";
+import Icons from "pages/test/Icons";
 
 // Test Pages 여러가지 화면 만들어보기
 //
+
+// primary, secondary, success, danger, warning, info , light, dark, muted, white
 var testPages = [
   {
     path: "/home",
     name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-ui-04 text-success",
     // component: Index,
-    component: HomeContainer,
-    layout: "/admin"
+    component: TestContainer,
+    layout: "/test"
   },
   {
     path: "/icons",
     name: "Icons",
-    icon: "ni ni-planet text-blue",
+    icon: "ni ni-world text-muted",
     component: Icons,
-    layout: "/admin"
+    layout: "/test"
   },
   {
     path: "/user-profile",
     name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
+    icon: "ni ni-user-run text-dark",
     component: Profile,
-    layout: "/admin"
+    layout: "/test"
   },
   {
     path: "/tables",
     name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
+    icon: "ni ni-collection text-warning",
     component: Tables,
-    layout: "/admin"
-  },
-  {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-single-02 text-info",
-    component: Login,
-    layout: "/auth"
-  },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth"
+    layout: "/test"
   }
 ];
 export default testPages;
