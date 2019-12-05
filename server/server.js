@@ -43,16 +43,19 @@ const getApiAndEmit = async socket => {
 
 // socket.io
 let clients = [];
+
 /*
 let interval;
 if (interval) {
   clearInterval(interval);
 }
 interval = 
+setInterval(() => getApiAndEmit(), 30000);
 */
-// setInterval(() => getApiAndEmit(), 30000);
 
+/*
 // let testApi;
+*/
 setInterval(() => {
   io.emit("WeatherAPI", {
     temperature: (Math.random() * 10).toFixed(1),

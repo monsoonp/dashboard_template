@@ -32,7 +32,7 @@ import {
   // NavItem,
   // NavLink,
   // Nav,
-  Progress,
+  // Progress,
   Table,
   Container,
   Row,
@@ -47,7 +47,9 @@ import {
   CardFooter,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  // Label,
+  CustomInput
 } from "reactstrap";
 
 // core components
@@ -202,17 +204,7 @@ const Index = ({
         socket.off("message");
       }
     };
-  }, [
-    end,
-    page,
-    socket,
-    sort.asc,
-    sort.value,
-    start,
-    test_list,
-    test_list.length,
-    text
-  ]);
+  }, [end, socket, sort.asc, sort.value, start, test_list, text]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
@@ -328,9 +320,24 @@ const Index = ({
             <Card className="shadow">
               <CardHeader className="border-0 p-2" onClick={listOpener}>
                 <Row className="align-items-center">
-                  <div className="col">
-                    <h3 className="mb-0">Test List</h3>
+                  <div className="">
+                    <h3 className="mb-0 mx-0 px-3">Test List</h3>
                   </div>
+                  <FormGroup
+                    className="m-0 p-0"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    {/*<Label for="exampleCustomSelect">Custom Select</Label>*/}
+                    <CustomInput
+                      type="select"
+                      id="exampleCustomSelect"
+                      name="customSelect"
+                    >
+                      <option value="">10</option>
+                      <option>20</option>
+                      <option>40</option>
+                    </CustomInput>
+                  </FormGroup>
                   <div className="col text-right my-0">
                     <Button
                       color="primary"
@@ -349,29 +356,7 @@ const Index = ({
                     <TableTitle sort={sort} sorter={sorter} />
                   </thead>
                   <tbody>
-                    {test_list
-                      .filter(e =>
-                        start
-                          ? end
-                            ? stampToDate(e.checkTime) >= start &&
-                              stampToDate(e.checkTime) <= end
-                            : stampToDate(e.checkTime) >= start
-                          : end
-                          ? stampToDate(e.checkTime) <= end
-                          : e
-                      )
-                      .filter(e => e.pageName.indexOf(text) !== -1)
-                      .sort((a, b) =>
-                        sort.value
-                          ? sort.asc
-                            ? a[sort.value] > b[sort.value]
-                              ? 1
-                              : -1
-                            : b[sort.value] > a[sort.value]
-                            ? 1
-                            : -1
-                          : 1
-                      )
+                    {tableList
                       .filter(
                         (e, i) =>
                           i >= (page - 1) * 10 && i <= (page - 1) * 10 + 9
@@ -437,6 +422,7 @@ const Index = ({
                         setPage={setPage}
                         scroll={scroll}
                         scrollLength={tableList.length}
+                        text={text}
                       />
 
                       <PaginationItem
@@ -463,116 +449,6 @@ const Index = ({
               <CardBody className="border-0">
                 <BarGraph data={test_list} start={start} end={end} />
               </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row className="mt-2">
-          <Col xl="6">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h3 className="mb-0">Social traffic</h3>
-                  </div>
-                  <div className="col text-right">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                      size="sm"
-                    >
-                      See all
-                    </Button>
-                  </div>
-                </Row>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Referral</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col" />
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>1,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">60%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="60"
-                            barClassName="bg-gradient-danger"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>5,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">70%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="70"
-                            barClassName="bg-gradient-success"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Google</th>
-                    <td>4,807</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">80%</span>
-                        <div>
-                          <Progress max="100" value="80" />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Instagram</th>
-                    <td>3,678</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">75%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="75"
-                            barClassName="bg-gradient-info"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">twitter</th>
-                    <td>2,645</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">30%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="30"
-                            barClassName="bg-gradient-warning"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
             </Card>
           </Col>
         </Row>
