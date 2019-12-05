@@ -151,8 +151,33 @@ const Index = ({
     return date;
   };
   const [response, setResponse] = useState(false);
-
+  const [tableList, setTableList] = useState([]);
   useEffect(() => {
+    setTableList(
+      test_list
+        .filter(e =>
+          start
+            ? end
+              ? stampToDate(e.checkTime) >= start &&
+                stampToDate(e.checkTime) <= end
+              : stampToDate(e.checkTime) >= start
+            : end
+            ? stampToDate(e.checkTime) <= end
+            : e
+        )
+        .filter(e => e.pageName.indexOf(text) !== -1)
+        .sort((a, b) =>
+          sort.value
+            ? sort.asc
+              ? a[sort.value] > b[sort.value]
+                ? 1
+                : -1
+              : b[sort.value] > a[sort.value]
+              ? 1
+              : -1
+            : 1
+        )
+    );
     console.log("dashboard componentDidMount");
 
     // socket.io
@@ -177,7 +202,17 @@ const Index = ({
         socket.off("message");
       }
     };
-  }, [socket, test_list.length]);
+  }, [
+    end,
+    page,
+    socket,
+    sort.asc,
+    sort.value,
+    start,
+    test_list,
+    test_list.length,
+    text
+  ]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
@@ -401,9 +436,14 @@ const Index = ({
                         page={page}
                         setPage={setPage}
                         scroll={scroll}
+                        scrollLength={tableList.length}
                       />
 
-                      <PaginationItem>
+                      <PaginationItem
+                        className={`${
+                          scroll * 100 > tableList.length ? "disabled" : ""
+                        }`}
+                      >
                         <PaginationLink onClick={() => setScroll(scroll + 1)}>
                           <i className="fas fa-angle-right" />
                           <span className="sr-only">Next</span>
