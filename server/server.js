@@ -61,7 +61,7 @@ setInterval(() => {
     temperature: (Math.random() * 10).toFixed(1),
     summary: parseInt(Math.random() * 100)
   });
-}, 5000);
+}, 1000);
 
 io.on("connection", socket => {
   /*  클라이언트 최초 추가시 api 시작

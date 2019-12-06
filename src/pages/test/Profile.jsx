@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 
 // reactstrap components
@@ -28,13 +11,23 @@ import {
   Input,
   Container,
   Row,
-  Col
+  Col,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from "reactstrap";
 // core components
 // import UserHeader from "components/Headers/UserHeader.jsx";
 
 class Profile extends React.Component {
+  state = {
+    modal: false
+  };
   render() {
+    const toggle = () => {
+      this.setState({ modal: !this.state.modal });
+    };
     return (
       <>
         {/* <UserHeader /> */}
@@ -138,14 +131,30 @@ class Profile extends React.Component {
                       <h3 className="mb-0">My account</h3>
                     </Col>
                     <Col className="text-right" xs="4">
-                      <Button
-                        color="primary"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                        size="sm"
-                      >
+                      <Button color="primary" onClick={toggle} size="sm">
                         Settings
                       </Button>
+                      <Modal
+                        returnFocusAfterClose={true}
+                        isOpen={this.state.modal}
+                        toggle={toggle}
+                        className={this.props.className}
+                      >
+                        <ModalHeader>Modal title</ModalHeader>
+                        <ModalBody>
+                          <b>Settings</b>
+                          <br />
+                          Modal Test
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button color="primary" onClick={toggle}>
+                            Do Something
+                          </Button>
+                          <Button color="secondary" onClick={toggle}>
+                            Cancel
+                          </Button>
+                        </ModalFooter>
+                      </Modal>
                     </Col>
                   </Row>
                 </CardHeader>

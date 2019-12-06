@@ -419,7 +419,11 @@ const Index = ({
                 </Row>
               </CardHeader>
               <Collapse isOpen={listOpen}>
-                <Table className="align-items-center table-flush" responsive>
+                <Table
+                  className="align-items-center table-flush" // table-dark
+                  responsive
+                  // dark
+                >
                   <thead className="thead-light">
                     <TableTitle sort={sort} sorter={sorter} />
                   </thead>
@@ -475,8 +479,16 @@ const Index = ({
                   </tbody>
                 </Table>
               </Collapse>
-              <CardFooter className="py-1">
-                <nav aria-label="...">
+              <CardFooter className="align-content-center py-1">
+                <nav aria-label="..." style={{ display: "flex" }}>
+                  <Input
+                    className="justify-content-start my-auto mr-4"
+                    placeholder="검색"
+                    type="input"
+                    onChange={e => input(e)}
+                    value={`${text}`}
+                    bsSize="sm"
+                  />
                   <Pagination
                     className="pagination justify-content-end mb-0"
                     listClassName="justify-content-end mb-0"
