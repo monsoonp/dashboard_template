@@ -104,7 +104,7 @@ io.on("connection", socket => {
 app.get("/admin/home/list", (req, res) => {
   //   res.header("Access-Control-Allow-Origin", "*");
   conn.query(
-    "SELECT * from test_list order by id desc",
+    "SELECT * from test_list order by id desc", // WHERE checkTime BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()
     (err, rows, fields) => {
       res.send(rows);
     }

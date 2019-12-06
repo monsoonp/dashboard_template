@@ -33,10 +33,17 @@ const PageList = ({
     setPage(i);
   };
   for (let i = (scroll - 1) * 10 + 1; i <= scroll * 10; i++) {
-    if ((i - 1) * selectView <= scrollLength) {
+    if ((i - 1) * selectView < scrollLength) {
       result.push(
         <PaginationItem className={`${page === i && "active"}`} key={i}>
           <PaginationLink onClick={e => paging(e, i)}>{i}</PaginationLink>
+        </PaginationItem>
+      );
+    }
+    if (result.length === 0) {
+      result.push(
+        <PaginationItem key={i} disabled>
+          <PaginationLink className="bg-gradient-muted">0</PaginationLink>
         </PaginationItem>
       );
     }

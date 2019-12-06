@@ -49,7 +49,8 @@ import {
   PaginationItem,
   PaginationLink,
   // Label,
-  CustomInput
+  CustomInput,
+  ButtonGroup
 } from "reactstrap";
 
 // core components
@@ -92,8 +93,33 @@ const Index = ({
   };
   const resetTime = e => {
     e.preventDefault();
+    // setStart(new Date().getTime() - 1 * 24 * 60 * 60 * 1000);
     setStart();
     setEnd();
+  };
+  const weekAgo = e => {
+    e.preventDefault();
+    if (start) {
+      setStart(start - 7 * 24 * 60 * 60 * 1000);
+    } else {
+      setStart(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+    }
+  };
+  const dayAgo = e => {
+    e.preventDefault();
+    if (start) {
+      setStart(start - 1 * 24 * 60 * 60 * 1000);
+    } else {
+      setStart(new Date().getTime() - 1 * 24 * 60 * 60 * 1000);
+    }
+  };
+  const hourAgo = e => {
+    e.preventDefault();
+    if (start) {
+      setStart(start - 1 * 60 * 60 * 1000);
+    } else {
+      setStart(new Date().getTime() - 1 * 60 * 60 * 1000);
+    }
   };
 
   const buttonExam = e => {
@@ -160,16 +186,18 @@ const Index = ({
   useEffect(() => {
     setTableList(
       test_list
-        .filter(e =>
-          start
+        .filter(e => {
+          setPage(1);
+          setScroll(1);
+          return start
             ? end
               ? stampToDate(e.checkTime) >= start &&
                 stampToDate(e.checkTime) <= end
               : stampToDate(e.checkTime) >= start
             : end
             ? stampToDate(e.checkTime) <= end
-            : e
-        )
+            : e;
+        })
         .filter(e => e.pageName.indexOf(text) !== -1)
         .sort((a, b) =>
           sort.value
@@ -263,6 +291,17 @@ const Index = ({
                 >
                   Reset
                 </Button>
+                <ButtonGroup>
+                  <Button outline color="warning" onClick={weekAgo} size="sm">
+                    일주일 전
+                  </Button>
+                  <Button outline color="warning" onClick={dayAgo} size="sm">
+                    하루 전
+                  </Button>
+                  <Button outline color="warning" onClick={hourAgo} size="sm">
+                    1시간 전
+                  </Button>
+                </ButtonGroup>
                 <div style={{ textAlign: "center", display: "inline" }}>
                   {response ? (
                     <p style={{ display: "inline" }}>

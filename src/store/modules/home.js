@@ -43,7 +43,7 @@ const socket = socketIOClient(endpoint);
 const initialState = Map({
   input: "",
   list: List(),
-  start: null,
+  start: new Date() - 1 * 24 * 60 * 60 * 1000,
   end: null
   // socket: socket
 });
