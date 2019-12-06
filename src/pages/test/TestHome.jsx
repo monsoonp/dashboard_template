@@ -50,10 +50,13 @@ import {
   PaginationLink,
   // Label,
   CustomInput,
-  ButtonGroup
+  ButtonGroup,
+  UncontrolledTooltip
 } from "reactstrap";
 
 // core components
+// clipboard
+import { CopyToClipboard } from "react-copy-to-clipboard";
 // locale
 import ko from "date-fns/locale/ko";
 // datepicker;
@@ -282,8 +285,9 @@ const Index = ({
                   dateFormat="MM/dd h:mm:ss aa"
                   placeholderText="종료시간"
                 />
+
                 <Button
-                  className="ml-2"
+                  className="ml-2 mr-0"
                   color="info"
                   href="#pablo"
                   onClick={resetTime}
@@ -291,7 +295,7 @@ const Index = ({
                 >
                   Reset
                 </Button>
-                <ButtonGroup>
+                <ButtonGroup className="mx-2">
                   <Button outline color="warning" onClick={weekAgo} size="sm">
                     일주일 전
                   </Button>
@@ -335,23 +339,38 @@ const Index = ({
               <div className="ml-5">
                 {list &&
                   list.toJS().map((e, index) => (
-                    <p
-                      style={{
-                        textDecoration: e.checked
-                          ? "Crimson double line-through" //solid, double, dotted, dashed, wavy
-                          : "none" // overline underline / inherit, initial, unset
-                        // display: "inline-block",
-                      }}
-                      key={e.id}
-                      onClick={() => clickHandler(e.id)}
-                    >
-                      {index + 1}. {e.text} (
-                      {btoa(unescape(encodeURIComponent(e.text)))}) (
-                      {decodeURIComponent(
-                        escape(atob(new Buffer(e.text).toString("base64")))
-                      )}
-                      )
-                    </p>
+                    <div key={e.id}>
+                      <CopyToClipboard text={e.text}>
+                        <p
+                          style={{
+                            textDecoration: e.checked
+                              ? "Crimson double line-through" //solid, double, dotted, dashed, wavy
+                              : "none" // overline underline / inherit, initial, unset
+                            // display: "inline-block",
+                          }}
+                          id={`tooltip${e.id}`}
+                          onClick={() => clickHandler(e.id)}
+                        >
+                          {index + 1}. {e.text} (
+                          {btoa(unescape(encodeURIComponent(e.text)))}) (
+                          {decodeURIComponent(
+                            escape(atob(new Buffer(e.text).toString("base64")))
+                          )}
+                          )
+                        </p>
+                      </CopyToClipboard>
+                      <UncontrolledTooltip
+                        delay={0}
+                        placement="bottom-start"
+                        trigger="hover focus"
+                        target={`tooltip${e.id}`}
+                        className="bg-gradient-primary"
+                      >
+                        {e.checked
+                          ? "Double Click to Delete"
+                          : "Click to copy and done"}
+                      </UncontrolledTooltip>
+                    </div>
                   ))}
               </div>
             </Card>
