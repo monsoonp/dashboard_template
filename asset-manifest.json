@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/dashboard_template/static/css/main.2643ca49.chunk.css",
-    "main.js": "/dashboard_template/static/js/main.f27a62c0.chunk.js",
-    "main.js.map": "/dashboard_template/static/js/main.f27a62c0.chunk.js.map",
+    "main.css": "/dashboard_template/static/css/main.0e573779.chunk.css",
+    "main.js": "/dashboard_template/static/js/main.890f858f.chunk.js",
+    "main.js.map": "/dashboard_template/static/js/main.890f858f.chunk.js.map",
     "runtime-main.js": "/dashboard_template/static/js/runtime-main.6c9e1ca7.js",
     "runtime-main.js.map": "/dashboard_template/static/js/runtime-main.6c9e1ca7.js.map",
-    "static/css/2.754e2b95.chunk.css": "/dashboard_template/static/css/2.754e2b95.chunk.css",
-    "static/js/2.fbf38fdd.chunk.js": "/dashboard_template/static/js/2.fbf38fdd.chunk.js",
-    "static/js/2.fbf38fdd.chunk.js.map": "/dashboard_template/static/js/2.fbf38fdd.chunk.js.map",
+    "static/css/2.898f51b9.chunk.css": "/dashboard_template/static/css/2.898f51b9.chunk.css",
+    "static/js/2.175fc177.chunk.js": "/dashboard_template/static/js/2.175fc177.chunk.js",
+    "static/js/2.175fc177.chunk.js.map": "/dashboard_template/static/js/2.175fc177.chunk.js.map",
     "index.html": "/dashboard_template/index.html",
-    "precache-manifest.f9f1f929a57757df2443cfe2e969e0f4.js": "/dashboard_template/precache-manifest.f9f1f929a57757df2443cfe2e969e0f4.js",
+    "precache-manifest.87061b649885bfdb41183b66cea0244e.js": "/dashboard_template/precache-manifest.87061b649885bfdb41183b66cea0244e.js",
     "service-worker.js": "/dashboard_template/service-worker.js",
-    "static/css/2.754e2b95.chunk.css.map": "/dashboard_template/static/css/2.754e2b95.chunk.css.map",
-    "static/css/main.2643ca49.chunk.css.map": "/dashboard_template/static/css/main.2643ca49.chunk.css.map",
+    "static/css/2.898f51b9.chunk.css.map": "/dashboard_template/static/css/2.898f51b9.chunk.css.map",
+    "static/css/main.0e573779.chunk.css.map": "/dashboard_template/static/css/main.0e573779.chunk.css.map",
     "static/media/angular.jpg": "/dashboard_template/static/media/angular.368685db.jpg",
     "static/media/bootstrap.jpg": "/dashboard_template/static/media/bootstrap.ab904daa.jpg",
     "static/media/all.min.css": "/dashboard_template/static/media/fa-solid-900.815694de.woff",
@@ -29,9 +29,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.6c9e1ca7.js",
-    "static/css/2.754e2b95.chunk.css",
-    "static/js/2.fbf38fdd.chunk.js",
-    "static/css/main.2643ca49.chunk.css",
-    "static/js/main.f27a62c0.chunk.js"
+    "static/css/2.898f51b9.chunk.css",
+    "static/js/2.175fc177.chunk.js",
+    "static/css/main.0e573779.chunk.css",
+    "static/js/main.890f858f.chunk.js"
   ]
 }
