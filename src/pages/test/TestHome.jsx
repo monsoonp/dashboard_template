@@ -154,6 +154,9 @@ const Index = ({
   };
   const [response, setResponse] = useState(false);
   const [tableList, setTableList] = useState([]);
+  const selectList = [5, 10, 20, 40, 80];
+  const [selectView, setSelectView] = useState(20);
+
   useEffect(() => {
     setTableList(
       test_list
@@ -320,8 +323,8 @@ const Index = ({
             <Card className="shadow">
               <CardHeader className="border-0 p-2" onClick={listOpener}>
                 <Row className="align-items-center">
-                  <div className="">
-                    <h3 className="mb-0 mx-0 px-3">Test List</h3>
+                  <div className="my-auto py-auto">
+                    <h3 className="my-auto mx-0 px-3">Test List</h3>
                   </div>
                   <FormGroup
                     className="m-0 p-0"
@@ -330,12 +333,19 @@ const Index = ({
                     {/*<Label for="exampleCustomSelect">Custom Select</Label>*/}
                     <CustomInput
                       type="select"
+                      bsSize="sm"
                       id="exampleCustomSelect"
                       name="customSelect"
+                      onChange={e => {
+                        setSelectView(e.target.value);
+                        setPage(1);
+                        setScroll(1);
+                      }}
+                      defaultValue={`${selectView}`}
                     >
-                      <option value="">10</option>
-                      <option>20</option>
-                      <option>40</option>
+                      {selectList.map((e, i) => (
+                        <option key={`${i}`}>{e}</option>
+                      ))}
                     </CustomInput>
                   </FormGroup>
                   <div className="col text-right my-0">
@@ -359,16 +369,26 @@ const Index = ({
                     {tableList
                       .filter(
                         (e, i) =>
-                          i >= (page - 1) * 10 && i <= (page - 1) * 10 + 9
+                          i >= (page - 1) * selectView &&
+                          i <= (page - 1) * selectView + (selectView - 1)
                       )
                       .map(e => {
                         return (
                           <tr key={e.id} className="py-0">
-                            <td>{e.id}</td>
-                            <td>{e.pageName}</td>
-                            <td>{e.visitors}</td>
-                            <td>{e.users}</td>
-                            <td>
+                            <td className="py-0">
+                              <CustomInput
+                                type="checkbox"
+                                // id="exampleCustomInline2"
+                                id={`${e.id}`}
+                                label={`${e.id}`}
+                                inline
+                                // checked
+                              />
+                            </td>
+                            <td className="py-0">{e.pageName}</td>
+                            <td className="py-0">{e.visitors}</td>
+                            <td className="py-0">{e.users}</td>
+                            <td className="py-0">
                               <i
                                 className={`fas fa-arrow-${
                                   e.bounceRate >= 40 ? "up" : "down"
@@ -378,7 +398,7 @@ const Index = ({
                               />
                               {e.bounceRate}
                             </td>
-                            <td>
+                            <td className="py-0">
                               {moment(stampToDate(e.checkTime))
                                 .locale("ko")
                                 // .format("Y.MM.DD / hh:mm:ss a")
@@ -396,49 +416,53 @@ const Index = ({
                       })}
                   </tbody>
                 </Table>
-                <CardFooter className="py-1">
-                  <nav aria-label="...">
-                    <Pagination
-                      className="pagination justify-content-end mb-0"
-                      listClassName="justify-content-end mb-0"
-                    >
-                      <PaginationItem
-                        className={`${scroll === 1 ? "disabled" : ""}`}
-                      >
-                        <PaginationLink
-                          // href="#pablo"
-                          onClick={() =>
-                            scroll > 1 ? setScroll(scroll - 1) : setScroll(1)
-                          }
-                          tabIndex="-1"
-                        >
-                          <i className="fas fa-angle-left" />
-                          <span className="sr-only">Previous</span>
-                        </PaginationLink>
-                      </PaginationItem>
-
-                      <PageList
-                        page={page}
-                        setPage={setPage}
-                        scroll={scroll}
-                        scrollLength={tableList.length}
-                        text={text}
-                      />
-
-                      <PaginationItem
-                        className={`${
-                          scroll * 100 > tableList.length ? "disabled" : ""
-                        }`}
-                      >
-                        <PaginationLink onClick={() => setScroll(scroll + 1)}>
-                          <i className="fas fa-angle-right" />
-                          <span className="sr-only">Next</span>
-                        </PaginationLink>
-                      </PaginationItem>
-                    </Pagination>
-                  </nav>
-                </CardFooter>
               </Collapse>
+              <CardFooter className="py-1">
+                <nav aria-label="...">
+                  <Pagination
+                    className="pagination justify-content-end mb-0"
+                    listClassName="justify-content-end mb-0"
+                  >
+                    <PaginationItem
+                      className={`${scroll === 1 ? "disabled" : ""}`}
+                    >
+                      <PaginationLink
+                        // href="#pablo"
+                        onClick={() =>
+                          scroll > 1 ? setScroll(scroll - 1) : setScroll(1)
+                        }
+                        tabIndex="-1"
+                      >
+                        <i className="fas fa-angle-left" />
+                        <span className="sr-only">Previous</span>
+                      </PaginationLink>
+                    </PaginationItem>
+
+                    <PageList
+                      page={page}
+                      setPage={setPage}
+                      scroll={scroll}
+                      setScroll={setScroll}
+                      scrollLength={tableList.length}
+                      text={text}
+                      selectView={selectView}
+                    />
+
+                    <PaginationItem
+                      className={`${
+                        scroll * selectView * 10 > tableList.length
+                          ? "disabled"
+                          : ""
+                      }`}
+                    >
+                      <PaginationLink onClick={() => setScroll(scroll + 1)}>
+                        <i className="fas fa-angle-right" />
+                        <span className="sr-only">Next</span>
+                      </PaginationLink>
+                    </PaginationItem>
+                  </Pagination>
+                </nav>
+              </CardFooter>
             </Card>
           </Col>
         </Row>

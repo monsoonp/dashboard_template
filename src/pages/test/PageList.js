@@ -1,10 +1,19 @@
 import React, { useEffect } from "react";
 import { PaginationItem, PaginationLink } from "reactstrap";
 
-const PageList = ({ page, setPage, scroll, scrollLength, text }) => {
+const PageList = ({
+  page,
+  setPage,
+  scroll,
+  setScroll,
+  scrollLength,
+  text,
+  selectView
+}) => {
   useEffect(() => {
     setPage(1);
-  }, [setPage, text]);
+    setScroll(1);
+  }, [setPage, setScroll, text]);
   let result = [];
   /*
   let i = (scroll - 1) * 10 + 1;
@@ -24,7 +33,7 @@ const PageList = ({ page, setPage, scroll, scrollLength, text }) => {
     setPage(i);
   };
   for (let i = (scroll - 1) * 10 + 1; i <= scroll * 10; i++) {
-    if ((i - 1) * 10 <= scrollLength) {
+    if ((i - 1) * selectView <= scrollLength) {
       result.push(
         <PaginationItem className={`${page === i && "active"}`} key={i}>
           <PaginationLink onClick={e => paging(e, i)}>{i}</PaginationLink>
