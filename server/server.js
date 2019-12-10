@@ -57,11 +57,12 @@ setInterval(() => getApiAndEmit(), 30000);
 // let testApi;
 */
 setInterval(() => {
+  const num = Math.random() * 10;
   io.emit("WeatherAPI", {
-    temperature: (Math.random() * 10).toFixed(1),
-    summary: parseInt(Math.random() * 100)
+    temperature: (num * 2 - 10).toFixed(1),
+    summary: parseInt(num * 10)
   });
-}, 1000);
+}, 2000);
 
 io.on("connection", socket => {
   /*  클라이언트 최초 추가시 api 시작

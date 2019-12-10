@@ -420,8 +420,9 @@ const Index = ({
               </CardHeader>
               <Collapse isOpen={listOpen}>
                 <Table
-                  className="align-items-center table-flush" // table-dark
+                  className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
                   responsive
+                  hover
                   // dark
                 >
                   <thead className="thead-light">
