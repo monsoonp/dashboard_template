@@ -23,7 +23,7 @@ const Main = ({ socket }) => {
         render={props => <TestLayout {...props} socket={socket} />}
       />
       <Route path={`/auth`} render={props => <AuthLayout {...props} />} />
-      <Redirect from={`/`} to="/admin/home" />
+      <Redirect from={`/`} to="/test/home" />
     </Switch>
   );
 };

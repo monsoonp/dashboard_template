@@ -51,7 +51,7 @@ class Tables extends React.Component {
           <Row>
             <div className="col">
               <Card className="shadow">
-                <CardHeader className="border-0">
+                <CardHeader className="bg-warning border-0">
                   <h3 className="mb-0">Card tables</h3>
                 </CardHeader>
                 <Table className="align-items-center table-flush" responsive>

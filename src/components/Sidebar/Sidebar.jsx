@@ -58,7 +58,7 @@ var ps;
 class Sidebar extends React.Component {
   state = {
     collapseOpen: false,
-    homeToggle: true,
+    homeToggle: false,
     testToggle: true
   };
   // verifies if routeName is the one active (in browser input)

@@ -7,6 +7,11 @@ import Profile from "pages/test/Profile";
 // import Login from "pages/Login";
 import Tables from "pages/test/Tables";
 import Icons from "pages/test/Icons";
+import Tree from "pages/test/Tree";
+import Modals from "pages/test/Modals";
+import DatePick from "pages/test/DatePick";
+import Forms from "pages/test/Forms";
+import Graphs from "pages/test/Graphs";
 
 // Test Pages 여러가지 화면 만들어보기
 //
@@ -40,6 +45,41 @@ var testPages = [
     name: "Tables",
     icon: "ni ni-collection text-warning",
     component: Tables,
+    layout: "/test"
+  },
+  {
+    path: "/tree",
+    name: "Tree",
+    icon: "ni ni-bullet-list-67 text-primary",
+    component: Tree,
+    layout: "/test"
+  },
+  {
+    path: "/modal",
+    name: "Modals",
+    icon: "ni ni-ungroup text-danger",
+    component: Modals,
+    layout: "/test"
+  },
+  {
+    path: "/date-picker",
+    name: "DatePick",
+    icon: "ni ni-calendar-grid-58 text-info",
+    component: DatePick,
+    layout: "/test"
+  },
+  {
+    path: "/forms",
+    name: "Forms",
+    icon: "ni ni-archive-2 text-dark",
+    component: Forms,
+    layout: "/test"
+  },
+  {
+    path: "/graphs",
+    name: "Graphs",
+    icon: "ni ni-chart-bar-32 text-warning",
+    component: Graphs,
     layout: "/test"
   }
 ];
