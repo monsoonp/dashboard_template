@@ -18,9 +18,6 @@ const port = process.env.PORT || 5000;
 const conf = JSON.parse(data);
 const mysql = require("mysql");
 
-//const multer = require('multer');   //multer 라이브러리 중복되지 않는 형태로 업로드
-//const upload = multer({dest: './upload'})
-
 const conn = mysql.createConnection({
   host: conf.host,
   user: conf.user,
@@ -28,6 +25,35 @@ const conn = mysql.createConnection({
   port: conf.port,
   database: conf.database
 });
+
+//const multer = require('multer');   //multer 라이브러리 중복되지 않는 형태로 업로드
+//const upload = multer({dest: './upload'})
+
+//SNMP
+const snmp = require("net-snmp");
+const session = snmp.createSession("127.0.0.1", "public");
+const oids = ["1.3.6.1.2.1.1.5.0", "1.3.6.1.2.1.1.6.0"];
+// const oids = "1.3.6.1.2.1.1.5.0";
+// app.get("/snmp", (req, res) => {
+// res.send("finished?");
+// });
+session.get(oids, function(error, varbinds) {
+  if (error) {
+    console.error(error);
+  } else {
+    for (var i = 0; i < varbinds.length; i++)
+      if (snmp.isVarbindError(varbinds[i]))
+        console.error(snmp.varbindError(varbinds[i]));
+      else console.log(varbinds[i].oid + " = " + varbinds[i].value);
+  }
+  // If done, close the session
+  session.close();
+});
+
+session.trap(snmp.TrapType.LinkDown, function(error) {
+  if (error) console.error(error);
+});
+
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(

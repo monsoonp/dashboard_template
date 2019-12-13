@@ -1959,6 +1959,11 @@ asap@~2.0.6:
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
 
+asn1-ber@*:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/asn1-ber/-/asn1-ber-1.0.9.tgz#0f48f709d9f9a953e18cfe2b8a62a6c926c5451a"
+  integrity sha512-XJP9p/wm5uW4KFLswZ9PmdUpLMRrbq28ak3XxLFWSkBtmJOSfiBrbrZyR6X24+lZvOA+usP6Gd5LyjRaJzMAEw==
+
 asn1.js@^4.0.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-4.10.1.tgz#b9c2bf5805f1e64aadeed6df3a2bfafb5a73f5a0"
@@ -7116,6 +7121,13 @@ neo-async@^2.5.0, neo-async@^2.6.0, neo-async@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
+
+net-snmp@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/net-snmp/-/net-snmp-1.2.4.tgz#9db6dd9338e24a1eff0ce2cdb530ee77c1c9fd61"
+  integrity sha512-DSmp0AGMRw3iRZ3HwuG+BBUk6nTlQuKQgdwQdnbwjkrQwNFY5l8c4QgPiJbogNifyX40+S43hDuH26dsSz/DZQ==
+  dependencies:
+    asn1-ber "*"
 
 next-tick@~1.0.0:
   version "1.0.0"
