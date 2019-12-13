@@ -3,12 +3,18 @@ import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardBody, Container, Row, Col } from "reactstrap";
 import { Bar, Line, Pie, Doughnut } from "react-chartjs-2";
 import "chartjs-plugin-datalabels";
+import { Chart } from "chart.js";
+import { chartOptions, parseOptions } from "variables/charts.js";
 
 // core components
 import Header from "components/Headers/Header.jsx";
 import test_data from "assets/data/test_data";
 
 const Graphs = () => {
+  if (window.Chart) {
+    parseOptions(Chart, chartOptions());
+  }
+
   const [pageName, setPageName] = useState([]);
   const [visitors, setvisitors] = useState([]);
   const [users, setusers] = useState([]);
@@ -121,8 +127,8 @@ const Graphs = () => {
   const legendOpts = {
     display: true,
     position: "bottom",
-    fullWidth: true,
-    reverse: false,
+    // fullWidth: true,
+    // reverse: true,
     labels: {
       fontColor: "rgb(255, 99, 132)"
     }
@@ -172,7 +178,12 @@ const Graphs = () => {
                     <Doughnut data={pieData} />
                   </Col>
                   <Col xl="8">
-                    <Line data={lineData} />
+                    <Line
+                      data={lineData}
+                      options={{
+                        maintainAspectRatio: true
+                      }}
+                    />
                   </Col>
                 </Row>
                 <Row>

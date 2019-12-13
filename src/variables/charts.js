@@ -197,11 +197,11 @@ function chartOptions() {
           padding: 0
         },
         legend: {
-          display: false,
-          position: "bottom",
+          display: true,
+          position: "top",
           labels: {
             usePointStyle: true,
-            padding: 16
+            padding: 10
           }
         },
         elements: {
@@ -232,7 +232,7 @@ function chartOptions() {
         }
       },
       doughnut: {
-        cutoutPercentage: 83,
+        cutoutPercentage: 45,
         legendCallback: function(chart) {
           var data = chart.data;
           var content = "";

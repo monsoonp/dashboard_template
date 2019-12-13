@@ -13,7 +13,12 @@ import {
   ListGroupItem,
   // ListGroupItemHeading,
   // ListGroupItemText,
-  Collapse
+  Collapse,
+  Col,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.jsx";
@@ -53,7 +58,7 @@ var tree = [
 ];
 
 class Tree extends Component {
-  state = {};
+  state = { isOpen: false };
   toggle = event => {
     const id = event.target.getAttribute("id");
     this.setState(state => ({ [id]: !state[id] }));
@@ -99,23 +104,58 @@ class Tree extends Component {
       return item;
     });
   };
-
   render() {
+    const toggle = () => {
+      this.setState({ isOpen: !this.state.isOpen });
+    };
+    const { isOpen } = this.state;
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt-4 mb-4" fluid>
-          {/* Table */}
           <Row>
             <div className=" col">
               <Card className=" shadow">
                 <CardHeader className=" bg-primary">
-                  <h3 className="mb-0">Tree</h3>
+                  <h3 className="mb-0 text-white">Tree</h3>
                 </CardHeader>
                 <CardBody>
                   <Row>
                     <ListGroup>{this.mapper(tree)}</ListGroup>
+                  </Row>
+                </CardBody>
+              </Card>
+            </div>
+          </Row>
+          <Row>
+            <div className=" col mt-2">
+              <Card className=" shadow">
+                <CardHeader className=" bg-primary">
+                  <h3 className="mb-0 text-secondary">DropDown</h3>
+                </CardHeader>
+                <CardBody>
+                  <Row>
+                    <Col xl="12">
+                      <ButtonDropdown
+                        isOpen={isOpen}
+                        toggle={toggle}
+                        direction="down"
+                      >
+                        <DropdownToggle caret color="primary" size="lg">
+                          Text
+                        </DropdownToggle>
+                        <DropdownMenu className="bg-light">
+                          <DropdownItem header className="bg-warning">
+                            Header
+                          </DropdownItem>
+                          <DropdownItem disabled>Action</DropdownItem>
+                          <DropdownItem>Another Action</DropdownItem>
+                          <DropdownItem divider />
+                          <DropdownItem>Another Action</DropdownItem>
+                        </DropdownMenu>
+                      </ButtonDropdown>
+                    </Col>
                   </Row>
                 </CardBody>
               </Card>
