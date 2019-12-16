@@ -31,12 +31,14 @@ const conn = mysql.createConnection({
 
 //SNMP
 const snmp = require("net-snmp");
-const session = snmp.createSession("127.0.0.1", "public");
+// const session = snmp.createSession("127.0.0.1", "public");
+const session = snmp.createSession("192.168.0.38", "public");
 const oids = ["1.3.6.1.2.1.1.5.0", "1.3.6.1.2.1.1.6.0"];
-// const oids = "1.3.6.1.2.1.1.5.0";
+
 // app.get("/snmp", (req, res) => {
 // res.send("finished?");
 // });
+
 session.get(oids, function(error, varbinds) {
   if (error) {
     console.error(error);

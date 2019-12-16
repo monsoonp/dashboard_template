@@ -482,9 +482,10 @@ const Index = ({
                     >
                       <PaginationLink
                         // href="#pablo"
-                        onClick={() =>
-                          scroll > 1 ? setScroll(scroll - 1) : setScroll(1)
-                        }
+                        onClick={() => {
+                          scroll > 1 ? setScroll(scroll - 1) : setScroll(1);
+                          setPage((scroll - 2) * 10 + 1);
+                        }}
                         tabIndex="-1"
                       >
                         <i className="fas fa-angle-left" />
@@ -509,7 +510,12 @@ const Index = ({
                           : ""
                       }`}
                     >
-                      <PaginationLink onClick={() => setScroll(scroll + 1)}>
+                      <PaginationLink
+                        onClick={() => {
+                          setScroll(scroll + 1);
+                          setPage(scroll * 10 + 1);
+                        }}
+                      >
                         <i className="fas fa-angle-right" />
                         <span className="sr-only">Next</span>
                       </PaginationLink>
