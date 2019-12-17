@@ -55,6 +55,7 @@ import moment from "moment";
 // import Header from "components/Headers/Header.jsx";
 import BarGraph from "components/Graph/BarGraph";
 import TableTitle from "components/Table/TableTitle";
+import TableSearch from "components/Table/TableSearch";
 import PageList from "pages/test/PageList";
 import test_data from "assets/data/test_data";
 
@@ -164,10 +165,17 @@ const Index = ({
     const date = new Date(t);
     return date;
   };
-  const [response, setResponse] = useState(false);
-  const [tableList, setTableList] = useState([]);
-  const selectList = [5, 10, 20, 40, 80];
-  const [selectView, setSelectView] = useState(20);
+  const [response, setResponse] = useState(false); //api
+  const selectList = [5, 10, 20, 40, 80]; //page view
+  const [tableList, setTableList] = useState([]); //table list
+  const [selectView, setSelectView] = useState(20); //page view
+  const [tableSearch, setTableSearch] = useState({
+    id: "",
+    pageName: "",
+    visitors: "",
+    bounceRate: "",
+    checkTime: ""
+  });
 
   useEffect(() => {
     setTableList(
@@ -184,7 +192,15 @@ const Index = ({
             ? stampToDate(e.checkTime) <= end
             : e;
         })
-        .filter(e => e.pageName.indexOf(text) !== -1)
+        .filter(
+          e =>
+            e.pageName.indexOf(text) !== -1 &&
+            e.pageName.indexOf(tableSearch.pageName) !== -1 &&
+            // e.visitors.indexOf(tableSearch.visitors) !== -1 &&
+            // e.users.indexOf(tableSearch.users) !== -1 &&
+            // e.bounceRate.indexOf(tableSearch.bounceRate) !== -1 &&
+            e.checkTime.indexOf(tableSearch.checkTime) !== -1
+        )
         .sort((a, b) =>
           sort.value
             ? sort.asc
@@ -221,7 +237,7 @@ const Index = ({
         socket.off("message");
       }
     };
-  }, [end, socket, sort.asc, sort.value, start, test_list, text]);
+  }, [end, socket, sort.asc, sort.value, start, tableSearch, test_list, text]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>
@@ -405,9 +421,16 @@ const Index = ({
                 <Table
                   className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
                   responsive
+                  striped
                   hover
                   // dark
                 >
+                  <thead className="thead-light">
+                    <TableSearch
+                      search={tableSearch}
+                      setSearch={setTableSearch}
+                    />
+                  </thead>
                   <thead className="thead-light">
                     <TableTitle sort={sort} sorter={sorter} />
                   </thead>

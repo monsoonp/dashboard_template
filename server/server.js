@@ -32,28 +32,76 @@ const conn = mysql.createConnection({
 //SNMP
 const snmp = require("net-snmp");
 // const session = snmp.createSession("127.0.0.1", "public");
-const session = snmp.createSession("192.168.0.38", "public");
-const oids = ["1.3.6.1.2.1.1.5.0", "1.3.6.1.2.1.1.6.0"];
+// Default options
 
-// app.get("/snmp", (req, res) => {
-// res.send("finished?");
-// });
+// const nonRepeaters = 2;
 
-session.get(oids, function(error, varbinds) {
-  if (error) {
-    console.error(error);
-  } else {
-    for (var i = 0; i < varbinds.length; i++)
-      if (snmp.isVarbindError(varbinds[i]))
-        console.error(snmp.varbindError(varbinds[i]));
-      else console.log(varbinds[i].oid + " = " + varbinds[i].value);
-  }
-  // If done, close the session
-  session.close();
+app.get("/snmp/get", (req, res) => {
+  const options = {
+    port: 161,
+    retries: 1,
+    timeout: 5000,
+    transport: "udp4",
+    trapPort: 162,
+    version: snmp.Version1,
+    idBitsSize: 16
+  };
+  const session = snmp.createSession("192.168.0.38", "public", options);
+  const oids = ["1.3.6.1.2.1.1.5.0", "1.3.6.1.2.1.1.6.0"]; //, "1.3.6.1.2.1.1.7.0"
+  session.get(oids, function(error, varbinds) {
+    if (error) {
+      console.error(error);
+    } else {
+      for (var i = 0; i < varbinds.length; i++)
+        if (snmp.isVarbindError(varbinds[i]))
+          console.error(snmp.varbindError(varbinds[i]));
+        else console.log(varbinds[i].oid + " = " + varbinds[i].value);
+    }
+    console.log(varbinds);
+    // If done, close the session
+    res.send({
+      varbinds: varbinds,
+      match: varbinds[0].value.toString()
+    });
+    session.close();
+  });
+
+  session.trap(snmp.TrapType.LinkDown, function(error) {
+    if (error) console.error(error);
+  });
 });
 
-session.trap(snmp.TrapType.LinkDown, function(error) {
-  if (error) console.error(error);
+app.get("/snmp/set", (req, res) => {
+  const session = snmp.createSession("192.168.0.38", "public");
+  var varbinds = [
+    {
+      oid: "1.3.6.1.2.1.1.5.0",
+      type: snmp.ObjectType.OctetString,
+      value: "host1"
+    },
+    {
+      oid: "1.3.6.1.2.1.1.6.0",
+      type: snmp.ObjectType.OctetString,
+      value: "somewhere"
+    }
+  ];
+
+  session.set(varbinds, function(error, varbinds) {
+    if (error) {
+      console.error(error.toString());
+    } else {
+      for (var i = 0; i < varbinds.length; i++) {
+        // for version 1 we can assume all OIDs were successful
+        console.log(varbinds[i].oid + "|" + varbinds[i].value);
+
+        // for version 2c we must check each OID for an error condition
+        if (snmp.isVarbindError(varbinds[i]))
+          console.error(snmp.varbindError(varbinds[i]));
+        else console.log(varbinds[i].oid + "|" + varbinds[i].value);
+      }
+    }
+  });
+  session.close();
 });
 
 const getApiAndEmit = async socket => {
@@ -134,6 +182,14 @@ app.get("/admin/home/list", (req, res) => {
   //   res.header("Access-Control-Allow-Origin", "*");
   conn.query(
     "SELECT * from test_list order by id desc", // WHERE checkTime BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  );
+});
+app.get("/admin/home/selecter", (req, res) => {
+  conn.query(
+    "select pageName from test_list group by pageName order by id desc",
     (err, rows, fields) => {
       res.send(rows);
     }

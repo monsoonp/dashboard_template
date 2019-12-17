@@ -40,9 +40,10 @@ const Forms = () => {
                         <Label for="exampleText">Text</Label>
                         <Input
                           // type="email"
-                          name="email"
+                          name="email" // radio, checkbox, select, range, switch, file.
                           id="exampleText"
                           placeholder="with a placeholder"
+                          // label, inline, valiid, invalid, bsSize,
                         />
                       </FormGroup>
                       <FormGroup>

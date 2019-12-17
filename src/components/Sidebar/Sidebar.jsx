@@ -53,7 +53,7 @@ import {
   UncontrolledCollapse
 } from "reactstrap";
 import { ArrowUnsorted } from "styled-icons/typicons";
-var ps;
+// var ps;
 
 class Sidebar extends React.Component {
   state = {
