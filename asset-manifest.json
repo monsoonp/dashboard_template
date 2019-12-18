@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/dashboard_template/static/css/main.0e573779.chunk.css",
-    "main.js": "/dashboard_template/static/js/main.6323f011.chunk.js",
-    "main.js.map": "/dashboard_template/static/js/main.6323f011.chunk.js.map",
+    "main.js": "/dashboard_template/static/js/main.a4e2c357.chunk.js",
+    "main.js.map": "/dashboard_template/static/js/main.a4e2c357.chunk.js.map",
     "runtime-main.js": "/dashboard_template/static/js/runtime-main.dbd8030f.js",
     "runtime-main.js.map": "/dashboard_template/static/js/runtime-main.dbd8030f.js.map",
     "static/css/2.898f51b9.chunk.css": "/dashboard_template/static/css/2.898f51b9.chunk.css",
-    "static/js/2.66526315.chunk.js": "/dashboard_template/static/js/2.66526315.chunk.js",
-    "static/js/2.66526315.chunk.js.map": "/dashboard_template/static/js/2.66526315.chunk.js.map",
+    "static/js/2.8535f791.chunk.js": "/dashboard_template/static/js/2.8535f791.chunk.js",
+    "static/js/2.8535f791.chunk.js.map": "/dashboard_template/static/js/2.8535f791.chunk.js.map",
     "index.html": "/dashboard_template/index.html",
-    "precache-manifest.c1c78399b84d26d3ec3007a2800692d6.js": "/dashboard_template/precache-manifest.c1c78399b84d26d3ec3007a2800692d6.js",
+    "precache-manifest.bf331c60f14dbe10a29aede2e916ac2d.js": "/dashboard_template/precache-manifest.bf331c60f14dbe10a29aede2e916ac2d.js",
     "service-worker.js": "/dashboard_template/service-worker.js",
     "static/css/2.898f51b9.chunk.css.map": "/dashboard_template/static/css/2.898f51b9.chunk.css.map",
     "static/css/main.0e573779.chunk.css.map": "/dashboard_template/static/css/main.0e573779.chunk.css.map",
-    "static/js/2.66526315.chunk.js.LICENSE": "/dashboard_template/static/js/2.66526315.chunk.js.LICENSE",
-    "static/js/main.6323f011.chunk.js.LICENSE": "/dashboard_template/static/js/main.6323f011.chunk.js.LICENSE",
+    "static/js/2.8535f791.chunk.js.LICENSE": "/dashboard_template/static/js/2.8535f791.chunk.js.LICENSE",
+    "static/js/main.a4e2c357.chunk.js.LICENSE": "/dashboard_template/static/js/main.a4e2c357.chunk.js.LICENSE",
     "static/media/angular.jpg": "/dashboard_template/static/media/angular.368685db.jpg",
     "static/media/bootstrap.jpg": "/dashboard_template/static/media/bootstrap.ab904daa.jpg",
     "static/media/all.min.css": "/dashboard_template/static/media/fa-solid-900.815694de.woff",
@@ -32,8 +32,8 @@
   "entrypoints": [
     "static/js/runtime-main.dbd8030f.js",
     "static/css/2.898f51b9.chunk.css",
-    "static/js/2.66526315.chunk.js",
+    "static/js/2.8535f791.chunk.js",
     "static/css/main.0e573779.chunk.css",
-    "static/js/main.6323f011.chunk.js"
+    "static/js/main.a4e2c357.chunk.js"
   ]
 }
