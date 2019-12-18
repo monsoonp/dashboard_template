@@ -194,7 +194,7 @@ const Index = ({
         })
         .filter(
           e =>
-            e.pageName.indexOf(text) !== -1 &&
+            // e.pageName.indexOf(text) !== -1 &&
             e.pageName.indexOf(tableSearch.pageName) !== -1 &&
             // e.visitors.indexOf(tableSearch.visitors) !== -1 &&
             // e.users.indexOf(tableSearch.users) !== -1 &&
@@ -237,7 +237,7 @@ const Index = ({
         socket.off("message");
       }
     };
-  }, [end, socket, sort.asc, sort.value, start, tableSearch, test_list, text]);
+  }, [end, socket, sort.asc, sort.value, start, tableSearch, test_list]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>

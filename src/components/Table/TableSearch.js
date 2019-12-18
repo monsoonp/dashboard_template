@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FormGroup, Input } from "reactstrap"; //Form, Label, CustomInput
-const TableSearch = ({ tableList, search, setSearch }) => {
+import { FormGroup, Label, Input } from "reactstrap"; //Form, , CustomInput
+const TableSearch = ({ search, setSearch }) => {
   const list = [
     "id",
     "pageName",
@@ -18,6 +18,7 @@ const TableSearch = ({ tableList, search, setSearch }) => {
     "DATE"
   ];
   const [select, setSelect] = useState([]);
+
   const bindSelect = async () => {
     try {
       const response = await fetch(`/admin/home/selecter`, {
@@ -50,10 +51,12 @@ const TableSearch = ({ tableList, search, setSearch }) => {
           // onClick={() => sorter(`${e}`)}
         >
           {i === 0 ? (
-            <></>
+            <FormGroup className="m-0" inline>
+              <Label>{listName[i]}</Label>
+            </FormGroup>
           ) : (
-            <FormGroup className="m-0">
-              {/*<Label for="exampleEmail">{listName[i]}</Label>*/}
+            <FormGroup className="m-0" inline>
+              <Label for={listName[i]}>{listName[i]}</Label>
               {i === 1 ? (
                 <Input
                   type="select"
@@ -65,8 +68,8 @@ const TableSearch = ({ tableList, search, setSearch }) => {
                   }
                 >
                   <option value="">default</option>
-                  {select.map((val, i) => (
-                    <option key={i}>{val.pageName}</option>
+                  {select.map((e, i) => (
+                    <option key={i}>{e.pageName}</option>
                   ))}
                 </Input>
               ) : (
