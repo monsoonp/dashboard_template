@@ -43,7 +43,7 @@ app.get("/snmp/get", (req, res) => {
     timeout: 5000,
     transport: "udp4",
     trapPort: 162,
-    version: snmp.Version1,
+    version: snmp.Version2c,
     idBitsSize: 16
   };
   const session = snmp.createSession("192.168.0.38", "public", options);
