@@ -60,8 +60,8 @@ app.get("/snmp/get", (req, res) => {
     console.log(varbinds);
     // If done, close the session
     res.send({
-      varbinds: varbinds,
-      match: varbinds[0].value.toString()
+      varbinds: varbinds
+      // match: varbinds[0].value.toString()
     });
     session.close();
   });

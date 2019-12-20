@@ -237,7 +237,16 @@ const Index = ({
         socket.off("message");
       }
     };
-  }, [end, socket, sort.asc, sort.value, start, tableSearch, test_list]);
+  }, [
+    end,
+    socket,
+    sort.asc,
+    sort.value,
+    start,
+    test_list,
+    tableSearch.pageName,
+    tableSearch.checkTime
+  ]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
     <>

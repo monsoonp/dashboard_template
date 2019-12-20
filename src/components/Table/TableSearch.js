@@ -41,7 +41,7 @@ const TableSearch = ({ search, setSearch }) => {
     if (select.length === 0) {
       bindSelect();
     }
-  });
+  }, [search, select.length]);
   return (
     <tr>
       {list.map((e, i) => (
