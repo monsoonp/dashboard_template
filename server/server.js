@@ -46,7 +46,7 @@ app.get("/snmp/get", (req, res) => {
     version: snmp.Version2c,
     idBitsSize: 16
   };
-  const session = snmp.createSession("192.168.0.38", "public", options);
+  const session = snmp.createSession("127.0.0.1", "public", options);
   const oids = ["1.3.6.1.2.1.1.5.0", "1.3.6.1.2.1.1.6.0"]; //, "1.3.6.1.2.1.1.7.0"
   session.get(oids, function(error, varbinds) {
     if (error) {
