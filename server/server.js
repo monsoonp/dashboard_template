@@ -48,7 +48,16 @@ app.get("/snmp/get", (req, res) => {
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const session = snmp.createSession("127.0.0.1", "public");
-  const oids = ["1.3.6.1.2.1.1.5.0", "1.3.6.1.2.1.1.6.0"]; //, "1.3.6.1.2.1.1.7.0"
+  const oids = [
+    "1.3.6.1.2.1.1.1.0",
+    "1.3.6.1.2.1.1.2.0",
+    "1.3.6.1.2.1.1.3.0",
+    "1.3.6.1.2.1.1.4.0",
+    "1.3.6.1.2.1.1.5.0",
+    "1.3.6.1.2.1.1.6.0",
+    "1.3.6.1.2.1.1.7.0"
+    // "1.3.6.1.2.1.6.13.1.3"
+  ];
   session.get(oids, function(error, varbinds) {
     if (error) {
       console.error(error);
@@ -67,6 +76,50 @@ app.get("/snmp/get", (req, res) => {
     session.close();
   });
 
+  session.trap(snmp.TrapType.LinkDown, function(error) {
+    if (error) console.error(error);
+  });
+});
+
+app.get("/snmp/port", (req, res) => {
+  var trapOid = "1.3.6.1.4.1.2000.1";
+
+  const options = {
+    port: 161,
+    retries: 1,
+    timeout: 5000,
+    transport: "udp4",
+    trapPort: 162,
+    version: snmp.Version2c,
+    idBitsSize: 16
+  };
+  const session = snmp.createSession("127.0.0.1", "public", options);
+  // const session = snmp.createSession("127.0.0.1", "public");
+  const oids = [
+    // "1.3.6.1.4.1.9.2.1.56.0", //average cpu load for 5 sec
+    // "1.3.6.1.2.1.1.3.0" // UpTime
+    // "1.3.6.1.4.1.9.2.1.2.0", //reboot reason
+    // "1.3.6.1.2.1.4.6.0" // 라우팅한 패킷 수
+    "1.3.6.1.2.1.43.8.2.1.12.1.1"
+  ];
+  session.get(oids, function(error, varbinds) {
+    if (error) {
+      console.error(error);
+    } else {
+      /*
+      for (var i = 0; i < varbinds.length; i++)
+        if (snmp.isVarbindError(varbinds[i]))
+          console.error(snmp.varbindError(varbinds[i]));
+        else console.log(varbinds[i].oid + " = " + varbinds[i].value);
+        */
+      console.log(varbinds);
+    }
+    // If done, close the session
+    res.send({
+      varbinds: varbinds
+    });
+    session.close();
+  });
   session.trap(snmp.TrapType.LinkDown, function(error) {
     if (error) console.error(error);
   });
