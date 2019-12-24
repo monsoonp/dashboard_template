@@ -287,34 +287,6 @@ app.get("/snmp/set", (req, res) => {
   session.close();
 });
 
-app.get("/snmp/local", (req, res) => {
-  const session = snmp.createSession("127.0.0.1", "public");
-  const oid = "1.3.6.1.2.1.4.22";
-
-  function responseCb(error, table) {
-    let ipList = [];
-    const reg = /^192\.168\.[0-9]*.[0-9]*/;
-    if (error) {
-      res.send(error.toString());
-      // return error.toString();
-    } else {
-      Object.keys(table).map((key, index) => {
-        // console.log(index, key, table[key][3]);
-        // console.log(table[key][3].match(reg));
-        if (table[key][3].match(reg)) {
-          ipList.push(table[key][3]);
-        }
-      });
-      res.send(ipList);
-    }
-  }
-
-  var maxRepetitions = 20;
-
-  // session.table(oid, maxRepetitions, responseCb);
-  console.log(session.table(oid, maxRepetitions, responseCb));
-});
-
 app.get("/snmp/walk", (req, res) => {
   const session = snmp.createSession("127.0.0.1", "public");
   const oid = "1.3.6.1.2.1.4.20.1";
@@ -340,6 +312,36 @@ app.get("/snmp/walk", (req, res) => {
   session.walk(oid, maxRepetitions, feedCb, doneCb);
 });
 
+app.get("/snmp/local", (req, res) => {
+  const options = {
+    version: snmp.Version2c
+  };
+  const session = snmp.createSession("localhost", "public", options);
+  const oid = "1.3.6.1.2.1.4.22";
+
+  function responseCb(error, table) {
+    let ipList = [];
+    const reg = /^192\.168\.[0-9]*.[0-9]*/;
+    if (error) {
+      res.send(error.toString());
+      // return error.toString();
+    } else {
+      Object.keys(table).map((key, index) => {
+        console.log(index, key, table[key][3]);
+        // console.log(table[key][3].match(reg));
+        if (table[key][3].match(reg)) {
+          ipList.push(table[key][3]);
+        }
+      });
+      res.send(ipList);
+    }
+  }
+
+  var maxRepetitions = 20;
+
+  // session.table(oid, maxRepetitions, responseCb);
+  console.log(session.table(oid, maxRepetitions, responseCb));
+});
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(
