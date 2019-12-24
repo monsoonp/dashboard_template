@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const fs = require("fs");
 const express = require("express");
 
@@ -32,10 +33,8 @@ const conn = mysql.createConnection({
 //SNMP
 const snmp = require("net-snmp");
 // const session = snmp.createSession("127.0.0.1", "public");
-// Default options
 
-// const nonRepeaters = 2;
-
+//system
 app.get("/snmp/get", (req, res) => {
   const options = {
     port: 161,
@@ -69,9 +68,16 @@ app.get("/snmp/get", (req, res) => {
     }
     console.log(varbinds);
     // If done, close the session
+    let values = [];
+    varbinds.forEach((e, i) => {
+      values.push({ [i]: e.value.toString() });
+    });
     res.send({
       varbinds: varbinds,
-      match: varbinds[0].value.toString()
+      match: [
+        // varbinds[0].value.toString()
+        values
+      ]
     });
     session.close();
   });
@@ -82,41 +88,49 @@ app.get("/snmp/get", (req, res) => {
 });
 
 app.get("/snmp/port", (req, res) => {
-  var trapOid = "1.3.6.1.4.1.2000.1";
-
   const options = {
-    port: 161,
-    retries: 1,
-    timeout: 5000,
-    transport: "udp4",
-    trapPort: 162,
-    version: snmp.Version2c,
-    idBitsSize: 16
+    // port: 161,
+    // retries: 1,
+    // timeout: 5000,
+    transport: "udp4", //udp6
+    // trapPort: 162,
+    version: snmp.Version2c
+    // idBitsSize: 32
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const session = snmp.createSession("127.0.0.1", "public");
   const oids = [
-    // "1.3.6.1.4.1.9.2.1.56.0", //average cpu load for 5 sec
+    // "1.3.6.1.4.1.9.2.1.56.0" //average cpu load for 5 sec
     // "1.3.6.1.2.1.1.3.0" // UpTime
-    // "1.3.6.1.4.1.9.2.1.2.0", //reboot reason
+    // "1.3.6.1.4.1.9.2.1.2.0" //reboot reason
     // "1.3.6.1.2.1.4.6.0" // 라우팅한 패킷 수
-    "1.3.6.1.2.1.43.8.2.1.12.1.1"
+    // "1.3.6.1.2.1.7.5.1.2"  //local port
+    // "1.3.6.1.2.1.4.12.0"
+    "1.3.6.1.2.1.6.12.1.3.0"
   ];
   session.get(oids, function(error, varbinds) {
     if (error) {
       console.error(error);
     } else {
-      /*
       for (var i = 0; i < varbinds.length; i++)
         if (snmp.isVarbindError(varbinds[i]))
           console.error(snmp.varbindError(varbinds[i]));
-        else console.log(varbinds[i].oid + " = " + varbinds[i].value);
-        */
-      console.log(varbinds);
+        else
+          console.log(
+            varbinds[i].oid +
+              " = " +
+              varbinds[i].value +
+              " (" +
+              varbinds[i].type +
+              ")"
+          );
+
+      // console.log(varbinds);
     }
     // If done, close the session
     res.send({
       varbinds: varbinds
+      // test: varbinds[0].value.toString()
     });
     session.close();
   });
@@ -125,6 +139,121 @@ app.get("/snmp/port", (req, res) => {
   });
 });
 
+app.get("/snmp/table", (req, res) => {
+  const options = {
+    version: snmp.Version2c
+  };
+  const session = snmp.createSession("127.0.0.1", "public", options);
+  // const oid = "1.3.6.1.2.1.4.22";
+  const oid = "1.3.6.1.2.1.4.22";
+  // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
+  // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
+
+  // "1.3.6.1.2.1.4.20.1" // ipAddrEntry (table)
+  // "1.3.6.1.2.1.4.21.1" // ipRouteEntry (table)
+  // "1.3.6.1.2.1.6.13.1" // tcpConnEntry (table)
+  // "1.3.6.1.2.1.7.5.1"  //  udpEntry (table)
+  // "1.3.6.1.2.1.7.7"  //  udpEndpointTable
+
+  function responseCb(error, table) {
+    if (error) {
+      res.send(error.toString());
+      // return error.toString();
+    } else {
+      Object.keys(table).map((key, index) => {
+        console.log(index, key, table[key]);
+      });
+      res.send(table);
+      // return table;
+    }
+  }
+
+  var maxRepetitions = 20;
+
+  console.log(session.table(oid, maxRepetitions, responseCb));
+});
+
+app.get("/snmp/walk", (req, res) => {
+  const session = snmp.createSession("127.0.0.1", "public");
+  const oid = "1.3.6.1.2.1.4.20.1";
+  // "1.3.6.1.2.1.2.2"
+
+  function doneCb(error) {
+    if (error) console.error(error.toString());
+  }
+
+  function feedCb(varbinds) {
+    for (var i = 0; i < varbinds.length; i++) {
+      if (snmp.isVarbindError(varbinds[i]))
+        console.error(snmp.varbindError(varbinds[i]));
+      else {
+        console.log(varbinds[i].oid + "|" + varbinds[i].value);
+      }
+    }
+    // res.send(varbinds);
+  }
+
+  const maxRepetitions = 20;
+
+  session.walk(oid, maxRepetitions, feedCb, doneCb);
+});
+app.get("/snmp/column", (req, res) => {
+  const session = snmp.createSession("127.0.0.1", "public");
+
+  // "1.3.6.1.2.1.2.2"  // ifTable
+  // "1.3.6.1.2.1.4.20.1.2"
+  // "1.3.6.1.2.1.6.13"
+  // "1.3.6.1.2.1.4.20" // ip
+  // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry
+  // "1.3.6.1.2.1.17.4.3" // dot1dTpFdbEntry - MAC / not work
+  const oid = "1.3.6.1.2.1.2.2";
+  const columns = [1, 2, 3, 6];
+
+  function sortInt(a, b) {
+    if (a > b) return 1;
+    else if (b > a) return -1;
+    else return 0;
+  }
+
+  function responseCb(error, table) {
+    if (error) {
+      console.error(error.toString());
+    } else {
+      // This code is purely used to print rows out in index order,
+      // ifIndex's are integers so we'll sort them numerically using
+      // the sortInt() function above
+      var indexes = [];
+      for (index in table) indexes.push(parseInt(index));
+      indexes.sort(sortInt);
+
+      // Use the sorted indexes we've calculated to walk through each
+      // row in order
+      for (var i = 0; i < indexes.length; i++) {
+        // Like indexes we sort by column, so use the same trick here,
+        // some rows may not have the same columns as other rows, so
+        // we calculate this per row
+        var columns = [];
+        for (column in table[indexes[i]]) columns.push(parseInt(column));
+        columns.sort(sortInt);
+
+        // Print index, then each column indented under the index
+        console.log("row for index = " + indexes[i]);
+        for (var j = 0; j < columns.length; j++) {
+          console.log(
+            "   column " + columns[j] + " = " + table[indexes[i]][columns[j]]
+          );
+        }
+      }
+    }
+    res.send(table);
+  }
+
+  var maxRepetitions = 20;
+
+  // The maxRepetitions argument is optional, and will be ignored unless using
+  // SNMP verison 2c
+  session.tableColumns(oid, columns, maxRepetitions, responseCb);
+});
 app.get("/snmp/set", (req, res) => {
   const session = snmp.createSession("192.168.0.38", "public");
   var varbinds = [
@@ -156,6 +285,59 @@ app.get("/snmp/set", (req, res) => {
     }
   });
   session.close();
+});
+
+app.get("/snmp/local", (req, res) => {
+  const session = snmp.createSession("127.0.0.1", "public");
+  const oid = "1.3.6.1.2.1.4.22";
+
+  function responseCb(error, table) {
+    let ipList = [];
+    const reg = /^192\.168\.[0-9]*.[0-9]*/;
+    if (error) {
+      res.send(error.toString());
+      // return error.toString();
+    } else {
+      Object.keys(table).map((key, index) => {
+        // console.log(index, key, table[key][3]);
+        // console.log(table[key][3].match(reg));
+        if (table[key][3].match(reg)) {
+          ipList.push(table[key][3]);
+        }
+      });
+      res.send(ipList);
+    }
+  }
+
+  var maxRepetitions = 20;
+
+  // session.table(oid, maxRepetitions, responseCb);
+  console.log(session.table(oid, maxRepetitions, responseCb));
+});
+
+app.get("/snmp/walk", (req, res) => {
+  const session = snmp.createSession("127.0.0.1", "public");
+  const oid = "1.3.6.1.2.1.4.20.1";
+  // "1.3.6.1.2.1.2.2"
+
+  function doneCb(error) {
+    if (error) console.error(error.toString());
+  }
+
+  function feedCb(varbinds) {
+    for (var i = 0; i < varbinds.length; i++) {
+      if (snmp.isVarbindError(varbinds[i]))
+        console.error(snmp.varbindError(varbinds[i]));
+      else {
+        console.log(varbinds[i].oid + "|" + varbinds[i].value);
+      }
+    }
+    // res.send(varbinds);
+  }
+
+  const maxRepetitions = 20;
+
+  session.walk(oid, maxRepetitions, feedCb, doneCb);
 });
 
 const getApiAndEmit = async socket => {
