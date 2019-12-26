@@ -145,7 +145,7 @@ app.get("/snmp/table", (req, res) => {
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
-  const oid = "1.3.6.1.2.1.4.22";
+  const oid = "1.3.6.1.2.1.4.20";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
 
@@ -201,13 +201,12 @@ app.get("/snmp/column", (req, res) => {
   const session = snmp.createSession("127.0.0.1", "public");
 
   // "1.3.6.1.2.1.2.2"  // ifTable
-  // "1.3.6.1.2.1.4.20.1.2"
   // "1.3.6.1.2.1.6.13"
   // "1.3.6.1.2.1.4.20" // ip
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry
   // "1.3.6.1.2.1.17.4.3" // dot1dTpFdbEntry - MAC / not work
-  const oid = "1.3.6.1.2.1.2.2";
-  const columns = [1, 2, 3, 6];
+  const oid = "1.3.6.1.2.1.4.22";
+  const columns = [1, 2, 3, 4, 6];
 
   function sortInt(a, b) {
     if (a > b) return 1;
@@ -317,8 +316,8 @@ app.get("/snmp/local", (req, res) => {
     version: snmp.Version2c
   };
   const session = snmp.createSession("localhost", "public", options);
-  const oid = "1.3.6.1.2.1.4.22";
-
+  const oid = "1.3.6.1.2.1.4.22"; //ipNetToMediaTable
+  // "1.3.6.1.2.1.4.20" //ipAddrTable
   function responseCb(error, table) {
     let ipList = [];
     const reg = /^192\.168\.[0-9]*.[0-9]*/;
@@ -327,7 +326,8 @@ app.get("/snmp/local", (req, res) => {
       // return error.toString();
     } else {
       Object.keys(table).map((key, index) => {
-        console.log(index, key, table[key][3]);
+        // console.log(index, key, table[key][3]);
+        console.log(index, table[key][3]);
         // console.log(table[key][3].match(reg));
         if (table[key][3].match(reg)) {
           ipList.push(table[key][3]);
