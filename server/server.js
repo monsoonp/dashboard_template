@@ -1,6 +1,9 @@
 /* eslint-disable no-undef */
 const fs = require("fs");
+const path = require("path");
+const os = require("os");
 const express = require("express");
+// const url = require("url");
 
 const app = express();
 const server = require("http").createServer(app);
@@ -342,6 +345,70 @@ app.get("/snmp/local", (req, res) => {
   // session.table(oid, maxRepetitions, responseCb);
   console.log(session.table(oid, maxRepetitions, responseCb));
 });
+
+let addr;
+// const filename = path.join("./snmp", "ip.csv"); //__dirname same folder
+const localAddress = () => {
+  let ipList = [];
+  try {
+    const options = {
+      version: snmp.Version2c
+    };
+    const session = snmp.createSession("localhost", "public", options);
+    const oid = "1.3.6.1.2.1.4.22"; //ipNetToMediaTable
+    // "1.3.6.1.2.1.4.20" //ipAddrTable
+    function responseCb(error, table) {
+      if (error) {
+        // res.send(error.toString());
+        // return error.toString();
+      } else {
+        Object.keys(table).map((key, index) => {
+          ipList.push(table[key][3]);
+        });
+        addr = ipList;
+        // res.send(ipList);
+      }
+    }
+    // console.log(addr);
+
+    var maxRepetitions = 20;
+    session.table(oid, maxRepetitions, responseCb);
+    // fs.writeFileSync(filename, ipList.join(os.EOL));
+    fs.writeFile("./snmp/ip.csv", JSON.stringify(addr), "utf8", function(err) {
+      if (err) {
+        console.log(
+          "Some error occured - file either not saved or corrupted file saved."
+        );
+      } else {
+        /*
+        fs.readFile("./snmp/ip.csv", "utf8", function(err, data) {
+          if (err) {
+            console.log("can not read file: ", err);
+          } else {
+            // console.log(data);
+          }
+        });
+        */
+        io.emit("localAddress", addr);
+      }
+    });
+    // console.log(session.table(oid, maxRepetitions, responseCb));
+  } catch (error) {
+    console.error(`${error}`);
+  }
+};
+setInterval(() => localAddress(), 5000);
+
+app.get("/snmp/read", (req, res) => {
+  fs.readFile("./snmp/ip.csv", "utf8", function(err, data) {
+    if (err) {
+      console.log("can not read file: ", err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(

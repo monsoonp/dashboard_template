@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 
 // reactstrap components
@@ -41,12 +24,57 @@ import {
 import Header from "components/Headers/Header.jsx";
 
 class Tables extends React.Component {
+  state = {
+    list: []
+  };
+  componentDidMount() {}
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.list !== nextState.list;
+  }
   render() {
+    const { socket } = this.props;
+    const { list } = this.state;
+    socket.on("localAddress", data => {
+      this.setState({ list: data });
+    });
+
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt-4 mb-4" fluid>
+          <Row>
+            <div className="col">
+              <Card className="shadow">
+                <CardHeader className="bg-warning border-0">
+                  <h3 className="mb-0">Local IP Address</h3>
+                </CardHeader>
+                <Table
+                  responsive
+                  className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
+                  striped
+                  dark
+                  hover
+                >
+                  <thead className="thead-dark">
+                    <tr>
+                      <th scope="col">Index</th>
+                      <td>IP</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {list.map((e, i) => (
+                      <tr>
+                        <th>{i}</th>
+                        <td>{e}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Card>
+            </div>
+          </Row>
+
           {/* Table */}
           <Row>
             <div className="col">
