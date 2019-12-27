@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/dashboard_template/static/css/main.0e573779.chunk.css",
-    "main.js": "/dashboard_template/static/js/main.d2f563ff.chunk.js",
-    "main.js.map": "/dashboard_template/static/js/main.d2f563ff.chunk.js.map",
+    "main.js": "/dashboard_template/static/js/main.7065de0c.chunk.js",
+    "main.js.map": "/dashboard_template/static/js/main.7065de0c.chunk.js.map",
     "runtime-main.js": "/dashboard_template/static/js/runtime-main.dbd8030f.js",
     "runtime-main.js.map": "/dashboard_template/static/js/runtime-main.dbd8030f.js.map",
     "static/css/2.898f51b9.chunk.css": "/dashboard_template/static/css/2.898f51b9.chunk.css",
     "static/js/2.8535f791.chunk.js": "/dashboard_template/static/js/2.8535f791.chunk.js",
     "static/js/2.8535f791.chunk.js.map": "/dashboard_template/static/js/2.8535f791.chunk.js.map",
     "index.html": "/dashboard_template/index.html",
-    "precache-manifest.96b7b474e2d66fc674e4bb60a92e1ba9.js": "/dashboard_template/precache-manifest.96b7b474e2d66fc674e4bb60a92e1ba9.js",
+    "precache-manifest.290bf686527d1c9cc2e8747eb00978d4.js": "/dashboard_template/precache-manifest.290bf686527d1c9cc2e8747eb00978d4.js",
     "service-worker.js": "/dashboard_template/service-worker.js",
     "static/css/2.898f51b9.chunk.css.map": "/dashboard_template/static/css/2.898f51b9.chunk.css.map",
     "static/css/main.0e573779.chunk.css.map": "/dashboard_template/static/css/main.0e573779.chunk.css.map",
     "static/js/2.8535f791.chunk.js.LICENSE": "/dashboard_template/static/js/2.8535f791.chunk.js.LICENSE",
-    "static/js/main.d2f563ff.chunk.js.LICENSE": "/dashboard_template/static/js/main.d2f563ff.chunk.js.LICENSE",
+    "static/js/main.7065de0c.chunk.js.LICENSE": "/dashboard_template/static/js/main.7065de0c.chunk.js.LICENSE",
     "static/media/angular.jpg": "/dashboard_template/static/media/angular.368685db.jpg",
     "static/media/bootstrap.jpg": "/dashboard_template/static/media/bootstrap.ab904daa.jpg",
     "static/media/all.min.css": "/dashboard_template/static/media/fa-solid-900.815694de.woff",
@@ -34,6 +34,6 @@
     "static/css/2.898f51b9.chunk.css",
     "static/js/2.8535f791.chunk.js",
     "static/css/main.0e573779.chunk.css",
-    "static/js/main.d2f563ff.chunk.js"
+    "static/js/main.7065de0c.chunk.js"
   ]
 }
