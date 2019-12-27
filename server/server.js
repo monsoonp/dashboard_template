@@ -107,9 +107,16 @@ app.get("/snmp/port", (req, res) => {
     // "1.3.6.1.2.1.1.3.0" // UpTime
     // "1.3.6.1.4.1.9.2.1.2.0" //reboot reason
     // "1.3.6.1.2.1.4.6.0" // 라우팅한 패킷 수
-    // "1.3.6.1.2.1.7.5.1.2"  //local port
-    // "1.3.6.1.2.1.4.12.0"
-    "1.3.6.1.2.1.6.12.1.3.0"
+    // "1.3.6.1.2.1.7.5.1.2" //local port
+    "1.3.6.1.2.1.4.12.0"
+    // "1.3.6.1.2.1.6.12.1.3.0"
+
+    // "1.3.6.1.4.1.2021.10.1.3.1"
+    // "1.3.6.1.4.1.2021.11.9.0"
+    // "1.3.6.1.4.1.2021.11.52.0"
+    // "1.3.6.1.4.1.2021.4.1"
+    // "1.3.6.1.4.1.2021.4.6"
+    // "1.3.6.1.4.1.2021.11.9"
   ];
   session.get(oids, function(error, varbinds) {
     if (error) {
@@ -148,15 +155,18 @@ app.get("/snmp/table", (req, res) => {
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
-  const oid = "1.3.6.1.2.1.4.20";
+  const oid = "1.3.6.1.2.1.25.3.3";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
 
-  // "1.3.6.1.2.1.4.20.1" // ipAddrEntry (table)
-  // "1.3.6.1.2.1.4.21.1" // ipRouteEntry (table)
-  // "1.3.6.1.2.1.6.13.1" // tcpConnEntry (table)
-  // "1.3.6.1.2.1.7.5.1"  //  udpEntry (table)
+  // "1.3.6.1.2.1.4.20" // ipAddr
+  // "1.3.6.1.2.1.4.21" // ipRoute
+  // "1.3.6.1.2.1.6.13" // tcpConn
+  // "1.3.6.1.2.1.7.5"  //  udp
   // "1.3.6.1.2.1.7.7"  //  udpEndpointTable
+  // "1.3.6.1.4.1.2021.9" // disktable
+  // "1.3.6.1.2.1.25.2.3" // hrStorageTable
+  // "1.3.6.1.2.1.25.3.3" // hrProcessorTable
 
   function responseCb(error, table) {
     if (error) {
@@ -177,20 +187,24 @@ app.get("/snmp/table", (req, res) => {
 });
 
 app.get("/snmp/walk", (req, res) => {
-  const session = snmp.createSession("127.0.0.1", "public");
-  const oid = "1.3.6.1.2.1.4.20.1";
+  const options = {
+    version: snmp.Version2c
+  };
+  const session = snmp.createSession("127.0.0.1", "public", options);
+  const oid = "1.3.6.1.2.1.2.2";
   // "1.3.6.1.2.1.2.2"
 
   function doneCb(error) {
     if (error) console.error(error.toString());
   }
-
+  let list = [];
   function feedCb(varbinds) {
     for (var i = 0; i < varbinds.length; i++) {
       if (snmp.isVarbindError(varbinds[i]))
         console.error(snmp.varbindError(varbinds[i]));
       else {
         console.log(varbinds[i].oid + "|" + varbinds[i].value);
+        list.push(varbinds[i].oid + "|" + varbinds[i].value);
       }
     }
     // res.send(varbinds);
@@ -199,7 +213,9 @@ app.get("/snmp/walk", (req, res) => {
   const maxRepetitions = 20;
 
   session.walk(oid, maxRepetitions, feedCb, doneCb);
+  res.send(list);
 });
+
 app.get("/snmp/column", (req, res) => {
   const session = snmp.createSession("127.0.0.1", "public");
 
@@ -287,31 +303,6 @@ app.get("/snmp/set", (req, res) => {
     }
   });
   session.close();
-});
-
-app.get("/snmp/walk", (req, res) => {
-  const session = snmp.createSession("127.0.0.1", "public");
-  const oid = "1.3.6.1.2.1.4.20.1";
-  // "1.3.6.1.2.1.2.2"
-
-  function doneCb(error) {
-    if (error) console.error(error.toString());
-  }
-
-  function feedCb(varbinds) {
-    for (var i = 0; i < varbinds.length; i++) {
-      if (snmp.isVarbindError(varbinds[i]))
-        console.error(snmp.varbindError(varbinds[i]));
-      else {
-        console.log(varbinds[i].oid + "|" + varbinds[i].value);
-      }
-    }
-    // res.send(varbinds);
-  }
-
-  const maxRepetitions = 20;
-
-  session.walk(oid, maxRepetitions, feedCb, doneCb);
 });
 
 app.get("/snmp/local", (req, res) => {

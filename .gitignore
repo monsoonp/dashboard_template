@@ -14,6 +14,7 @@
 # server
 server/node_modules
 server/config.json
+server/snmp/ip.csv
 
 # misc
 .DS_Store
