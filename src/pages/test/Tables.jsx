@@ -29,14 +29,19 @@ class Tables extends React.Component {
   };
   componentDidMount() {}
   shouldComponentUpdate(nextProps, nextState) {
-    return this.state.list !== nextState.list;
+    return (
+      this.state.list !== nextState.list ||
+      nextProps.socket !== this.props.socket
+    );
   }
   render() {
     const { socket } = this.props;
     const { list } = this.state;
-    socket.on("localAddress", data => {
-      this.setState({ list: data });
-    });
+    if (socket) {
+      socket.on("localAddress", data => {
+        this.setState({ list: data });
+      });
+    }
 
     return (
       <>
