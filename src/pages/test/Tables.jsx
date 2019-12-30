@@ -25,9 +25,12 @@ import Header from "components/Headers/Header.jsx";
 
 class Tables extends React.Component {
   state = {
-    list: []
+    list: [],
+    deviceList: []
   };
+  bindDevice = async () => {};
   componentDidMount() {}
+
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.state.list !== nextState.list ||
@@ -36,7 +39,7 @@ class Tables extends React.Component {
   }
   render() {
     const { socket } = this.props;
-    const { list } = this.state;
+    const { list, deviceList } = this.state;
     if (socket) {
       socket.on("localAddress", data => {
         this.setState({ list: data });
@@ -52,25 +55,30 @@ class Tables extends React.Component {
             <div className="col">
               <Card className="shadow">
                 <CardHeader className="bg-warning border-0">
-                  <h3 className="mb-0">Local IP Address</h3>
+                  <h3 className="mb-0">Device List</h3>
                 </CardHeader>
                 <Table
+                  className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, striped, dark, hover, responsive
                   responsive
-                  className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
-                  striped
-                  dark
+                  bordered
                   hover
                 >
-                  <thead className="thead-dark">
+                  <thead className="thead-light">
                     <tr>
                       <th scope="col">Index</th>
-                      <td>IP</td>
+                      <th scope="col">Desc</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Mtu</th>
+                      <th scope="col">Speed</th>
+                      <th scope="col">PhysAddress</th>
+                      <th scope="col">AdminStatus</th>
+                      <th scope="col">OperStatus</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {list.map((e, i) => (
-                      <tr>
-                        <th>{i}</th>
+                    {deviceList.map((e, i) => (
+                      <tr key={i}>
+                        <td>{i}</td>
                         <td>{e}</td>
                       </tr>
                     ))}
@@ -79,7 +87,6 @@ class Tables extends React.Component {
               </Card>
             </div>
           </Row>
-
           {/* Table */}
           <Row>
             <div className="col">
@@ -1678,6 +1685,38 @@ class Tables extends React.Component {
                         </UncontrolledDropdown>
                       </td>
                     </tr>
+                  </tbody>
+                </Table>
+              </Card>
+            </div>
+          </Row>
+
+          <Row>
+            <div className="col">
+              <Card className="shadow">
+                <CardHeader className="bg-warning border-0">
+                  <h3 className="mb-0">Local IP Address</h3>
+                </CardHeader>
+                <Table
+                  responsive
+                  className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
+                  striped
+                  dark
+                  hover
+                >
+                  <thead className="thead-dark">
+                    <tr>
+                      <th scope="col">Index</th>
+                      <td>IP</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {list.map((e, i) => (
+                      <tr key={i}>
+                        <th>{i}</th>
+                        <td>{e}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               </Card>
