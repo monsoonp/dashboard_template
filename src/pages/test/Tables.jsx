@@ -28,16 +28,20 @@ class Tables extends React.Component {
     list: [],
     deviceList: []
   };
-  bindDevice = async () => {};
-  componentDidMount() {}
+
+  componentDidMount = async () => {};
 
   shouldComponentUpdate(nextProps, nextState) {
+    /*
     return (
       this.state.list !== nextState.list ||
       nextProps.socket !== this.props.socket
     );
+    */
+    return true;
   }
   render() {
+    /*
     const { socket } = this.props;
     const { list, deviceList } = this.state;
     if (socket) {
@@ -45,48 +49,13 @@ class Tables extends React.Component {
         this.setState({ list: data });
       });
     }
+    */
 
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt-4 mb-4" fluid>
-          <Row>
-            <div className="col">
-              <Card className="shadow">
-                <CardHeader className="bg-warning border-0">
-                  <h3 className="mb-0">Device List</h3>
-                </CardHeader>
-                <Table
-                  className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, striped, dark, hover, responsive
-                  responsive
-                  bordered
-                  hover
-                >
-                  <thead className="thead-light">
-                    <tr>
-                      <th scope="col">Index</th>
-                      <th scope="col">Desc</th>
-                      <th scope="col">Type</th>
-                      <th scope="col">Mtu</th>
-                      <th scope="col">Speed</th>
-                      <th scope="col">PhysAddress</th>
-                      <th scope="col">AdminStatus</th>
-                      <th scope="col">OperStatus</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {deviceList.map((e, i) => (
-                      <tr key={i}>
-                        <td>{i}</td>
-                        <td>{e}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Card>
-            </div>
-          </Row>
           {/* Table */}
           <Row>
             <div className="col">
@@ -1685,38 +1654,6 @@ class Tables extends React.Component {
                         </UncontrolledDropdown>
                       </td>
                     </tr>
-                  </tbody>
-                </Table>
-              </Card>
-            </div>
-          </Row>
-
-          <Row>
-            <div className="col">
-              <Card className="shadow">
-                <CardHeader className="bg-warning border-0">
-                  <h3 className="mb-0">Local IP Address</h3>
-                </CardHeader>
-                <Table
-                  responsive
-                  className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
-                  striped
-                  dark
-                  hover
-                >
-                  <thead className="thead-dark">
-                    <tr>
-                      <th scope="col">Index</th>
-                      <td>IP</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {list.map((e, i) => (
-                      <tr key={i}>
-                        <th>{i}</th>
-                        <td>{e}</td>
-                      </tr>
-                    ))}
                   </tbody>
                 </Table>
               </Card>

@@ -117,7 +117,8 @@ app.get("/snmp/port", (req, res) => {
     // "1.3.6.1.4.1.2021.4.1"
     // "1.3.6.1.4.1.2021.4.6"
     // "1.3.6.1.4.1.2021.11.9"
-    "1.3.6.1.2.1.2.2.1.1.39" //iftable
+    // "1.3.6.1.2.1.2.2.1.2.36" //iftable
+    "1.3.6.1.2.1.2.1.0" // ifNumber
   ];
   session.get(oids, function(error, varbinds) {
     if (error) {
@@ -163,11 +164,11 @@ app.get("/snmp/table", (req, res) => {
   // "1.3.6.1.2.1.4.20" // ipAddr
   // "1.3.6.1.2.1.4.21" // ipRoute
   // "1.3.6.1.2.1.6.13" // tcpConn
-  // "1.3.6.1.2.1.7.5"  //  udpTable
-  // "1.3.6.1.2.1.7.7"  //  udpEndpointTable
-  // "1.3.6.1.4.1.2021.9" // disktable
-  // "1.3.6.1.2.1.25.2.3" // hrStorageTable
-  // "1.3.6.1.2.1.25.3.3" // hrProcessorTable
+  // "1.3.6.1.2.1.7.5"  //  udp
+  // "1.3.6.1.2.1.7.7"  //  udpEndpoint
+  // "1.3.6.1.4.1.2021.9" // disk
+  // "1.3.6.1.2.1.25.2.3" // hrStorage
+  // "1.3.6.1.2.1.25.3.3" // hrProcessor
 
   function responseCb(error, table) {
     if (error) {
@@ -176,6 +177,7 @@ app.get("/snmp/table", (req, res) => {
     } else {
       Object.keys(table).map((key, index) => {
         console.log(index, key, table[key]);
+        // console.log(new Uint8Array(table[key][2]));
         // console.log(table[key][2].toString("hex")); // ascii, ("ascii",0,10), hex, utf8, binary, base64
       });
       res.send(table);
@@ -193,7 +195,7 @@ app.get("/snmp/walk", (req, res) => {
     version: snmp.Version2c
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
-  const oid = "1.3.6.1.2.1.2.2";
+  const oid = "1.3.6.1.2.1.4.22";
   // "1.3.6.1.2.1.2.2"
 
   function doneCb(error) {
@@ -261,7 +263,7 @@ app.get("/snmp/column", (req, res) => {
         console.log("row for index = " + indexes[i]);
         for (var j = 0; j < columns.length; j++) {
           console.log(
-            "   column " + columns[j] + " = " + table[indexes[i]][columns[j]]
+            "\tcolumn " + columns[j] + " = " + table[indexes[i]][columns[j]]
           );
           ifList.push({
             ["1.3.6.1.2.2.1." + columns[j] + "." + i]: table[indexes[i]][
@@ -271,8 +273,8 @@ app.get("/snmp/column", (req, res) => {
         }
       }
     }
-    // res.send(table);
-    res.send(ifList);
+    res.send(table);
+    // res.send(ifList);
   }
 
   var maxRepetitions = 20;
@@ -333,7 +335,7 @@ app.get("/snmp/local", (req, res) => {
         console.log(index, table[key][3]);
         // console.log(table[key][3].match(reg));
         if (table[key][3].match(reg)) {
-          ipList.push(table[key][3]);
+          ipList.push(table[key]);
         }
       });
       res.send(ipList);
@@ -361,6 +363,7 @@ app.get("/snmp/device", (req, res) => {
   function responseCb(error, table) {
     if (error) {
       console.error(error.toString());
+      res.send([]);
     } else {
       var indexes = [];
       for (index in table) indexes.push(parseInt(index));
@@ -380,14 +383,16 @@ app.get("/snmp/device", (req, res) => {
         }
       }
     }
-    res.send(ifList);
+    let result = [];
+    Object.keys(table).map(e => result.push(table[e]));
+    res.send(result);
+    // res.send(ifList);
   }
 
   var maxRepetitions = 20;
 
   session.tableColumns(oid, columns, maxRepetitions, responseCb);
 });
-
 let addr;
 // const filename = path.join("./snmp", "ip.csv"); //__dirname same folder
 const localAddress = () => {
@@ -405,7 +410,9 @@ const localAddress = () => {
         // return error.toString();
       } else {
         Object.keys(table).map((key, index) => {
-          ipList.push(table[key][3]);
+          // ipList.push(table[key][3]);
+          let obj = { index: index, key: key, table: table[key] };
+          ipList.push(obj);
         });
         addr = ipList;
         // res.send(ipList);

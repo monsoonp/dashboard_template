@@ -6,6 +6,7 @@ import Profile from "pages/test/Profile";
 // import Register from "pages/Register";
 // import Login from "pages/Login";
 import Tables from "pages/test/Tables";
+import Tables2 from "pages/test/Tables2";
 import Icons from "pages/test/Icons";
 import Tree from "pages/test/Tree";
 import Modals from "pages/test/Modals";
@@ -45,6 +46,13 @@ var testPages = [
     name: "Tables",
     icon: "ni ni-collection text-warning",
     component: Tables,
+    layout: "/test"
+  },
+  {
+    path: "/tables2",
+    name: "Tables2",
+    icon: "ni ni-collection text-warning",
+    component: Tables2,
     layout: "/test"
   },
   {
