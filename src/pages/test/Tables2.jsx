@@ -41,35 +41,35 @@ const Tables2 = ({ socket }) => {
   const ipTypeChecker = e => {
     switch (e) {
       case 1:
-        return <td class="bg-warning">other(1)</td>;
+        return <td className="bg-warning">other(1)</td>;
       case 2:
-        return <td class="bg-danger">invalid(2)</td>;
+        return <td className="bg-danger">invalid(2)</td>;
       case 3:
-        return <td class="bg-info">dynamic(3)</td>;
+        return <td className="bg-info">dynamic(3)</td>;
       case 4:
-        return <td class="bg-success">static(4)</td>;
+        return <td className="bg-success">static(4)</td>;
       default:
-        return <td class="bg-danger" />;
+        return <td className="bg-danger" />;
     }
   };
   const ifTypeChecker = e => {
     switch (e) {
       case 1:
-        return <td class="bg-success">up(1)</td>;
+        return <td className="bg-success">up(1)</td>;
       case 2:
-        return <td class="bg-danger text-white">down(2)</td>;
+        return <td className="bg-danger text-white">down(2)</td>;
       case 3:
-        return <td class="bg-warning">testing(3)</td>;
+        return <td className="bg-warning">testing(3)</td>;
       case 4:
-        return <td class="bg-warning">unknown(4)</td>;
+        return <td className="bg-warning">unknown(4)</td>;
       case 5:
-        return <td class="bg-info">dormant(5)</td>;
+        return <td className="bg-info">dormant(5)</td>;
       case 6:
-        return <td class="bg-danger text-white">notPresent(6)</td>;
+        return <td className="bg-danger text-white">notPresent(6)</td>;
       case 7:
-        return <td class="bg-warning">lowerLayerDown(7)</td>;
+        return <td className="bg-warning">lowerLayerDown(7)</td>;
       default:
-        return <td class="bg-danger" />;
+        return <td className="bg-danger" />;
     }
   };
   useEffect(() => {
@@ -125,9 +125,9 @@ const Tables2 = ({ socket }) => {
                       <td>{e[5]}</td>
                       <td>{new Buffer(e[6].data)}</td>
                       {e[7] === 1 ? (
-                        <td class="bg-success">up(1)</td>
+                        <td className="bg-success">up(1)</td>
                       ) : (
-                        <td class="bg-danger text-white">
+                        <td className="bg-danger text-white">
                           {e[7] === 2 ? "up(2)" : "testing(3)"}
                         </td>
                       )}

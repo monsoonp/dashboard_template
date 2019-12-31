@@ -157,7 +157,7 @@ app.get("/snmp/table", (req, res) => {
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
-  const oid = "1.3.6.1.2.1.4.22";
+  const oid = "1.3.6.1.2.1.4.20";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
 
