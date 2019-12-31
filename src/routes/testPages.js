@@ -28,6 +28,13 @@ var testPages = [
     layout: "/test"
   },
   {
+    path: "/list",
+    name: "List",
+    icon: "ni ni-ui-04 text-warning",
+    component: Tables2,
+    layout: "/test"
+  },
+  {
     path: "/icons",
     name: "Icons",
     icon: "ni ni-world text-muted",
@@ -46,13 +53,6 @@ var testPages = [
     name: "Tables",
     icon: "ni ni-collection text-warning",
     component: Tables,
-    layout: "/test"
-  },
-  {
-    path: "/tables2",
-    name: "Tables2",
-    icon: "ni ni-collection text-warning",
-    component: Tables2,
     layout: "/test"
   },
   {
