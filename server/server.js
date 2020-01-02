@@ -157,7 +157,7 @@ app.get("/snmp/table", (req, res) => {
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
-  const oid = "1.3.6.1.2.1.4.20";
+  const oid = "1.3.6.1.2.1.4.22";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
 
@@ -186,7 +186,6 @@ app.get("/snmp/table", (req, res) => {
   }
 
   var maxRepetitions = 20;
-
   console.log(session.table(oid, maxRepetitions, responseCb));
 });
 
@@ -228,6 +227,7 @@ app.get("/snmp/column", (req, res) => {
   // "1.3.6.1.2.1.4.20" // ip
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry
   // "1.3.6.1.2.1.17.4.3" // dot1dTpFdbEntry - MAC / not work
+  // "1.3.6.1.2.1.4.34" // ipAddress / not work
 
   const oid = "1.3.6.1.2.1.2.2";
   const columns = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -348,7 +348,7 @@ app.get("/snmp/local", (req, res) => {
   console.log(session.table(oid, maxRepetitions, responseCb));
 });
 app.get("/snmp/device", (req, res) => {
-  const session = snmp.createSession("127.0.0.1", "public");
+  const session = snmp.createSession("localhost", "public");
 
   const oid = "1.3.6.1.2.1.2.2";
   // const columns = [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];

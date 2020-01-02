@@ -58,9 +58,12 @@ import { ArrowUnsorted } from "styled-icons/typicons";
 class Sidebar extends React.Component {
   state = {
     collapseOpen: false,
-    homeToggle: false,
-    testToggle: true
+    homeToggle: this.props.location.pathname.includes("admin"),
+    testToggle: this.props.location.pathname.includes("test")
   };
+  componentDidMount() {
+    console.log();
+  }
   // verifies if routeName is the one active (in browser input)
   activeRoute = routeName => {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";

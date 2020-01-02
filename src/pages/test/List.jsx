@@ -23,7 +23,7 @@ import {
 // core components
 import Header from "components/Headers/Header.jsx";
 
-const Tables2 = ({ socket }) => {
+const List = ({ socket }) => {
   const [list, setList] = useState([]);
   const [deviceList, setDeviceList] = useState([]);
 
@@ -31,7 +31,12 @@ const Tables2 = ({ socket }) => {
     try {
       const response = await fetch(`/snmp/device`);
       const resJson = await response.json();
-      setDeviceList(resJson);
+      if (resJson.toString() !== deviceList.toString()) {
+        setDeviceList(resJson);
+        console.log("device connection changed!");
+      } else {
+        console.log("nothing changed");
+      }
       // return resJson;
     } catch (error) {
       console.log(error);
@@ -73,10 +78,13 @@ const Tables2 = ({ socket }) => {
     }
   };
   useEffect(() => {
+    bindDevice();
+    /*
     if (deviceList.length === 0) {
-      bindDevice();
     }
-  }, [socket, list, deviceList.length]);
+    */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket, list]);
 
   if (socket) {
     socket.on("localAddress", data => {
@@ -106,34 +114,35 @@ const Tables2 = ({ socket }) => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Index</th>
-                    <th scope="col">Desc</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Mtu</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">PhysAddress</th>
-                    <th scope="col">AdminStatus</th>
-                    <th scope="col">OperStatus</th>
+                    <td>Desc</td>
+                    <td>Type</td>
+                    <td>Mtu</td>
+                    <td>Speed</td>
+                    <td>PhysAddress</td>
+                    <td>AdminStatus</td>
+                    <td>OperStatus</td>
                   </tr>
                 </thead>
                 <tbody>
-                  {deviceList.map((e, i) => (
-                    <tr key={i}>
-                      <td>{e[1]}</td>
-                      <td>{new Buffer(e[2].data).toString()}</td>
-                      <td>{e[3]}</td>
-                      <td>{e[4]}</td>
-                      <td>{e[5]}</td>
-                      <td>{new Buffer(e[6].data)}</td>
-                      {e[7] === 1 ? (
-                        <td className="bg-success">up(1)</td>
-                      ) : (
-                        <td className="bg-danger text-white">
-                          {e[7] === 2 ? "up(2)" : "testing(3)"}
-                        </td>
-                      )}
-                      {ifTypeChecker(e[8])}
-                    </tr>
-                  ))}
+                  {deviceList.length !== 0 &&
+                    deviceList.map((e, i) => (
+                      <tr key={i}>
+                        <td>{e[1]}</td>
+                        <td>{new Buffer(e[2].data).toString()}</td>
+                        <td>{e[3]}</td>
+                        <td>{e[4]}</td>
+                        <td>{e[5]}</td>
+                        <td>{new Buffer(e[6].data)}</td>
+                        {e[7] === 1 ? (
+                          <td className="bg-success">up(1)</td>
+                        ) : (
+                          <td className="bg-danger text-white">
+                            {e[7] === 2 ? "up(2)" : "testing(3)"}
+                          </td>
+                        )}
+                        {ifTypeChecker(e[8])}
+                      </tr>
+                    ))}
                   <tr>
                     <td></td>
                   </tr>
@@ -159,21 +168,24 @@ const Tables2 = ({ socket }) => {
                 <thead className="thead-dark">
                   <tr>
                     <th scope="col">Index</th>
-                    <td>Addr</td>
+                    <td>Key</td>
+                    <td>PhysAddr</td>
                     <td>IP</td>
                     <td>Type</td>
                   </tr>
                 </thead>
                 <tbody>
-                  {list.map((e, i) => (
-                    <tr key={i}>
-                      <th>{e.index}</th>
-                      <td>{new Buffer(e.table[2])}</td>
-                      <td>{e.table[3]}</td>
+                  {list.length !== 0 &&
+                    list.map((e, i) => (
+                      <tr key={i}>
+                        <th>{e.index}</th>
+                        <td>{e.key.split(".")[0]}</td>
+                        <td>{new Buffer(e.table[2])}</td>
+                        <td>{e.table[3]}</td>
 
-                      {ipTypeChecker(e.table[4])}
-                    </tr>
-                  ))}
+                        {ipTypeChecker(e.table[4])}
+                      </tr>
+                    ))}
                 </tbody>
               </Table>
             </Card>
@@ -184,4 +196,4 @@ const Tables2 = ({ socket }) => {
   );
 };
 
-export default Tables2;
+export default List;

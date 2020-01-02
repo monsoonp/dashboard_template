@@ -6,7 +6,7 @@ import Profile from "pages/test/Profile";
 // import Register from "pages/Register";
 // import Login from "pages/Login";
 import Tables from "pages/test/Tables";
-import Tables2 from "pages/test/Tables2";
+import List from "pages/test/List";
 import Icons from "pages/test/Icons";
 import Tree from "pages/test/Tree";
 import Modals from "pages/test/Modals";
@@ -31,7 +31,7 @@ var testPages = [
     path: "/list",
     name: "List",
     icon: "ni ni-ui-04 text-warning",
-    component: Tables2,
+    component: List,
     layout: "/test"
   },
   {
