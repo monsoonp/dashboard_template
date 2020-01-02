@@ -231,7 +231,9 @@ deleteTCB(12)
           <div className="col">
             <Card className="shadow">
               <CardHeader className="bg-warning border-0">
-                <h3 className="mb-0">Device List</h3>
+                <h3 className="mb-0">
+                  Device List (interface - 1.3.6.1.2.1.2.2)
+                </h3>
               </CardHeader>
               <Table
                 className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, striped, dark, hover, responsive
