@@ -24,8 +24,9 @@ import {
 import Header from "components/Headers/Header.jsx";
 
 const List = ({ socket }) => {
-  const [list, setList] = useState([]);
-  const [deviceList, setDeviceList] = useState([]);
+  const [list, setList] = useState(false);
+  const [tcp, setTcp] = useState(false);
+  const [deviceList, setDeviceList] = useState(false);
 
   const bindDevice = async () => {
     try {
@@ -33,16 +34,55 @@ const List = ({ socket }) => {
       const resJson = await response.json();
       if (resJson.toString() !== deviceList.toString()) {
         setDeviceList(resJson);
-        console.log("device connection changed!");
+        console.log("device connection changed!", resJson);
       } else {
-        console.log("nothing changed");
+        // console.log("nothing changed");
       }
       // return resJson;
     } catch (error) {
       console.log(error);
     }
   };
+  const bindTcp = async () => {
+    try {
+      const response = await fetch(`/snmp/tcp`);
+      const resJson = await response.json();
+      if (resJson.toString() !== tcp.toString()) {
+        setTcp(resJson);
+        console.log("tcp connection changed!", resJson);
+      } else {
+        // console.log("nothing changed");
+      }
+      // return resJson;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const tcpTypeChecker = e => {
+    switch (e) {
+      case 2:
+      case 5:
+      case 11:
+        return <td className="bg-success">{e}</td>;
+      default:
+        return <td className="bg-danger">{e}</td>;
+    }
+    /*
+closed(1),
+listen(2),
+synSent(3),
+synReceived(4),
+established(5),
+finWait1(6),
+finWait2(7),
+closeWait(8),
+lastAck(9),
+closing(10),
+timeWait(11),
+deleteTCB(12)
 
+    */
+  };
   const ipTypeChecker = e => {
     switch (e) {
       case 1:
@@ -79,6 +119,8 @@ const List = ({ socket }) => {
   };
   useEffect(() => {
     bindDevice();
+    bindTcp();
+
     /*
     if (deviceList.length === 0) {
     }
@@ -98,6 +140,93 @@ const List = ({ socket }) => {
       {/* Page content */}
       <Container className="mt-4 mb-4" fluid>
         {/* Table */}
+
+        <Row>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="bg-gradient-warning border-0">
+                <h3 className="mb-0">
+                  TCP IP Address (tcp - 1.3.6.1.2.1.6.13)
+                </h3>
+              </CardHeader>
+              <Table
+                responsive
+                className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
+                striped
+                hover
+                size="sm"
+              >
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col">Index</th>
+                    <td>State</td>
+                    <td>LocalPort</td>
+                    <td>RemAddr</td>
+                    <td>RemPort</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tcp &&
+                    tcp
+                      .filter(
+                        e => e[2] === "192.168.0.38" && e[4] !== "192.168.0.38"
+                      )
+                      .map((e, i) => (
+                        <tr key={i}>
+                          <th>{i}</th>
+                          {tcpTypeChecker(e[1])}
+                          <td>{e[3]}</td>
+                          <td>{e[4]}</td>
+                          <td>{e[5]}</td>
+                        </tr>
+                      ))}
+                </tbody>
+              </Table>
+            </Card>
+          </div>
+        </Row>
+        <Row>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="bg-warning border-0">
+                <h3 className="mb-0">
+                  Local IP Address (ipNetToMedia - 1.3.6.1.2.1.4.22)
+                </h3>
+              </CardHeader>
+              <Table
+                responsive
+                className="align-items-center table-flush"
+                striped
+                dark
+                hover
+                size="sm"
+              >
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col">Index</th>
+                    <td>Key</td>
+                    <td>PhysAddr</td>
+                    <td>IP</td>
+                    <td>Type</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {list &&
+                    list.map((e, i) => (
+                      <tr key={i}>
+                        <th>{e.index}</th>
+                        <td>{e.key.split(".")[0]}</td>
+                        <td>{new Buffer(e.table[2])}</td>
+                        <td>{e.table[3]}</td>
+
+                        {ipTypeChecker(e.table[4])}
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </Card>
+          </div>
+        </Row>
         <Row>
           <div className="col">
             <Card className="shadow">
@@ -124,7 +253,7 @@ const List = ({ socket }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {deviceList.length !== 0 &&
+                  {deviceList &&
                     deviceList.map((e, i) => (
                       <tr key={i}>
                         <td>{e[1]}</td>
@@ -146,46 +275,6 @@ const List = ({ socket }) => {
                   <tr>
                     <td></td>
                   </tr>
-                </tbody>
-              </Table>
-            </Card>
-          </div>
-        </Row>
-
-        <Row>
-          <div className="col">
-            <Card className="shadow">
-              <CardHeader className="bg-warning border-0">
-                <h3 className="mb-0">Local IP Address</h3>
-              </CardHeader>
-              <Table
-                responsive
-                className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, strped, dark, hover, responsive
-                striped
-                dark
-                hover
-              >
-                <thead className="thead-dark">
-                  <tr>
-                    <th scope="col">Index</th>
-                    <td>Key</td>
-                    <td>PhysAddr</td>
-                    <td>IP</td>
-                    <td>Type</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {list.length !== 0 &&
-                    list.map((e, i) => (
-                      <tr key={i}>
-                        <th>{e.index}</th>
-                        <td>{e.key.split(".")[0]}</td>
-                        <td>{new Buffer(e.table[2])}</td>
-                        <td>{e.table[3]}</td>
-
-                        {ipTypeChecker(e.table[4])}
-                      </tr>
-                    ))}
                 </tbody>
               </Table>
             </Card>
