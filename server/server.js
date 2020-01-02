@@ -157,7 +157,7 @@ app.get("/snmp/table", (req, res) => {
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
-  const oid = "1.3.6.1.2.1.6.13";
+  const oid = "1.3.6.1.2.1.4.22";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
 
@@ -344,6 +344,7 @@ app.get("/snmp/local", (req, res) => {
   var maxRepetitions = 20;
   console.log(session.table(oid, maxRepetitions, responseCb));
 });
+let tcpList = [];
 app.get("/snmp/tcp", (req, res) => {
   const options = {
     version: snmp.Version2c
@@ -354,6 +355,7 @@ app.get("/snmp/tcp", (req, res) => {
   function responseCb(error, table) {
     if (error) {
       console.log(error.toString());
+      res.send(tcpList);
     } else {
       Object.keys(table).map((key, index) => {
         console.log(index, key, table[key]);
@@ -361,7 +363,8 @@ app.get("/snmp/tcp", (req, res) => {
       // res.send(table);
       let result = [];
       Object.keys(table).map(e => result.push(table[e]));
-      res.send(result);
+      tcpList = result;
+      res.send(tcpList);
     }
   }
 

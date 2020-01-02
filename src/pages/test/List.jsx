@@ -117,6 +117,12 @@ deleteTCB(12)
         return <td className="bg-danger" />;
     }
   };
+  if (socket) {
+    socket.on("localAddress", data => {
+      setList(data);
+    });
+  }
+
   useEffect(() => {
     bindDevice();
     bindTcp();
@@ -127,12 +133,6 @@ deleteTCB(12)
     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket, list]);
-
-  if (socket) {
-    socket.on("localAddress", data => {
-      setList(data);
-    });
-  }
 
   return (
     <>
@@ -169,7 +169,10 @@ deleteTCB(12)
                   {tcp &&
                     tcp
                       .filter(
-                        e => e[2] === "192.168.0.38" && e[4] !== "192.168.0.38"
+                        e =>
+                          e[2] &&
+                          e[2].includes("192.168.0") &&
+                          e[4] !== "192.168.0.38"
                       )
                       .map((e, i) => (
                         <tr key={i}>
