@@ -101,8 +101,11 @@ deleteTCB(12)
         const response = await fetch(`/snmp/device`);
         const resJson = await response.json();
         if (resJson.toString() !== deviceList.toString()) {
+          console.log(
+            "device connection changed!",
+            _.differenceWith(resJson, deviceList, _.isEqual)
+          );
           setDeviceList(resJson);
-          console.log("device connection changed!", resJson);
         } else {
           // console.log("nothing changed");
         }
@@ -117,14 +120,14 @@ deleteTCB(12)
         const resJson = await response.json();
 
         if (resJson.toString() !== tcp.toString()) {
-          console.log("tcp connection changed!");
           if (tcp) {
             setTcpInsertList(_.differenceWith(resJson, tcp, _.isEqual));
             setTcpDelList(_.differenceWith(tcp, resJson, _.isEqual));
-            console.log("insertion", tcpInsertList);
-            console.log("deletion", tcpDelList);
+            // console.log("insertion", tcpInsertList);
+            // console.log("deletion", tcpDelList);
           }
           setTcp(resJson);
+          console.log("tcp connection changed!");
         } else {
           // console.log("nothing changed");
         }
@@ -140,7 +143,8 @@ deleteTCB(12)
     if (deviceList.length === 0) {
     }
     */
-  }, [socket, list, deviceList, tcp, tcpInsertList, tcpDelList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket, list, tcp]);
 
   return (
     <>
