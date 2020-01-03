@@ -95,6 +95,11 @@ arraybuffer.slice@~0.0.7:
   resolved "https://registry.yarnpkg.com/arraybuffer.slice/-/arraybuffer.slice-0.0.7.tgz#3bbc4275dd584cc1b10809b89d4e8b63a69e7675"
   integrity sha512-wGUIVQXuehL5TCqQun8OW81jGzAWycqzFF8lFp+GOM5BXLYj3bKNsYC4daB7n6XjCqxQA/qgTJ+8ANR3acjrog==
 
+asn1-ber@*:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/asn1-ber/-/asn1-ber-1.0.9.tgz#0f48f709d9f9a953e18cfe2b8a62a6c926c5451a"
+  integrity sha512-XJP9p/wm5uW4KFLswZ9PmdUpLMRrbq28ak3XxLFWSkBtmJOSfiBrbrZyR6X24+lZvOA+usP6Gd5LyjRaJzMAEw==
+
 assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
@@ -1414,6 +1419,13 @@ negotiator@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
+
+net-snmp@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/net-snmp/-/net-snmp-1.2.4.tgz#9db6dd9338e24a1eff0ce2cdb530ee77c1c9fd61"
+  integrity sha512-DSmp0AGMRw3iRZ3HwuG+BBUk6nTlQuKQgdwQdnbwjkrQwNFY5l8c4QgPiJbogNifyX40+S43hDuH26dsSz/DZQ==
+  dependencies:
+    asn1-ber "*"
 
 node-pre-gyp@^0.12.0:
   version "0.12.0"

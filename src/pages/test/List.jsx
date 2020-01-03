@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import _ from "lodash";
 // reactstrap components
 import {
   // Badge,
@@ -27,37 +27,9 @@ const List = ({ socket }) => {
   const [list, setList] = useState(false);
   const [tcp, setTcp] = useState(false);
   const [deviceList, setDeviceList] = useState(false);
+  const [tcpInsertList, setTcpInsertList] = useState(false);
+  const [tcpDelList, setTcpDelList] = useState(false);
 
-  const bindDevice = async () => {
-    try {
-      const response = await fetch(`/snmp/device`);
-      const resJson = await response.json();
-      if (resJson.toString() !== deviceList.toString()) {
-        setDeviceList(resJson);
-        console.log("device connection changed!", resJson);
-      } else {
-        // console.log("nothing changed");
-      }
-      // return resJson;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const bindTcp = async () => {
-    try {
-      const response = await fetch(`/snmp/tcp`);
-      const resJson = await response.json();
-      if (resJson.toString() !== tcp.toString()) {
-        setTcp(resJson);
-        console.log("tcp connection changed!", resJson);
-      } else {
-        // console.log("nothing changed");
-      }
-      // return resJson;
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const tcpTypeChecker = e => {
     switch (e) {
       case 2:
@@ -124,6 +96,43 @@ deleteTCB(12)
   }
 
   useEffect(() => {
+    const bindDevice = async () => {
+      try {
+        const response = await fetch(`/snmp/device`);
+        const resJson = await response.json();
+        if (resJson.toString() !== deviceList.toString()) {
+          setDeviceList(resJson);
+          console.log("device connection changed!", resJson);
+        } else {
+          // console.log("nothing changed");
+        }
+        // return resJson;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const bindTcp = async () => {
+      try {
+        const response = await fetch(`/snmp/tcp`);
+        const resJson = await response.json();
+
+        if (resJson.toString() !== tcp.toString()) {
+          console.log("tcp connection changed!");
+          if (tcp) {
+            setTcpInsertList(_.differenceWith(resJson, tcp, _.isEqual));
+            setTcpDelList(_.differenceWith(tcp, resJson, _.isEqual));
+            console.log("insertion", tcpInsertList);
+            console.log("deletion", tcpDelList);
+          }
+          setTcp(resJson);
+        } else {
+          // console.log("nothing changed");
+        }
+        // return resJson;
+      } catch (error) {
+        console.log(error);
+      }
+    };
     bindDevice();
     bindTcp();
 
@@ -131,8 +140,7 @@ deleteTCB(12)
     if (deviceList.length === 0) {
     }
     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, list]);
+  }, [socket, list, deviceList, tcp, tcpInsertList, tcpDelList]);
 
   return (
     <>
@@ -171,18 +179,48 @@ deleteTCB(12)
                       .filter(
                         e =>
                           e[2] &&
-                          e[2].includes("192.168.0") &&
+                          // e[2].includes("192.168.0") &&
+                          e[2] !== "0.0.0.0" &&
+                          e[2] !== "127.0.0.1" &&
                           e[4] !== "192.168.0.38"
                       )
                       .map((e, i) => (
                         <tr key={i}>
                           <th>{i}</th>
                           {tcpTypeChecker(e[1])}
-                          <td>{e[3]}</td>
+                          <td>
+                            {e[3]} ({e[2]})
+                          </td>
                           <td>{e[4]}</td>
                           <td>{e[5]}</td>
                         </tr>
                       ))}
+                </tbody>
+                <tbody>
+                  {tcpInsertList &&
+                    tcpInsertList.map((e, i) => (
+                      <tr key={i} className="bg-info">
+                        <th>{i}</th>
+                        {tcpTypeChecker(e[1])}
+                        <td>
+                          {e[3]} ({e[2]})
+                        </td>
+                        <td>{e[4]}</td>
+                        <td>{e[5]}</td>
+                      </tr>
+                    ))}
+                  {tcpDelList &&
+                    tcpDelList.map((e, i) => (
+                      <tr key={i} className="bg-warning text-white">
+                        <th>{i}</th>
+                        {tcpTypeChecker(e[1])}
+                        <td>
+                          {e[3]} ({e[2]})
+                        </td>
+                        <td>{e[4]}</td>
+                        <td>{e[5]}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </Table>
             </Card>

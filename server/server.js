@@ -9,6 +9,7 @@ const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const axios = require("axios");
+const _ = require("lodash");
 
 // const bodyParser = require("body-parser");
 //var iconv  = require('iconv').iconv; //인코딩을 변환 해주는 모듈, 필자는 iconv보다 iconv-lite를 선호한다.
@@ -350,7 +351,7 @@ app.get("/snmp/tcp", (req, res) => {
     version: snmp.Version2c
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
-  const oid = "1.3.6.1.2.1.6.13"; //tcp
+  const oid = "1.3.6.1.2.1.6.13"; //tcpConnTable
 
   function responseCb(error, table) {
     if (error) {
