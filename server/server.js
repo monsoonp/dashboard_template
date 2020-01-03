@@ -157,7 +157,7 @@ app.get("/snmp/table", (req, res) => {
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
-  const oid = "1.3.6.1.2.1.2.2";
+  const oid = "1.3.6.1.2.1.4.22";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
 
@@ -168,6 +168,7 @@ app.get("/snmp/table", (req, res) => {
   // "1.3.6.1.2.1.7.7"  //  udpEndpoint
   // "1.3.6.1.2.1.80.1.3" // pingResult
   // "1.3.6.1.2.1.80.1.4" // pingPropsHistory
+  // "1.3.6.1.4.1.9.9.16.1.1" // ciscoPing
 
   // "1.3.6.1.4.1.2021.9" // disk
   // "1.3.6.1.2.1.25.2.3" // hrStorage
