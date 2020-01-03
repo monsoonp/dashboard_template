@@ -152,7 +152,106 @@ deleteTCB(12)
       {/* Page content */}
       <Container className="mt-4 mb-4" fluid>
         {/* Table */}
+        {/* local ip list in network */}
+        <Row>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="bg-warning border-0">
+                <h3 className="mb-0">
+                  Local IP Address (ipNetToMedia - 1.3.6.1.2.1.4.22)
+                </h3>
+              </CardHeader>
+              <Table
+                responsive
+                className="align-items-center table-flush"
+                striped
+                dark
+                hover
+                size="sm"
+              >
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col">Index</th>
+                    <td>Key</td>
+                    <td>PhysAddr</td>
+                    <td>IP</td>
+                    <td>Type</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {list &&
+                    list.map((e, i) => (
+                      <tr key={i}>
+                        <th>{e.index}</th>
+                        <td>{e.key.split(".")[0]}</td>
+                        <td>{new Buffer(e.table[2])}</td>
+                        <td>{e.table[3]}</td>
 
+                        {ipTypeChecker(e.table[4])}
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </Card>
+          </div>
+        </Row>
+        {/* device list */}
+        <Row>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="bg-warning border-0">
+                <h3 className="mb-0">
+                  Device List (interface - 1.3.6.1.2.1.2.2)
+                </h3>
+              </CardHeader>
+              <Table
+                className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, striped, dark, hover, responsive
+                responsive
+                bordered
+                hover
+                size="sm"
+              >
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col">Index</th>
+                    <td>Desc</td>
+                    <td>Type</td>
+                    <td>Mtu</td>
+                    <td>Speed</td>
+                    <td>PhysAddress</td>
+                    <td>AdminStatus</td>
+                    <td>OperStatus</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {deviceList &&
+                    deviceList.map((e, i) => (
+                      <tr key={i}>
+                        <td>{e[1]}</td>
+                        <td>{new Buffer(e[2].data).toString()}</td>
+                        <td>{e[3]}</td>
+                        <td>{e[4]}</td>
+                        <td>{e[5]}</td>
+                        <td>{new Buffer(e[6].data)}</td>
+                        {e[7] === 1 ? (
+                          <td className="bg-success">up(1)</td>
+                        ) : (
+                          <td className="bg-danger text-white">
+                            {e[7] === 2 ? "up(2)" : "testing(3)"}
+                          </td>
+                        )}
+                        {ifTypeChecker(e[8])}
+                      </tr>
+                    ))}
+                  <tr>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card>
+          </div>
+        </Row>
+        {/* tcp ip list */}
         <Row>
           <div className="col">
             <Card className="shadow">
@@ -225,103 +324,6 @@ deleteTCB(12)
                         <td>{e[5]}</td>
                       </tr>
                     ))}
-                </tbody>
-              </Table>
-            </Card>
-          </div>
-        </Row>
-        <Row>
-          <div className="col">
-            <Card className="shadow">
-              <CardHeader className="bg-warning border-0">
-                <h3 className="mb-0">
-                  Local IP Address (ipNetToMedia - 1.3.6.1.2.1.4.22)
-                </h3>
-              </CardHeader>
-              <Table
-                responsive
-                className="align-items-center table-flush"
-                striped
-                dark
-                hover
-                size="sm"
-              >
-                <thead className="thead-dark">
-                  <tr>
-                    <th scope="col">Index</th>
-                    <td>Key</td>
-                    <td>PhysAddr</td>
-                    <td>IP</td>
-                    <td>Type</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {list &&
-                    list.map((e, i) => (
-                      <tr key={i}>
-                        <th>{e.index}</th>
-                        <td>{e.key.split(".")[0]}</td>
-                        <td>{new Buffer(e.table[2])}</td>
-                        <td>{e.table[3]}</td>
-
-                        {ipTypeChecker(e.table[4])}
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </Card>
-          </div>
-        </Row>
-        <Row>
-          <div className="col">
-            <Card className="shadow">
-              <CardHeader className="bg-warning border-0">
-                <h3 className="mb-0">
-                  Device List (interface - 1.3.6.1.2.1.2.2)
-                </h3>
-              </CardHeader>
-              <Table
-                className="align-items-center table-flush" // table-dark  / tag, size, bordered, borderless, striped, dark, hover, responsive
-                responsive
-                bordered
-                hover
-                size="sm"
-              >
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Index</th>
-                    <td>Desc</td>
-                    <td>Type</td>
-                    <td>Mtu</td>
-                    <td>Speed</td>
-                    <td>PhysAddress</td>
-                    <td>AdminStatus</td>
-                    <td>OperStatus</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {deviceList &&
-                    deviceList.map((e, i) => (
-                      <tr key={i}>
-                        <td>{e[1]}</td>
-                        <td>{new Buffer(e[2].data).toString()}</td>
-                        <td>{e[3]}</td>
-                        <td>{e[4]}</td>
-                        <td>{e[5]}</td>
-                        <td>{new Buffer(e[6].data)}</td>
-                        {e[7] === 1 ? (
-                          <td className="bg-success">up(1)</td>
-                        ) : (
-                          <td className="bg-danger text-white">
-                            {e[7] === 2 ? "up(2)" : "testing(3)"}
-                          </td>
-                        )}
-                        {ifTypeChecker(e[8])}
-                      </tr>
-                    ))}
-                  <tr>
-                    <td></td>
-                  </tr>
                 </tbody>
               </Table>
             </Card>
