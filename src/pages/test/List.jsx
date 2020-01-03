@@ -38,22 +38,22 @@ const List = ({ socket }) => {
         return <td className="bg-success">{e}</td>;
       default:
         return <td className="bg-danger">{e}</td>;
+      /*
+    closed(1),
+    listen(2),
+    synSent(3),
+    synReceived(4),
+    established(5),
+    finWait1(6),
+    finWait2(7),
+    closeWait(8),
+    lastAck(9),
+    closing(10),
+    timeWait(11),
+    deleteTCB(12)
+    
+        */
     }
-    /*
-closed(1),
-listen(2),
-synSent(3),
-synReceived(4),
-established(5),
-finWait1(6),
-finWait2(7),
-closeWait(8),
-lastAck(9),
-closing(10),
-timeWait(11),
-deleteTCB(12)
-
-    */
   };
   const ipTypeChecker = e => {
     switch (e) {
@@ -68,6 +68,12 @@ deleteTCB(12)
       default:
         return <td className="bg-danger" />;
     }
+    /*
+    other(1), -- none of the following
+    invalid(2), -- an invalidated mapping
+    dynamic(3),
+    static(4)
+    */
   };
   const ifTypeChecker = e => {
     switch (e) {
@@ -88,6 +94,17 @@ deleteTCB(12)
       default:
         return <td className="bg-danger" />;
     }
+    /*
+    up(1), -- ready to pass packets
+    down(2),
+    testing(3) -- in some test mode
+    /////////// admin / oper
+    unknown(4), -- status can not be determined
+    -- for some reason.
+    dormant(5),
+    notPresent(6), -- some component is missing
+    lowerLayerDown(7) -- down due to state of -- lower-layer interface(s)
+    */
   };
   if (socket) {
     socket.on("localAddress", data => {
