@@ -12,10 +12,10 @@ const axios = require("axios");
 const _ = require("lodash");
 
 // const bodyParser = require("body-parser");
-//var iconv  = require('iconv').iconv; //인코딩을 변환 해주는 모듈, 필자는 iconv보다 iconv-lite를 선호한다.
-//const charset = require('charset') //해당 사이트의 charset값을 알 수 있게 해준다.
+// var iconv  = require('iconv').iconv; //인코딩을 변환 해주는 모듈, 필자는 iconv보다 iconv-lite를 선호한다.
+// const charset = require('charset') //해당 사이트의 charset값을 알 수 있게 해준다.
 // app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 const data = fs.readFileSync("./config.json");
 const port = process.env.PORT || 5000;
@@ -31,12 +31,78 @@ const conn = mysql.createConnection({
   database: conf.database
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 //const multer = require('multer');   //multer 라이브러리 중복되지 않는 형태로 업로드
 //const upload = multer({dest: './upload'})
 
 //SNMP
 const snmp = require("net-snmp");
 // const session = snmp.createSession("127.0.0.1", "public");
+
+//test
+app.get("/snmp/test", (req, res) => {
+  var oids = [
+    "1.3.6.1.2.1.80.1.4.1.1",
+    "1.3.6.1.2.1.80.1.4.1.2",
+    "1.3.6.1.2.1.80.1.4.1.3",
+    "1.3.6.1.2.1.80.1.4.1.8",
+    "1.3.6.1.2.1.10.46.1.4",
+    "1.3.6.1"
+  ];
+  const options = {
+    version: snmp.Version2c
+  };
+  // var nonRepeaters = 2;
+  const session = snmp.createSession("127.0.0.1", "public", options);
+  // mib 상 해당 oid가 없으면 다음 oid가 매칭
+  session.getNext(oids, function(error, varbinds) {
+    if (error) {
+      console.error(error.toString());
+    } else {
+      for (var i = 0; i < varbinds.length; i++) {
+        /*
+        // for version 1 we can assume all OIDs were successful
+        console.log(varbinds[i].oid + "|" + varbinds[i].value);
+        */
+        // for version 2c we must check each OID for an error condition
+        if (snmp.isVarbindError(varbinds[i]))
+          console.error(snmp.varbindError(varbinds[i]));
+        else {
+          console.log(varbinds[i].oid + "|" + varbinds[i].value);
+        }
+      }
+    }
+    res.send(varbinds);
+  });
+  /*
+  session.getBulk(oids, nonRepeaters, function(error, varbinds) {
+    if (error) {
+      console.error(error.toString());
+    } else {
+      // step through the non-repeaters which are single varbinds
+      for (let i = 0; i < nonRepeaters; i++) {
+        if (i >= varbinds.length) break;
+
+        if (snmp.isVarbindError(varbinds[i]))
+          console.error(snmp.varbindError(varbinds[i]));
+        else console.log(varbinds[i].oid + "|" + varbinds[i].value);
+      }
+
+      // then step through the repeaters which are varbind arrays
+      for (let i = nonRepeaters; i < varbinds.length; i++) {
+        for (let j = 0; j < varbinds[i].length; j++) {
+          if (snmp.isVarbindError(varbinds[i][j]))
+            console.error(snmp.varbindError(varbinds[i][j]));
+          else console.log(varbinds[i][j].oid + "|" + varbinds[i][j].value);
+        }
+      }
+    }
+  });
+  */
+});
 
 //system
 app.get("/snmp/get", (req, res) => {
@@ -169,6 +235,7 @@ app.get("/snmp/table", (req, res) => {
   // "1.3.6.1.2.1.80.1.3" // pingResult
   // "1.3.6.1.2.1.80.1.4" // pingPropsHistory
   // "1.3.6.1.4.1.9.9.16.1.1" // ciscoPing
+  // "1.3.6.1.2.1.80.1.2", "1.3.6.1.2.1.80.1.2.1.21"
 
   // "1.3.6.1.4.1.2021.9" // disk
   // "1.3.6.1.2.1.25.2.3" // hrStorage
@@ -202,6 +269,8 @@ app.get("/snmp/column", (req, res) => {
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry
   // "1.3.6.1.2.1.17.4.3" // dot1dTpFdbEntry - MAC / not work
   // "1.3.6.1.2.1.4.34" // ipAddress / not work
+  // "1.3.6.1.2.1.10.46.1.4" // ipoaArpClientTable
+  // "1.3.6.1.2.1.10.46.1.5" // ipoaArpSrvrTable
 
   const oid = "1.3.6.1.2.1.4.22";
   const columns = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -219,7 +288,7 @@ app.get("/snmp/column", (req, res) => {
       // This code is purely used to print rows out in index order,
       // ifIndex's are integers so we'll sort them numerically using
       // the sortInt() function above
-      var indexes = [];
+      let indexes = [];
       for (index in table) indexes.push(parseInt(index));
       indexes.sort(sortInt);
 
@@ -229,7 +298,7 @@ app.get("/snmp/column", (req, res) => {
         // Like indexes we sort by column, so use the same trick here,
         // some rows may not have the same columns as other rows, so
         // we calculate this per row
-        var columns = [];
+        let columns = [];
         for (column in table[indexes[i]]) columns.push(parseInt(column));
         columns.sort(sortInt);
 
@@ -240,7 +309,7 @@ app.get("/snmp/column", (req, res) => {
             "\tcolumn " + columns[j] + " = " + table[indexes[i]][columns[j]]
           );
           ifList.push({
-            ["1.3.6.1.2.2.1." + columns[j] + "." + i]: table[indexes[i]][
+            [oid + "." + columns[j] + "." + i]: table[indexes[i]][
               columns[j]
             ].toString()
           });
@@ -295,7 +364,7 @@ app.get("/snmp/walk", (req, res) => {
     version: snmp.Version2c
   };
   const session = snmp.createSession("127.0.0.1", "public", options);
-  const oid = "1.3.6.1.2.1.4.22";
+  const oid = "1.3.6.1.2.1.80";
   // "1.3.6.1.2.1.2.2"
 
   function doneCb(error) {
@@ -407,7 +476,7 @@ app.get("/snmp/device", (req, res) => {
 
         for (var j = 0; j < columns.length; j++) {
           ifList.push({
-            ["1.3.6.1.2.2.1." + columns[j] + "." + i]: table[indexes[i]][
+            [oid + "." + columns[j] + "." + i]: table[indexes[i]][
               columns[j]
             ].toString()
           });
@@ -582,6 +651,7 @@ app.get("/admin/home/selecter", (req, res) => {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
+
 // app.listen(port, () => console.log(`Listening on port ${port}`));
 
 //test
