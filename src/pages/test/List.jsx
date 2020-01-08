@@ -20,9 +20,10 @@ import {
   Row
   // UncontrolledTooltip
 } from "reactstrap";
-// core components
+
 import Header from "components/Headers/Header.jsx";
 
+// SNMP(net-snmp) test List
 const List = ({ socket }) => {
   const [list, setList] = useState(false);
   const [tcp, setTcp] = useState(false);
@@ -106,13 +107,13 @@ const List = ({ socket }) => {
     lowerLayerDown(7) -- down due to state of -- lower-layer interface(s)
     */
   };
-  if (socket) {
-    socket.on("localAddress", data => {
-      setList(data);
-    });
-  }
 
   useEffect(() => {
+    if (socket) {
+      socket.on("localAddress", data => {
+        setList(data);
+      });
+    }
     const bindDevice = async () => {
       try {
         const response = await fetch(`/snmp/device`);
@@ -160,8 +161,12 @@ const List = ({ socket }) => {
     if (deviceList.length === 0) {
     }
     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, list, tcp]);
+    return () => {
+      if (socket) {
+        socket.off("localAddress");
+      }
+    };
+  }, [socket, list, tcp, deviceList]);
 
   return (
     <>

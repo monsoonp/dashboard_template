@@ -1,29 +1,34 @@
 /* eslint-disable no-undef */
-const fs = require("fs");
+const fs = require("fs"); // file system
 // const path = require("path");
 // const os = require("os");
-const express = require("express");
+const express = require("express"); // Web App Framework / http wrapper
 // const url = require("url");
 
-const app = express();
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
-const axios = require("axios");
-const _ = require("lodash");
+const app = express(); // express
+const server = require("http").createServer(app); // Http Library, Http Server Instance 생성
+// Express 대신 직접 Http 서버 생성, 동일한 서버 instance에서 socket.io사용 등 http server 재사용시 유용
+
+const io = require("socket.io")(server); // socket.io
+const axios = require("axios"); // Async Http 통신 Library / Promise 기반 async/await
+// 구형 브라우저 지원, fetch의 경우 polyfill 필요
+
+const _ = require("lodash"); // JS util library / array, object 비교
 
 // const bodyParser = require("body-parser");
-// var iconv  = require('iconv').iconv; //인코딩을 변환 해주는 모듈, 필자는 iconv보다 iconv-lite를 선호한다.
-// const charset = require('charset') //해당 사이트의 charset값을 알 수 있게 해준다.
+// var iconv  = require('iconv').iconv; // 인코딩을 변환 해주는 모듈, 필자는 iconv보다 iconv-lite를 선호한다.
+// const charset = require('charset') // 해당 사이트의 charset값을 알 수 있게 해준다.
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 
-const data = fs.readFileSync("./config.json");
-const port = process.env.PORT || 5000;
+const data = fs.readFileSync("./config.json"); // DB configure file
+const port = process.env.PORT || 5000; // server port
 
-const conf = JSON.parse(data);
-const mysql = require("mysql");
+const conf = JSON.parse(data); // DB data to json
+const mysql = require("mysql"); // MySQL
 
 const conn = mysql.createConnection({
+  // DB connection
   host: conf.host,
   user: conf.user,
   password: conf.password,
@@ -31,16 +36,11 @@ const conn = mysql.createConnection({
   database: conf.database
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 //const multer = require('multer');   //multer 라이브러리 중복되지 않는 형태로 업로드
 //const upload = multer({dest: './upload'})
 
 //SNMP
-const snmp = require("net-snmp");
-// const session = snmp.createSession("127.0.0.1", "public");
+const snmp = require("net-snmp"); // snmp library
 
 //test
 app.get("/snmp/test", (req, res) => {
@@ -520,15 +520,6 @@ const localAddress = () => {
           "Some error occured - file either not saved or corrupted file saved."
         );
       } else {
-        /*
-        fs.readFile("./snmp/ip.csv", "utf8", function(err, data) {
-          if (err) {
-            console.log("can not read file: ", err);
-          } else {
-            // console.log(data);
-          }
-        });
-        */
         io.emit("localAddress", addr);
       }
     });
@@ -540,6 +531,7 @@ const localAddress = () => {
 setInterval(() => localAddress(), 5000);
 
 app.get("/snmp/read", (req, res) => {
+  // ip list from csv file
   fs.readFile("./snmp/ip.csv", "utf8", function(err, data) {
     if (err) {
       console.log("can not read file: ", err);
@@ -549,21 +541,25 @@ app.get("/snmp/read", (req, res) => {
   });
 });
 
-const getApiAndEmit = async socket => {
+// darksky api
+let weather;
+const getWeatherApi = async () => {
   try {
     const res = await axios.get(
       `https://api.darksky.net/forecast/${conf.api_key}/37.7415,127.0474?lang=ko&units=si`
     ); // Getting the data from DarkSky
-
-    io.emit("WeatherAPI", res.data.currently); // Emitting a new message. It will be consumed by the client
+    weather = res.data.currently;
+    // io.emit("WeatherAPI", weather); // Emitting a new message. It will be consumed by the client
     // sockets.forEach(s => s.broadcast.emit("WeatherAPI", res.data.currently.temperature));
   } catch (error) {
     console.error(`${error}`);
   }
 };
-
-// socket.io
-let clients = [];
+const weatherSocket = socket => {
+  if (weather) {
+    io.emit("WeatherAPI", weather);
+  }
+};
 
 /*
 let interval;
@@ -571,12 +567,12 @@ if (interval) {
   clearInterval(interval);
 }
 interval = 
-setInterval(() => getApiAndEmit(), 30000);
 */
+setInterval(() => getWeatherApi(), 60000);
+setInterval(() => weatherSocket(), 3000);
 
 /*
 // let testApi;
-*/
 setInterval(() => {
   const num = Math.random() * 10;
   io.emit("WeatherAPI", {
@@ -584,6 +580,10 @@ setInterval(() => {
     summary: parseInt(num * 10)
   });
 }, 2000);
+ */
+
+// socket.io
+let clients = [];
 
 io.on("connection", socket => {
   /*  클라이언트 최초 추가시 api 시작
@@ -647,23 +647,23 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 //test
 /*
-app.get('/api/list', (req, res) => {
+app.get('/api/list', (req, res) => {  // DB 기본 query
     conn.query("SELECT * FROM MYTABLE", (err, rows, fields) => {
         res.send(rows);
     })
     
 });
-app.get('/api/date', (req, res) => {
+app.get('/api/date', (req, res) => { 
     conn.query("SELECT NOW() as now", (err, rows, fields) => {
         res.send(rows);
     })
 });
-app.get('/query/:id', (req, res) => {
+app.get('/query/:id', (req, res) => { // :id - params / ?id=?? - query 
     res.send({"id":req.query.id,"name":req.query.name, "path":req.params.id});
 });
 
-app.use('/image', express.static('./upload'));
-app.post('/api/list', upload.single('image'), (req, res) =>{
+app.use('/image', express.static('./upload'));  // 이미지 저장 경로
+app.post('/api/list', upload.single('image'), (req, res) =>{  // image 업로드
     let sql = 'INSERT INTO MYTABLE values (null,?,?,?)';
     let image = '/image/' + req.file.filename;
     let name = req.body.name;
