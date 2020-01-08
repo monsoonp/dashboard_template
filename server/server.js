@@ -107,16 +107,10 @@ app.get("/snmp/test", (req, res) => {
 //system
 app.get("/snmp/get", (req, res) => {
   const options = {
-    port: 161,
-    retries: 1,
-    timeout: 5000,
-    transport: "udp4",
-    trapPort: 162,
-    version: snmp.Version2c,
-    idBitsSize: 16
+    version: snmp.Version2c
   };
+  // const session = snmp.createSession("DESKTOP-ND7M4HH", "public", options);
   const session = snmp.createSession("127.0.0.1", "public", options);
-  // const session = snmp.createSession("127.0.0.1", "public");
   const oids = [
     "1.3.6.1.2.1.1.1.0",
     "1.3.6.1.2.1.1.2.0",
@@ -125,7 +119,6 @@ app.get("/snmp/get", (req, res) => {
     "1.3.6.1.2.1.1.5.0",
     "1.3.6.1.2.1.1.6.0",
     "1.3.6.1.2.1.1.7.0"
-    // "1.3.6.1.2.1.6.13.1.3"
   ];
   session.get(oids, function(error, varbinds) {
     if (error) {
@@ -136,20 +129,18 @@ app.get("/snmp/get", (req, res) => {
           console.error(snmp.varbindError(varbinds[i]));
         else console.log(varbinds[i].oid + " = " + varbinds[i].value);
     }
-    console.log(varbinds);
+
     // If done, close the session
+    session.close();
+
     let values = [];
     varbinds.forEach((e, i) => {
       values.push({ [i]: e.value.toString() });
     });
     res.send({
       varbinds: varbinds,
-      match: [
-        // varbinds[0].value.toString()
-        values
-      ]
+      match: values
     });
-    session.close();
   });
 
   session.trap(snmp.TrapType.LinkDown, function(error) {
