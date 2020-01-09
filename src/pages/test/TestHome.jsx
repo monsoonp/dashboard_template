@@ -217,9 +217,15 @@ const Index = ({
 
     // socket.io
     if (socket) {
-      socket.on("WeatherAPI", data =>
-        setResponse({ temp: data.temperature, summ: data.summary })
-      );
+      socket.on("WeatherAPI", data => {
+        // setResponse({ temp: data.temperature, summ: data.summary })
+        setResponse(data);
+        console.log(
+          "습도:" + response.humidity,
+          "풍속:" + response.windSpeed,
+          "강수확률:" + response.precipProbability
+        );
+      });
       socket.on("message", message => {
         console.log(`현재 검색어: ${message}`);
       });
@@ -245,7 +251,10 @@ const Index = ({
     start,
     test_list,
     tableSearch.pageName,
-    tableSearch.checkTime
+    tableSearch.checkTime,
+    response.humidity,
+    response.windSpeed,
+    response.precipProbability
   ]);
   // primary, secondary, success, danger, warning, info , light, dark, muted, white
   return (
@@ -317,7 +326,8 @@ const Index = ({
                 <div style={{ textAlign: "center", display: "inline" }}>
                   {response ? (
                     <p style={{ display: "inline" }}>
-                      현재 의정부 기온: {response.temp} °C {response.summ}
+                      현재 서울 기온: {response.temperature} °C (
+                      {response.summary})
                     </p>
                   ) : (
                     <p style={{ display: "inline" }}>Loading...</p>
