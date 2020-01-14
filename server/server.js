@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const fs = require("fs"); // file system
+const serverIp = require("ip");
 // const path = require("path");
 // const os = require("os");
 const express = require("express"); // Web App Framework / http wrapper
@@ -39,12 +40,37 @@ const conn = mysql.createConnection({
 //const multer = require('multer');   //multer 라이브러리 중복되지 않는 형태로 업로드
 //const upload = multer({dest: './upload'})
 
+function getUserIP(req) {
+  // http server - getUserIP(req);, socket(callback) - getUserIP(socket.handshake);
+  let ipAddress;
+  if (!!req.hasOwnProperty("sessionID")) {
+    ipAddress = req.headers["x-forwarded-for"];
+  } else {
+    if (!ipAddress) {
+      var forwardedIpsStr = req.header("x-forwarded-for");
+
+      if (forwardedIpsStr) {
+        var forwardedIps = forwardedIpsStr.split(",");
+        ipAddress = forwardedIps[0];
+      }
+      if (!ipAddress) {
+        ipAddress = req.connection.remoteAddress;
+      }
+    }
+  }
+  return ipAddress.replace("::ffff:", "");
+}
+
 //SNMP
 const snmp = require("net-snmp"); // snmp library
 
 //test
 app.get("/snmp/test", (req, res) => {
-  var oids = [
+  // let ip = getUserIP(req).split(":");
+  // ip = ip[ip.length - 1];
+  let ip = getUserIP(req);
+  console.log(ip);
+  let oids = [
     "1.3.6.1.2.1.80.1.4.1.1",
     "1.3.6.1.2.1.80.1.4.1.2",
     "1.3.6.1.2.1.80.1.4.1.3",
@@ -52,12 +78,15 @@ app.get("/snmp/test", (req, res) => {
     "1.3.6.1.2.1.10.46.1.4",
     "1.3.6.1"
   ];
+  let next = [];
+  let bulk = [];
   const options = {
     version: snmp.Version2c
   };
-  // var nonRepeaters = 2;
-  const session = snmp.createSession("127.0.0.1", "public", options);
+  var nonRepeaters = 6; // oid 수
+  const session = snmp.createSession(ip, "public", options);
   // mib 상 해당 oid가 없으면 다음 oid가 매칭
+
   session.getNext(oids, function(error, varbinds) {
     if (error) {
       console.error(error.toString());
@@ -74,10 +103,10 @@ app.get("/snmp/test", (req, res) => {
           console.log(varbinds[i].oid + "|" + varbinds[i].value);
         }
       }
+      next = varbinds;
     }
-    res.send(varbinds);
+    // res.send(varbinds);
   });
-  /*
   session.getBulk(oids, nonRepeaters, function(error, varbinds) {
     if (error) {
       console.error(error.toString());
@@ -99,18 +128,21 @@ app.get("/snmp/test", (req, res) => {
           else console.log(varbinds[i][j].oid + "|" + varbinds[i][j].value);
         }
       }
+      bulk = varbinds;
     }
+    // res.send(varbinds);
   });
-  */
+  res.send({ next: next, bulk: bulk });
 });
 
 //system
 app.get("/snmp/get", (req, res) => {
+  let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
   // const session = snmp.createSession("DESKTOP-ND7M4HH", "public", options);
-  const session = snmp.createSession("127.0.0.1", "public", options);
+  const session = snmp.createSession(ip, "public", options);
   const oids = [
     "1.3.6.1.2.1.1.1.0",
     "1.3.6.1.2.1.1.2.0",
@@ -149,6 +181,7 @@ app.get("/snmp/get", (req, res) => {
 });
 
 app.get("/snmp/port", (req, res) => {
+  let ip = getUserIP(req);
   const options = {
     // port: 161,
     // retries: 1,
@@ -158,7 +191,7 @@ app.get("/snmp/port", (req, res) => {
     version: snmp.Version2c
     // idBitsSize: 32
   };
-  const session = snmp.createSession("127.0.0.1", "public", options);
+  const session = snmp.createSession(ip, "public", options);
   // const session = snmp.createSession("127.0.0.1", "public");
   const oids = [
     // "1.3.6.1.4.1.9.2.1.56.0" //average cpu load for 5 sec
@@ -209,10 +242,11 @@ app.get("/snmp/port", (req, res) => {
 });
 
 app.get("/snmp/table", (req, res) => {
+  let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
-  const session = snmp.createSession("127.0.0.1", "public", options);
+  const session = snmp.createSession(ip, "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
   const oid = "1.3.6.1.2.1.4.22";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
@@ -238,7 +272,7 @@ app.get("/snmp/table", (req, res) => {
       // return error.toString();
     } else {
       Object.keys(table).map((key, index) => {
-        console.log(index, key, table[key]);
+        return console.log(index, key, table[key]);
         // console.log(new Uint8Array(table[key][2]));
         // console.log(table[key][2].toString("hex")); // ascii, ("ascii",0,10), hex, utf8, binary, base64
       });
@@ -252,7 +286,8 @@ app.get("/snmp/table", (req, res) => {
 });
 
 app.get("/snmp/column", (req, res) => {
-  const session = snmp.createSession("127.0.0.1", "public");
+  let ip = getUserIP(req);
+  const session = snmp.createSession(ip, "public");
 
   // "1.3.6.1.2.1.2.2"  // ifTable
   // "1.3.6.1.2.1.6.13"
@@ -319,7 +354,8 @@ app.get("/snmp/column", (req, res) => {
 });
 
 app.get("/snmp/set", (req, res) => {
-  const session = snmp.createSession("192.168.0.38", "public");
+  let ip = getUserIP(req);
+  const session = snmp.createSession(ip, "public");
   var varbinds = [
     {
       oid: "1.3.6.1.2.1.1.5.0",
@@ -351,10 +387,11 @@ app.get("/snmp/set", (req, res) => {
   session.close();
 });
 app.get("/snmp/walk", (req, res) => {
+  let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
-  const session = snmp.createSession("127.0.0.1", "public", options);
+  const session = snmp.createSession(ip, "public", options);
   const oid = "1.3.6.1.2.1.80";
   // "1.3.6.1.2.1.2.2"
 
@@ -381,10 +418,11 @@ app.get("/snmp/walk", (req, res) => {
 });
 
 app.get("/snmp/local", (req, res) => {
+  let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
-  const session = snmp.createSession("localhost", "public", options);
+  const session = snmp.createSession(ip, "public", options);
   const oid = "1.3.6.1.2.1.4.22"; //ipNetToMediaTable
   // "1.3.6.1.2.1.4.20" //ipAddrTable
   function responseCb(error, table) {
@@ -395,12 +433,12 @@ app.get("/snmp/local", (req, res) => {
       // return error.toString();
     } else {
       Object.keys(table).map((key, index) => {
-        // console.log(index, key, table[key][3]);
-        console.log(index, table[key][3]);
-        // console.log(table[key][3].match(reg));
         if (table[key][3].match(reg)) {
           ipList.push(table[key]);
         }
+        // console.log(table[key][3].match(reg));
+        // console.log(index, key, table[key][3]);
+        return console.log(index, table[key][3]);
       });
       res.send(ipList);
     }
@@ -410,10 +448,11 @@ app.get("/snmp/local", (req, res) => {
 });
 let tcpList = [];
 app.get("/snmp/tcp", (req, res) => {
+  let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
-  const session = snmp.createSession("127.0.0.1", "public", options);
+  const session = snmp.createSession(ip, "public", options);
   const oid = "1.3.6.1.2.1.6.13"; //tcpConnTable
 
   function responseCb(error, table) {
@@ -436,10 +475,11 @@ app.get("/snmp/tcp", (req, res) => {
   console.log(session.table(oid, maxRepetitions, responseCb));
 });
 app.get("/snmp/device", (req, res) => {
+  let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
-  const session = snmp.createSession("localhost", "public", options);
+  const session = snmp.createSession(ip, "public", options);
 
   const oid = "1.3.6.1.2.1.2.2";
   // const columns = [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
@@ -486,13 +526,13 @@ app.get("/snmp/device", (req, res) => {
 });
 let addr;
 // const filename = path.join("./snmp", "ip.csv"); //__dirname same folder
-const localAddress = () => {
+const localAddress = socket => {
   let ipList = [];
   try {
     const options = {
       version: snmp.Version2c
     };
-    const session = snmp.createSession("localhost", "public", options);
+    const session = snmp.createSession(serverIp.address(), "public", options);
     const oid = "1.3.6.1.2.1.4.22"; //ipNetToMediaTable
     // "1.3.6.1.2.1.4.20" //ipAddrTable
     function responseCb(error, table) {
