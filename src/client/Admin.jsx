@@ -27,6 +27,7 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 // import routes from "routes.js";
 import routes from "routes/routes.js";
 import testPages from "routes/testPages.js";
+import snmpPages from "routes/snmpPages";
 
 class Admin extends React.Component {
   componentDidUpdate(e) {
@@ -71,6 +72,7 @@ class Admin extends React.Component {
           {...this.props}
           routes={routes}
           testRoutes={testPages}
+          snmpRoutes={snmpPages}
           logo={{
             innerLink: "/admin/home",
             imgSrc: require("assets/img/icons/유니테크아이콘.ico"),

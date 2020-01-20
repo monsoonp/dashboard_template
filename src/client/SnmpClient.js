@@ -1,16 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-// reactstrap components
-// import { Container } from "reactstrap";
-// core components
-// import AdminNavbar from "components/Navbars/AdminNavbar.jsx";
-// import AdminFooter from "components/Footers/AdminFooter.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-
-// import routes from "routes.js";
+import SnmpNavbar from "components/Navbars/SnmpNavbar.jsx";
+// import AdminFooter from "components/Footers/AdminFooter.jsx";
 import routes from "routes/routes.js";
-import testPages from "routes/testPages.js";
-import snmpPages from "routes/snmpPages.js";
+import testPages from "routes/testPages";
+import snmpPages from "routes/snmpPages";
+import Header from "../components/Headers/Header";
 
 class TestClient extends React.Component {
   componentDidUpdate(e) {
@@ -22,7 +18,7 @@ class TestClient extends React.Component {
     return routes
       .sort((a, b) => a - b)
       .map((prop, key) => {
-        if (prop.layout === "/test") {
+        if (prop.layout === "/snmp") {
           return (
             <Route
               key={key}
@@ -37,13 +33,13 @@ class TestClient extends React.Component {
       });
   };
   getBrandText = path => {
-    for (let i = 0; i < routes.length; i++) {
+    for (let i = 0; i < snmpPages.length; i++) {
       if (
         this.props.location.pathname.indexOf(
-          routes[i].layout + routes[i].path
+          snmpPages[i].layout + snmpPages[i].path
         ) !== -1
       ) {
-        return routes[i].name;
+        return snmpPages[i].name;
       }
     }
     return "Brand";
@@ -63,15 +59,14 @@ class TestClient extends React.Component {
           }}
         />
         <div className="main-content" ref="mainContent">
-          {/* 상단 검색창 nav 
-          <AdminNavbar
+          <SnmpNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
-          */}
 
           {/* main content */}
-          <Switch>{this.getRoutes(testPages)}</Switch>
+          <Header />
+          <Switch>{this.getRoutes(snmpPages)}</Switch>
           {/* Footer
           <Container fluid>
             <AdminFooter />

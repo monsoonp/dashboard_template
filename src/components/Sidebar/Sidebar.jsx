@@ -59,7 +59,8 @@ class Sidebar extends React.Component {
   state = {
     collapseOpen: false,
     homeToggle: this.props.location.pathname.includes("admin"),
-    testToggle: this.props.location.pathname.includes("test")
+    testToggle: this.props.location.pathname.includes("test"),
+    snmpToggle: this.props.location.pathname.includes("snmp")
   };
   componentDidMount() {
     console.log();
@@ -108,7 +109,7 @@ class Sidebar extends React.Component {
 
   render() {
     // console.log(this.props.location, this.props.history);
-    const { bgColor, routes, testRoutes, logo } = this.props;
+    const { bgColor, routes, testRoutes, snmpRoutes, logo } = this.props;
     let navbarBrandProps;
     if (logo && logo.innerLink) {
       navbarBrandProps = {
@@ -296,6 +297,22 @@ class Sidebar extends React.Component {
             <Collapse isOpen={this.state.testToggle}>
               <Nav navbar>{this.createLinks(testRoutes)}</Nav>
               {/* vertical, navbar, pills, tabs, card, justified, fill, horizontal, tag */}
+            </Collapse>
+
+            {/* Divider - snmpPages */}
+            <hr className="mt-2 mb-2" />
+            <h5
+              className="navbar-heading text-muted my-0"
+              onClick={() => this.menuToggle("snmpToggle")}
+            >
+              SNMP
+              {!this.state.snmpToggle && (
+                <ArrowUnsorted size="15" color="#afafaf" />
+              )}
+            </h5>
+            {/* Navigation list */}
+            <Collapse isOpen={this.state.snmpToggle}>
+              <Nav navbar>{this.createLinks(snmpRoutes)}</Nav>
             </Collapse>
 
             {/* Divider */}

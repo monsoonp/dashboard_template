@@ -5,15 +5,18 @@
 - ~~typescript~~
 
 ---
+
 ### `dashboard_template` [_Demo page_](https://monsoonp.github.io/dashboard_template "template demo link")
+
 ---
 
 ### Versions - Environment
+
 - windows 10
 - VS Code
-- node v10.16.3
-- npm 6.13.0
-- yarn 1.17.3
+- node v12.13.1
+- npm 6.13.4
+- yarn 1.21.1
 
 ---
 
@@ -37,4 +40,3 @@
 - etc...
 ```
 </details>
-

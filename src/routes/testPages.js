@@ -18,7 +18,7 @@ import Graphs from "pages/test/Graphs";
 //
 
 // primary, secondary, success, danger, warning, info , light, dark, muted, white
-var testPages = [
+let testPages = [
   {
     path: "/home",
     name: "Dashboard",
