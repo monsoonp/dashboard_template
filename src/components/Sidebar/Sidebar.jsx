@@ -93,10 +93,19 @@ class Sidebar extends React.Component {
             <NavLink
               to={prop.layout + prop.path}
               tag={NavLinkRRD}
-              onClick={this.closeCollapse}
-              activeClassName="active"
+              // onClick={this.closeCollapse}
+              activeClassName="active bg-gradient-secondary text-primary"
             >
-              <i className={prop.icon} />
+              <i
+                className={
+                  prop.icon +
+                  `${
+                    location.pathname.startsWith(prop.layout + prop.path)
+                      ? ""
+                      : " text-info"
+                  }`
+                }
+              />
               {prop.name}
             </NavLink>
           </NavItem>

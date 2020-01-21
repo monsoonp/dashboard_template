@@ -63,12 +63,13 @@ const DeviceList = () => {
       try {
         const response = await fetch(`/snmp/device`);
         const resJson = await response.json();
-        if (resJson.toString() !== deviceList.toString()) {
+        if (resJson && resJson.toString() !== deviceList.toString()) {
           console.log(
             "device connection changed!",
             _.differenceWith(resJson, deviceList, _.isEqual)
           );
           setDeviceList(resJson);
+          console.log("tcp connection changed!", deviceList, resJson);
         } else {
           // console.log("nothing changed");
         }
@@ -77,7 +78,6 @@ const DeviceList = () => {
         console.log(error);
       }
     }, 3000);
-    // bindDevice();
 
     return () => {
       clearInterval(bindDevice);
@@ -107,9 +107,10 @@ const DeviceList = () => {
                 size="sm"
                 dark
               >
-                <thead className="thead-dark">
+                <thead className="thead-dark font-weight-bold">
                   <tr>
-                    <th scope="col">Index</th>
+                    {/*<th scope="col">Index</th>*/}
+                    <td>Index</td>
                     <td>Desc</td>
                     <td>Type</td>
                     <td id="mtuTooltip">Mtu</td>
@@ -145,15 +146,12 @@ const DeviceList = () => {
                           <td className="bg-success">up(1)</td>
                         ) : (
                           <td className="bg-danger text-white">
-                            {e[7] === 2 ? "up(2)" : "testing(3)"}
+                            {e[7] === 2 ? "down(2)" : "testing(3)"}
                           </td>
                         )}
                         {ifTypeChecker(e[8])}
                       </tr>
                     ))}
-                  <tr>
-                    <td></td>
-                  </tr>
                 </tbody>
               </Table>
             </Card>

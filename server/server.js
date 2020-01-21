@@ -248,7 +248,7 @@ app.get("/snmp/table", (req, res) => {
   };
   const session = snmp.createSession(ip, "public", options);
   // const oid = "1.3.6.1.2.1.4.22";
-  const oid = "1.3.6.1.2.1.4.22";
+  const oid = "1.3.6.1.2.1.4.21";
   // "1.3.6.1.2.1.2.2"  // ifTable - 연결된 물리 장치 이름 .1.2
   // "1.3.6.1.2.1.4.22" // ipNetToMediaEntry - 네트워크상 ip 목록 .1.3
 
@@ -458,7 +458,7 @@ app.get("/snmp/tcp", (req, res) => {
   function responseCb(error, table) {
     if (error) {
       console.log(error.toString());
-      res.send(tcpList);
+      // res.send(tcpList);
     } else {
       Object.keys(table).map((key, index) => {
         console.log(index, key, table[key]);

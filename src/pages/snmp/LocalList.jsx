@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import _ from "lodash";
+import _ from "lodash";
 // reactstrap components
 import {
   // Badge,
@@ -29,8 +29,6 @@ const LocalList = ({ socket }) => {
 
   const ipTypeChecker = e => {
     switch (e) {
-      case 1:
-        return <td className="bg-warning text-secondary">other(1)</td>;
       case 2:
         return <td className="bg-danger text-secondary">invalid(2)</td>;
       case 3:
@@ -38,7 +36,7 @@ const LocalList = ({ socket }) => {
       case 4:
         return <td className="bg-success text-secondary">static(4)</td>;
       default:
-        return <td className="bg-danger text-secondary" />;
+        return <td className="bg-warning text-secondary">other(1)</td>;
     }
     /*
     other(1), -- none of the following
@@ -51,6 +49,13 @@ const LocalList = ({ socket }) => {
   useEffect(() => {
     if (socket) {
       socket.on("localAddress", data => {
+        if (list && data.toString() !== list.toString()) {
+          console.log(
+            `local ip address insertion, deletion list`,
+            _.differenceWith(data, list, _.isEqual),
+            _.differenceWith(list, data, _.isEqual)
+          );
+        }
         setList(data);
       });
     }
@@ -83,7 +88,7 @@ const LocalList = ({ socket }) => {
                 hover
                 size="sm"
               >
-                <thead className="thead-light">
+                <thead className="thead-light font-weight-bold">
                   <tr>
                     <th scope="col">Index</th>
                     <td>Key</td>
@@ -100,7 +105,6 @@ const LocalList = ({ socket }) => {
                         <td>{e.key.split(".")[0]}</td>
                         {/*<td>{new Buffer(e.table[2])}</td>*/}
                         <td>{e.table[3]}</td>
-
                         {ipTypeChecker(e.table[4])}
                       </tr>
                     ))}

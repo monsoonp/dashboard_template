@@ -11,21 +11,21 @@ let snmpPages = [
   {
     path: "/local",
     name: "Local Ip Address",
-    icon: "ni ni-world text-primary",
+    icon: "ni ni-world",
     component: LocalList,
     layout: "/snmp"
   },
   {
     path: "/deice",
     name: "Device",
-    icon: "ni ni-laptop text-info",
+    icon: "ni ni-laptop",
     component: DeviceList,
     layout: "/snmp"
   },
   {
     path: "/tcp",
     name: "Tcp List",
-    icon: "ni ni-curved-next text-info",
+    icon: "ni ni-curved-next",
     component: TcpList,
     layout: "/snmp"
   }

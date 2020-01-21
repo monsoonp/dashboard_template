@@ -99,7 +99,7 @@ const TcpList = () => {
         const response = await fetch(`/snmp/tcp`);
         const resJson = await response.json();
 
-        if (resJson.toString() !== tcp.toString()) {
+        if (resJson && resJson.toString() !== tcp.toString()) {
           if (tcp) {
             setTcpInsertList(_.differenceWith(resJson, tcp, _.isEqual));
             setTcpDelList(_.differenceWith(tcp, resJson, _.isEqual));
@@ -107,7 +107,7 @@ const TcpList = () => {
             // console.log("deletion", tcpDelList);
           }
           setTcp(resJson);
-          console.log("tcp connection changed!");
+          console.log("tcp connection changed!", tcp, resJson);
         } else {
           // console.log("nothing changed");
         }
@@ -116,7 +116,6 @@ const TcpList = () => {
         console.log(error);
       }
     }, 3000);
-    // bindTcp();
 
     return () => {
       clearInterval(bindTcp);
@@ -145,7 +144,7 @@ const TcpList = () => {
                 hover
                 size="sm"
               >
-                <thead className="thead-light">
+                <thead className="thead-light font-weight-bold">
                   <tr>
                     <th scope="col">Index</th>
                     <td>State</td>
@@ -161,6 +160,7 @@ const TcpList = () => {
                           e[2] &&
                           // e[2].includes("192.168.0") &&
                           e[2] !== "0.0.0.0" &&
+                          e[4] !== "0.0.0.0" &&
                           e[2] !== "127.0.0.1" &&
                           e[4] !== "192.168.0.38"
                       )
@@ -179,29 +179,41 @@ const TcpList = () => {
                 </tbody>
                 <tbody>
                   {tcpInsertList &&
-                    tcpInsertList.map((e, i) => (
-                      <tr key={i} className="bg-info">
-                        <th>{i}</th>
-                        {tcpTypeChecker(e[1])}
-                        <td>
-                          {e[3]} ({e[2]})
-                        </td>
-                        <td>{e[4]}</td>
-                        <td>{e[5]}</td>
-                      </tr>
-                    ))}
+                    tcpInsertList
+                      .filter(
+                        e =>
+                          e[2] && e[2] !== "127.0.0.1" && e[4] !== "127.0.0.1"
+                      )
+                      .map((e, i) => (
+                        <tr key={i} className="bg-info text-white">
+                          <th>{i}</th>
+                          {tcpTypeChecker(e[1])}
+                          <td>
+                            <b>{e[2]}</b> ({e[3]})
+                          </td>
+                          <td>
+                            <b>{e[4]}</b> ({e[5]})
+                          </td>
+                        </tr>
+                      ))}
                   {tcpDelList &&
-                    tcpDelList.map((e, i) => (
-                      <tr key={i} className="bg-warning text-white">
-                        <th>{i}</th>
-                        {tcpTypeChecker(e[1])}
-                        <td>
-                          {e[3]} ({e[2]})
-                        </td>
-                        <td>{e[4]}</td>
-                        <td>{e[5]}</td>
-                      </tr>
-                    ))}
+                    tcpDelList
+                      .filter(
+                        e =>
+                          e[2] && e[2] !== "127.0.0.1" && e[4] !== "127.0.0.1"
+                      )
+                      .map((e, i) => (
+                        <tr key={i} className="bg-warning text-white">
+                          <th>{i}</th>
+                          {tcpTypeChecker(e[1])}
+                          <td>
+                            <b>{e[2]}</b> ({e[3]})
+                          </td>
+                          <td>
+                            <b>{e[4]}</b> ({e[5]})
+                          </td>
+                        </tr>
+                      ))}
                 </tbody>
               </Table>
             </Card>
