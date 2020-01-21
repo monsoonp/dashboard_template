@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
 
 // Create an enhanced history that syncs navigation events with the store
 // const history = syncHistoryWithStore(browserHistory, store);
+const serverIp = require("ip");
 
 const Root = () => {
   /*
@@ -24,7 +25,7 @@ const Root = () => {
   let socket;
   if (process.env.PUBLIC_URL !== "/dashboard_template") {
     // socket = socketIOClient("http://localhost:5000");
-    socket = socketIOClient("http://192.168.0.38:5000");
+    socket = socketIOClient(serverIp.address() + ":5000");
   }
 
   return (
