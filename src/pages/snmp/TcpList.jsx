@@ -25,8 +25,8 @@ import {
 // SNMP(net-snmp) test List
 const TcpList = () => {
   const [tcp, setTcp] = useState(false);
-  const [tcpInsertList, setTcpInsertList] = useState(false);
-  const [tcpDelList, setTcpDelList] = useState(false);
+  const [tcpInsertion, setTcpInsertion] = useState(false);
+  const [tcpDeletion, setTcpDeletion] = useState(false);
 
   const tcpTypeChecker = e => {
     let stat = "";
@@ -101,10 +101,10 @@ const TcpList = () => {
 
         if (resJson && resJson.toString() !== tcp.toString()) {
           if (tcp) {
-            setTcpInsertList(_.differenceWith(resJson, tcp, _.isEqual));
-            setTcpDelList(_.differenceWith(tcp, resJson, _.isEqual));
-            // console.log("insertion", tcpInsertList);
-            // console.log("deletion", tcpDelList);
+            setTcpInsertion(_.differenceWith(resJson, tcp, _.isEqual));
+            setTcpDeletion(_.differenceWith(tcp, resJson, _.isEqual));
+            // console.log("insertion", tcpInsertion);
+            // console.log("deletion", tcpDeletion);
           }
           setTcp(resJson);
           console.log("tcp connection changed!", tcp, resJson);
@@ -133,7 +133,7 @@ const TcpList = () => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="bg-gradient-info border-0">
-                <h3 className="mb-0 text-secondary">
+                <h3 className="mb-0 text-white">
                   TCP IP Address (tcp - 1.3.6.1.2.1.6.13)
                 </h3>
               </CardHeader>
@@ -161,8 +161,8 @@ const TcpList = () => {
                           // e[2].includes("192.168.0") &&
                           e[2] !== "0.0.0.0" &&
                           e[4] !== "0.0.0.0" &&
-                          e[2] !== "127.0.0.1" &&
-                          e[4] !== "192.168.0.38"
+                          e[2] !== "127.0.0.1"
+                        // e[4] !== "192.168.0.38"
                       )
                       .map((e, i) => (
                         <tr key={i}>
@@ -178,11 +178,10 @@ const TcpList = () => {
                       ))}
                 </tbody>
                 <tbody>
-                  {tcpInsertList &&
-                    tcpInsertList
+                  {tcpInsertion &&
+                    tcpInsertion
                       .filter(
-                        e =>
-                          e[2] && e[2] !== "127.0.0.1" && e[4] !== "127.0.0.1"
+                        e => e[2] && e[2] !== "127.0.0.1" //&& e[4] !== "127.0.0.1"
                       )
                       .map((e, i) => (
                         <tr key={i} className="bg-info text-white">
@@ -196,11 +195,10 @@ const TcpList = () => {
                           </td>
                         </tr>
                       ))}
-                  {tcpDelList &&
-                    tcpDelList
+                  {tcpDeletion &&
+                    tcpDeletion
                       .filter(
-                        e =>
-                          e[2] && e[2] !== "127.0.0.1" && e[4] !== "127.0.0.1"
+                        e => e[2] && e[2] !== "127.0.0.1" //&& e[4] !== "127.0.0.1"
                       )
                       .map((e, i) => (
                         <tr key={i} className="bg-warning text-white">

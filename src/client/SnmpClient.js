@@ -42,7 +42,8 @@ class TestClient extends React.Component {
         return snmpPages[i].name;
       }
     }
-    return "Brand";
+    // return "Brand";
+    return path;
   };
   render() {
     return (

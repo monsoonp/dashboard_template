@@ -18,7 +18,7 @@ import {
   // Media
 } from "reactstrap";
 
-class AdminNavbar extends React.Component {
+class SnmpNavbar extends React.Component {
   render() {
     return (
       <>
@@ -98,4 +98,4 @@ class AdminNavbar extends React.Component {
   }
 }
 
-export default AdminNavbar;
+export default SnmpNavbar;

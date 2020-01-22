@@ -94,7 +94,7 @@ class Sidebar extends React.Component {
               to={prop.layout + prop.path}
               tag={NavLinkRRD}
               // onClick={this.closeCollapse}
-              activeClassName="active bg-gradient-secondary text-primary"
+              activeClassName="active bg-gradient-secondary text-info"
             >
               <i
                 className={
@@ -102,7 +102,7 @@ class Sidebar extends React.Component {
                   `${
                     location.pathname.startsWith(prop.layout + prop.path)
                       ? ""
-                      : " text-info"
+                      : " text-muted"
                   }`
                 }
               />

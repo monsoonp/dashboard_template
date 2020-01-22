@@ -30,13 +30,13 @@ const LocalList = ({ socket }) => {
   const ipTypeChecker = e => {
     switch (e) {
       case 2:
-        return <td className="bg-danger text-secondary">invalid(2)</td>;
+        return <td className="bg-danger text-white">invalid(2)</td>;
       case 3:
-        return <td className="bg-info text-secondary">dynamic(3)</td>;
+        return <td className="bg-info text-white">dynamic(3)</td>;
       case 4:
-        return <td className="bg-success text-secondary">static(4)</td>;
+        return <td className="bg-success text-white">static(4)</td>;
       default:
-        return <td className="bg-warning text-secondary">other(1)</td>;
+        return <td className="bg-warning text-white">other(1)</td>;
     }
     /*
     other(1), -- none of the following
@@ -48,16 +48,20 @@ const LocalList = ({ socket }) => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("localAddress", data => {
-        if (list && data.toString() !== list.toString()) {
-          console.log(
-            `local ip address insertion, deletion list`,
-            _.differenceWith(data, list, _.isEqual),
-            _.differenceWith(list, data, _.isEqual)
-          );
-        }
-        setList(data);
-      });
+      try {
+        socket.on("localAddress", data => {
+          if (data && list && data.toString() !== list.toString()) {
+            console.log(
+              `local ip address insertion, deletion list`,
+              _.differenceWith(data, list, _.isEqual),
+              _.differenceWith(list, data, _.isEqual)
+            );
+          }
+          setList(data);
+        });
+      } catch (err) {
+        alert(err);
+      }
     }
     return () => {
       if (socket) {
@@ -76,8 +80,8 @@ const LocalList = ({ socket }) => {
         <Row>
           <div className="col">
             <Card className="shadow">
-              <CardHeader className="bg-gradient-primary border-0">
-                <h3 className="mb-0 text-secondary">
+              <CardHeader className="bg-gradient-info border-0">
+                <h3 className="mb-0 text-white">
                   Local IP Address (ipNetToMedia - 1.3.6.1.2.1.4.22)
                 </h3>
               </CardHeader>

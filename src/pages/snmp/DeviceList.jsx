@@ -95,7 +95,7 @@ const DeviceList = () => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="bg-gradient-info border-0">
-                <h3 className="mb-0 text-secondary">
+                <h3 className="mb-0 text-white">
                   Device List (interface - 1.3.6.1.2.1.2.2)
                 </h3>
               </CardHeader>

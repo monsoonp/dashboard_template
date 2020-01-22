@@ -537,7 +537,7 @@ const localAddress = socket => {
     // "1.3.6.1.2.1.4.20" //ipAddrTable
     function responseCb(error, table) {
       if (error) {
-        // res.send(error.toString());
+        res.send(error.toString());
         // return error.toString();
       } else {
         Object.keys(table).map((key, index) => {

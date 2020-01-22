@@ -2,6 +2,7 @@
 import LocalList from "pages/snmp/LocalList";
 import DeviceList from "pages/snmp/DeviceList";
 import TcpList from "pages/snmp/TcpList";
+import TcpConnection from "pages/snmp/TcpConn";
 
 // Test Pages 여러가지 화면 만들어보기
 //
@@ -27,6 +28,13 @@ let snmpPages = [
     name: "Tcp List",
     icon: "ni ni-curved-next",
     component: TcpList,
+    layout: "/snmp"
+  },
+  {
+    path: "/conn",
+    name: "Tcp Connection",
+    icon: "ni ni-ui-04",
+    component: TcpConnection,
     layout: "/snmp"
   }
 ];
