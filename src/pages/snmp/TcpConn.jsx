@@ -87,6 +87,9 @@ const TcpConn = ({ socket }) => {
       setConnect(_.intersection(conn, list)); // 공통
       setDisconnect(_.difference(list, conn, _.isEqual)); // list - conn
     }
+    if (connect) {
+      // 연결된 해당 ip에 snmp 요청 cpu, memory, etc
+    }
     return () => {
       if (socket) {
         socket.off("localAddress");
