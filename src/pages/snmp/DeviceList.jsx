@@ -121,7 +121,7 @@ const DeviceList = () => {
                       target={`mtuTooltip`}
                       // className="bg-gradient-primary"
                     >
-                      Maxumum Transfer Unit <br />
+                      Maximum Transfer Unit <br />
                       해당 레이어가 전송할 수 있는 최대 프로토콜 데이터 단위의
                       크기(바이트)
                     </UncontrolledTooltip>

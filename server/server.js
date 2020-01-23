@@ -204,9 +204,10 @@ app.get("/snmp/port", (req, res) => {
     // "1.3.6.1.4.1.2021.10.1.3.1"
     // "1.3.6.1.4.1.2021.11.9.0"
     // "1.3.6.1.4.1.2021.11.52.0"
-    // "1.3.6.1.4.1.2021.4.1"
-    // "1.3.6.1.4.1.2021.4.6"
+    // "1.3.6.1.4.1.2021.4.1" // memory index
+    // "1.3.6.1.4.1.2021.4.6" //
     // "1.3.6.1.4.1.2021.11.9"
+    // "1.3.6.1.2.1.25.3.3.1.2" // 메모리
     // "1.3.6.1.2.1.2.2.1.2.36" //iftable
     "1.3.6.1.2.1.2.1.0" // ifNumber
   ];
@@ -448,11 +449,11 @@ app.get("/snmp/local", (req, res) => {
 });
 let tcpList = [];
 app.get("/snmp/tcp", (req, res) => {
-  let ip = getUserIP(req);
+  // let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
-  const session = snmp.createSession(ip, "public", options);
+  const session = snmp.createSession(serverIp.address(), "public", options);
   const oid = "1.3.6.1.2.1.6.13"; //tcpConnTable
 
   function responseCb(error, table) {
@@ -475,11 +476,11 @@ app.get("/snmp/tcp", (req, res) => {
   console.log(session.table(oid, maxRepetitions, responseCb));
 });
 app.get("/snmp/device", (req, res) => {
-  let ip = getUserIP(req);
+  // let ip = getUserIP(req);
   const options = {
     version: snmp.Version2c
   };
-  const session = snmp.createSession(ip, "public", options);
+  const session = snmp.createSession(serverIp.address(), "public", options);
 
   const oid = "1.3.6.1.2.1.2.2";
   // const columns = [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
