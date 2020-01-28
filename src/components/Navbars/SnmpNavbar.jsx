@@ -52,7 +52,8 @@ class SnmpNavbar extends React.Component {
                       <img
                         alt="..."
                         // src={require("assets/img/theme/team-4-800x800.jpg")}
-                        src={require("assets/img/icons/favicon.ico")}
+                        // src={require("assets/img/icons/favicon.ico")}
+                        src={require("%PUBLIC_URL%/favicon.ico")}                        
                       />
                     </span>
                     <Media className="ml-2 d-none d-lg-block">

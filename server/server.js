@@ -14,7 +14,7 @@ const io = require("socket.io")(server); // socket.io
 const axios = require("axios"); // Async Http 통신 Library / Promise 기반 async/await
 // 구형 브라우저 지원, fetch의 경우 polyfill 필요
 
-const _ = require("lodash"); // JS util library / array, object 비교
+// const _ = require("lodash"); // JS util library / array, object 비교
 
 // const bodyParser = require("body-parser");
 // var iconv  = require('iconv').iconv; // 인코딩을 변환 해주는 모듈, 필자는 iconv보다 iconv-lite를 선호한다.
@@ -462,7 +462,7 @@ app.get("/snmp/tcp", (req, res) => {
       // res.send(tcpList);
     } else {
       Object.keys(table).map((key, index) => {
-        console.log(index, key, table[key]);
+        return console.log(index, key, table[key]);
       });
       // res.send(table);
       let result = [];
@@ -545,6 +545,7 @@ const localAddress = socket => {
           // ipList.push(table[key][3]);
           let obj = { index: index, key: key, table: table[key] };
           ipList.push(obj);
+          return null;
         });
         addr = ipList;
         // res.send(ipList);
