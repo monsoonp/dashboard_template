@@ -16,8 +16,8 @@ const axios = require("axios"); // Async Http 통신 Library / Promise 기반 as
 
 // const _ = require("lodash"); // JS util library / array, object 비교
 
-// const bodyParser = require("body-parser");
-// var iconv  = require('iconv').iconv; // 인코딩을 변환 해주는 모듈, 필자는 iconv보다 iconv-lite를 선호한다.
+// const bodyParser = require("body-parser"); // post request의 data로 부터 parameter 추출,
+// var iconv  = require('iconv').iconv; // 인코딩을 변환 해주는 모듈, iconv, iconv-lite
 // const charset = require('charset') // 해당 사이트의 charset값을 알 수 있게 해준다.
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
