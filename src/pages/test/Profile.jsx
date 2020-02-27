@@ -35,7 +35,109 @@ class Profile extends React.Component {
         {/* Page content */}
         <Container className="mt-7" fluid>
           <Row>
-            <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+            <Col className="order-xl-1 pb-5 mb-xl-0" xl="12">
+              <Card className="card-profile shadow">
+                <CardHeader className="bg-white border-0">
+                  {/* 
+                  <div className="d-flex justify-content-between">
+                    <h1>
+                      <Badge className="my-auto" color="info">
+                        Packet Capture 옵션
+                      </Badge>
+                    </h1>
+                    <Button className="" color="default" size="md">
+                      확인
+                    </Button>
+                  </div>
+                  */}
+                  <Row className="align-items-center">
+                    <Col xs="8">
+                      <h3 className="mb-0">Option</h3>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody className="pt-0 pt-md-4">
+                  <hr className="my-0" />
+                  {/* Packet Capture */}
+                  <h6 className="heading-small text-muted mb-4">
+                    Packet Capture 옵션
+                  </h6>
+                  <div className="pl-lg-4">
+                    <Row>
+                      <Col ld="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="savePeriod"
+                          >
+                            저장 주기
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="30"
+                            id="savePeriod"
+                            placeholder="ex)60 (단위: 분)"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="packetQuantity"
+                          >
+                            패킷 수량
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="100"
+                            id="packetQuantity"
+                            placeholder="ex)100 (단위: 갯수)"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="packetKind"
+                          >
+                            패킷 종류
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="tcp"
+                            id="packetKind"
+                            placeholder="ex)tcp, udp"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="discVolume"
+                          >
+                            저장용량
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="discVolume"
+                            placeholder="ex)80 (단위: %)"
+                            type="number"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col className="order-xl-2 mb-xl-0" xl="4">
+              {/* order-xl-? col 순서변경  */}
               <Card className="card-profile shadow">
                 <Row className="justify-content-center">
                   <Col className="order-lg-2" lg="3">
@@ -74,6 +176,7 @@ class Profile extends React.Component {
                     </Button>
                   </div>
                 </CardHeader>
+
                 <CardBody className="pt-0 pt-md-4">
                   <Row>
                     <div className="col">
@@ -123,7 +226,7 @@ class Profile extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col className="order-xl-1" xl="8">
+            <Col className="order-xl-1 mb-4" xl="8">
               <Card className="bg-secondary shadow">
                 <CardHeader className="bg-white border-0">
                   <Row className="align-items-center">
